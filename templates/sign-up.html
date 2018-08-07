@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %} Humano | Sign up {% endblock %}
+
+{% block content %}
+
+<h1><a href="/">Humano</a></h1>
+
+<form>
+    First Name: <input type="text" name="first_name" required><br><br>
+    Last Name: <input type="text" name="last_name" required><br><br>
+    Username: <input type="text" name="username" required><br><br>
+    Phone Number: <input type="tel" name="phone_number"><br><br>
+    Email: <input type="email" name="email" required><br><br>
+    Password: <input type="password" name="password" required><br><br>
+
+    <button type="submit">Sign Up</button>
+
+</form>
+
+
+{% endblock %}
