@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block title %} Humano | Home {% endblock %}
+
+{% block content %}
+
+{% if "user_id" in session %}
+    <h2>Welcome {{ user_name }}!</h2>
+{% endif %}
+
+
+{% endblock %}

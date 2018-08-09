@@ -7,28 +7,142 @@ from flask import (Flask, redirect, request, jsonify, render_template, flash, se
 
 from flask_debugtoolbar import DebugToolbarExtension
 
+from model import User, connect_to_db, db
+
+import os
+
 app = Flask(__name__)
 # look into what these are
 app.jinja_env.undefined = StrictUndefined
 app.jinja_env.auto_reload = True
 
 # Required to use Flask sessions and the debug toolbar
-app.secret_key = "ABCDEFGHIJ"
+app.secret_key = os.environ['FLASK_SECRET_KEY']
 
 
 @app.route("/")
-def show_index():
-    """Return homepage"""
+def get_index():
+    """Return homepage with login or sign up links"""
 
     return render_template("index.html")
 
 
-@app.route("/sign-up")
+@app.route("/sign-up", methods=["GET"])
 def register_user():
-    """Show the assessment page."""
+    """Render form for user sign up."""
 
     return render_template("sign-up.html")
 
+@app.route("/sign-up", methods=["POST"])
+def process_user_info():
+    """Save user's information to our database."""
+
+    username = request.form.get("username")
+    first_name = request.form.get("first_name")
+    last_name = request.form.get("last_name")
+    email = request.form.get("email")
+    password = request.form.get("password")
+    phone_number = request.form.get("phone_number")
+
+    # if the username is already in our database, will return True
+    # import pdb; pdb.set_trace()
+    check_username = User.query.filter(User.username==username).first()
+    # if above query returns None (i.e. username not in database)
+    if not check_username:
+        new_user = User(username=username, first_name=first_name, 
+                        last_name=last_name, email=email, password=password,
+                        phone_number=phone_number)
+
+        db.session.add(new_user)
+        db.session.commit()
+        flash("Welcome!")
+
+        print("\n\n\nUSER ADDED\n\n\n")
+
+        return redirect("/")
+
+    else:
+        return redirect("/")
+
+@app.route("/login", methods=["GET"])
+def login_user():
+    """Renders form for user to login"""
+
+    return render_template("login.html")
+
+
+@app.route("/login", methods=["POST"])
+def process_user_login():
+    """Gets user's login info and renders user homepage"""
+
+    username = request.form.get("username")
+    password = request.form.get("password")
+
+    user = User.query.filter(User.username==username).first()
+
+    # if user not in db
+    if not user:
+        flash("We couldn't find this username. Please try again or Sign Up.")
+        return redirect("/")
+
+    # if user is found in db
+    elif user is not None:
+        if user.password != password:
+            flash("Incorrect password, please try again.")
+            return redirect("/login")
+
+        elif username == user.username and password == user.password:
+            session["user_id"] = user.user_id
+            flash("Welcome!")
+
+            print("\n\n\nUSER LOGGED IN\n\n\n")
+            return redirect("/user-home")
+
+
+@app.route('/logout', methods=['GET'])
+def log_out():
+    """Log user out."""
+
+    del session["user_id"] 
+    # session["user_id"] = None
+
+    flash("You have been logged out.")
+    print("\n\n\nUSER LOGGED OUT\n\n\n")
+
+    return redirect("/")
+
+
+@app.route("/user-home")
+def display_user_homepage():
+    """Displays once user logins"""
+    # add button to add contacts
+
+    current_user = session.get('user_id')
+
+    if current_user:
+        user = User.query.filter(User.user_id == current_user).first()
+        user_name = user.first_name.capitalize()
+        return render_template("user-home.html", user_name=user_name)
+    else:
+        flash("Please Log In or Sign Up")
+        return redirect('/')
+
+
+@app.route("/add-contact")
+def add_user_contact():
+    """Renders form for user to add contacts"""
+
+    # current_user = session["user_id"]
+    # user = User.query.filter(User.user_id == user_id).first()
+    # user_name = user.first_name.capitalize()
+
+    return render_template("add-contact.html")
+
+@app.route("/send-message")
+def send_message():
+    """something"""
+
+    pass
 
 
 if __name__ == "__main__":
@@ -38,6 +152,9 @@ if __name__ == "__main__":
 
     # added this to stop redirect page request
     app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
+
+    # connect our app to our database
+    connect_to_db(app)
 
     # Use the DebugToolbar
     DebugToolbarExtension(app)

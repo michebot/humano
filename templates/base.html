@@ -5,6 +5,31 @@
     <link rel="stylesheet" type="text/css" href="/static/styles.css">
 </head>
 <body>
+
+    {% if "user_id" in session %}
+        <form>
+            <input id="logOut" class="btn" type="button" value="Log Out" onclick="window.location.href='/logout'" />
+        </form>
+    {% endif %} 
+
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+      
+        {% for message in messages %}
+            {{ message }}
+        {% endfor %}
+
+      {% endif %}
+    {% endwith %}
+
+    <h1><a href="/">Humano</a></h1>
+
+<!-- started the route for the message button -->
+<!--     <form action="/send-message", method="POST">
+    </form> -->
+    
     {% block content %}BODY CONTENT GOES HERE{% endblock %}
 </body>
 </html>
+
