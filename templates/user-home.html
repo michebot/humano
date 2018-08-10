@@ -4,9 +4,29 @@
 
 {% block content %}
 
-{% if "user_id" in session %}
-    <h2>Welcome {{ user_name }}!</h2>
-{% endif %}
+    {% if "user_id" in session %}
+        <h2>Welcome {{ user_name }}!</h2>
+    {% endif %}
 
+    <form>
+        <input id="add-contact" class="btn" type="button" value="Add Contact" onclick="window.location.href='/add-contact'"/>
+    </form>
+
+<!--     <button id="send-message" class="btn" >SEND</button> -->
+<!--      DELETE ABOVE WHEN FINISHED BELOW -->
+
+    <form>
+        <!-- hidden inputs to pass on information, message numbers -->
+            <!-- <input type="hidden" id="custId" name="custId" value="3487"> -->
+        <input id="send-message" class="btn" type="button" value="SEND" onclick="window.location.href='/send-message'"/>
+    </form>
+
+    <script type="text/javascript">
+
+        $("#send-message").on("submit", function(evt){
+        message_fx
+        })
+        
+    </script>
 
 {% endblock %}

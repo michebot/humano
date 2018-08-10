@@ -7,7 +7,9 @@ from flask import (Flask, redirect, request, jsonify, render_template, flash, se
 
 from flask_debugtoolbar import DebugToolbarExtension
 
-from model import User, connect_to_db, db
+from model import User, Contact, connect_to_db, db
+
+from twilio_call import send_message_to_recipients
 
 import os
 
@@ -115,9 +117,12 @@ def log_out():
 @app.route("/user-home")
 def display_user_homepage():
     """Displays once user logins"""
-    # add button to add contacts
 
+    # getting user in session
     current_user = session.get('user_id')
+
+    # # including fx here to pass on to DOM
+    # message_fx = send_message_to_recipients
 
     if current_user:
         user = User.query.filter(User.user_id == current_user).first()
@@ -128,21 +133,62 @@ def display_user_homepage():
         return redirect('/')
 
 
-@app.route("/add-contact")
-def add_user_contact():
+@app.route("/add-contact", methods=["GET"])
+def add_users_contact():
     """Renders form for user to add contacts"""
 
-    # current_user = session["user_id"]
-    # user = User.query.filter(User.user_id == user_id).first()
-    # user_name = user.first_name.capitalize()
+    # getting current user in session
+    current_user = session.get("user_id")
 
-    return render_template("add-contact.html")
+    if current_user:
+        user = User.query.filter(User.user_id == current_user).first()
+        user_name = user.first_name.capitalize()
 
-@app.route("/send-message")
-def send_message():
-    """something"""
+        return render_template("add-contact.html")
+    else:
+        flash("Please Log In or Sign Up")
+        return redirect('/')
 
-    pass
+@app.route("/add-contact", methods=["POST"])
+def process_users_contact_info():
+    """Save user's contact information to our database"""
+
+    # getting current user in session
+    current_user = session.get("user_id")
+
+    contact_phone_number = request.form.get("contact_phone_number")
+    relationship = request.form.get("relationship")
+    contact_name = request.form.get("contact_name")
+
+    # if the contact is already in our database, will return True
+    # import pdb; pdb.set_trace()
+    check_contact_phone_number = Contact.query.filter(Contact.contact_phone_number==contact_phone_number).first()
+    # if above query returns None (i.e. username not in database)
+    if not check_contact_phone_number:
+        new_contact = Contact(user_id=current_user, contact_name=contact_name, 
+                              relationship=relationship,
+                              contact_phone_number=contact_phone_number)
+
+        db.session.add(new_contact)
+        db.session.commit()
+        flash("Welcome!")
+
+        print("\n\n\nCONTACT ADDED\n\n\n")
+
+        return redirect("/user-home")
+
+    else:
+        flash("It looks like you've already added a contact with this phone number.")
+        return redirect("/user-home")
+
+# @app.route("/send-message")
+# def send_message():
+#     """Processes button request to send messages to user's contacts"""
+
+#     send_message_to_recipients()
+
+#     flash("Your message has been sent")
+#     return redirect("/user-home")
 
 
 if __name__ == "__main__":
