@@ -254,7 +254,7 @@ def send_message():
     message = Message.query.filter(Message.user_id == current_user).first()
 
     for contact in contacts:
-        send_message_to_recipients(contact.contact_phone_number, message)
+        send_message_to_recipients(contact.contact_phone_number, message.message)
         print("\n\n\nMESSAGE SENT\n\n\n")
 
     flash("Your message has been sent.")
