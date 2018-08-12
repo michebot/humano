@@ -4,7 +4,7 @@ from twilio.rest import Client
 import os
 
 
-def send_message_to_recipients():
+def send_message_to_recipients(contact_phone_number, message):
     """When a user clicks on button, a message will be sent."""
 
     # Your Account SID from twilio.com/console
@@ -17,9 +17,18 @@ def send_message_to_recipients():
 
     client = Client(ACCOUNT_SID, AUTH_TOKEN)
 
+    # message = client.messages.create(
+    #     to=MY_NUM, 
+    #     from_=TWILIO_NUM,
+    #     body="Hi my name's Marcelle and I'm a shell.")
+
     message = client.messages.create(
-        to=MY_NUM, 
-        from_=TWILIO_NUM,
-        body="TEST yo wits")
+    to=contact_phone_number,
+    from_=TWILIO_NUM,
+    body=message)
 
     print(message.sid)
+
+
+    # """I'm testing out my app. Please save this number as "Michelle's app" 
+    # and respond back to Michelle (not this number) with a "yes" if you get this messgae. PROMPTLY :)"""

@@ -7,7 +7,7 @@ from flask import (Flask, redirect, request, jsonify, render_template, flash, se
 
 from flask_debugtoolbar import DebugToolbarExtension
 
-from model import User, Contact, connect_to_db, db
+from model import User, Contact, Message, connect_to_db, db
 
 from twilio_call import send_message_to_recipients
 
@@ -27,6 +27,7 @@ def get_index():
     """Return homepage with login or sign up links"""
 
     return render_template("index.html")
+
 
 
 @app.route("/sign-up", methods=["GET"])
@@ -66,12 +67,13 @@ def process_user_info():
     else:
         return redirect("/")
 
+
+
 @app.route("/login", methods=["GET"])
 def login_user():
     """Renders form for user to login"""
 
     return render_template("login.html")
-
 
 @app.route("/login", methods=["POST"])
 def process_user_login():
@@ -114,6 +116,7 @@ def log_out():
     return redirect("/")
 
 
+
 @app.route("/user-home")
 def display_user_homepage():
     """Displays once user logins"""
@@ -122,6 +125,7 @@ def display_user_homepage():
     current_user = session.get('user_id')
 
     # # including fx here to pass on to DOM
+    # vvv DELETE ME!!! BUILT ROUTE FOR THIS BELOW vvvv
     # message_fx = send_message_to_recipients
 
     if current_user:
@@ -131,6 +135,7 @@ def display_user_homepage():
     else:
         flash("Please Log In or Sign Up")
         return redirect('/')
+
 
 
 @app.route("/add-contact", methods=["GET"])
@@ -171,7 +176,7 @@ def process_users_contact_info():
 
         db.session.add(new_contact)
         db.session.commit()
-        flash("Welcome!")
+        flash("Your contact has been added")
 
         print("\n\n\nCONTACT ADDED\n\n\n")
 
@@ -181,14 +186,79 @@ def process_users_contact_info():
         flash("It looks like you've already added a contact with this phone number.")
         return redirect("/user-home")
 
-# @app.route("/send-message")
-# def send_message():
-#     """Processes button request to send messages to user's contacts"""
 
-#     send_message_to_recipients()
 
-#     flash("Your message has been sent")
-#     return redirect("/user-home")
+@app.route("/add-message", methods=["GET"])
+def add_users_message():
+    """Renders form for user to add their customized message"""
+
+    # getting current user in session
+    current_user = session.get("user_id")
+
+    if current_user:
+        user = User.query.filter(User.user_id == current_user).first()
+        return render_template("add-message.html")
+    else:
+        flash("Please Log In or Sign Up")
+        return redirect('/')
+
+@app.route("/add-message", methods=["POST"])
+def process_users_message():
+    """Save user's message to our database"""
+
+    # getting current user in session
+    current_user = session.get("user_id")
+
+    message = request.form.get("message")
+
+    new_message = Message(user_id=current_user, message=message)
+    db.session.add(new_message)
+    db.session.commit()
+
+    flash("Your message has been saved!")
+
+    print("\n\n\nMESSAGE ADDED\n\n\n")
+
+    return redirect("/user-home")
+
+    # need to change so that we can check if there is a current message 
+    # and if there is, allow user to edit message
+    # if not check_contact_phone_number:
+    #     new_contact = Contact(user_id=current_user, contact_name=contact_name, 
+    #                           relationship=relationship,
+    #                           contact_phone_number=contact_phone_number)
+
+        # db.session.add(new_contact)
+        # db.session.commit()
+        # flash("Welcome!")
+
+        # print("\n\n\nMESSAGE ADDED\n\n\n")
+
+        # return redirect("/user-home")
+
+    # else:
+    #     flash("It looks like you've already added a contact with this phone number.")
+    #     return redirect("/user-home")
+
+
+
+
+@app.route("/send-message", methods=["POST"])
+def send_message():
+    """Processes button request to send messages to user's contacts"""
+
+    # getting current user in session
+    current_user = session.get("user_id")
+    contacts = Contact.query.filter(Contact.user_id == current_user).all()
+    # will need to change this query to get the most up to date message (order by date)
+    message = Message.query.filter(Message.user_id == current_user).first()
+
+    for contact in contacts:
+        send_message_to_recipients(contact.contact_phone_number, message)
+        print("\n\n\nMESSAGE SENT\n\n\n")
+
+    flash("Your message has been sent.")
+    return redirect("/user-home")
 
 
 if __name__ == "__main__":

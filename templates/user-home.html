@@ -12,19 +12,25 @@
         <input id="add-contact" class="btn" type="button" value="Add Contact" onclick="window.location.href='/add-contact'"/>
     </form>
 
-<!--     <button id="send-message" class="btn" >SEND</button> -->
+    <form>
+        <input id="add-message" class="btn" type="button" value="Add Message" onclick="window.location.href='/add-message'"/>
+    </form>
+
+    <!-- <input type="hidden" id="" name="" value="{# user_id #}"> -->
+
+    <button id="send-message" class="btn" >SEND</button>
 <!--      DELETE ABOVE WHEN FINISHED BELOW -->
 
-    <form>
+    <!-- <form> USING BUTTON ABOVE INSTEAD --> 
         <!-- hidden inputs to pass on information, message numbers -->
-            <!-- <input type="hidden" id="custId" name="custId" value="3487"> -->
+<!--             <input type="hidden" id="" name="" value="">
         <input id="send-message" class="btn" type="button" value="SEND" onclick="window.location.href='/send-message'"/>
-    </form>
+    </form> -->
 
     <script type="text/javascript">
 
-        $("#send-message").on("submit", function(evt){
-        message_fx
+        $("#send-message").on("click", function(evt){
+        $.post("/send-message", {}, alert("Your message has been sent."));
         })
         
     </script>
