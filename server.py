@@ -221,6 +221,7 @@ def process_users_message():
 
     return redirect("/user-home")
 
+    # DELETE adding this comment to see if username is added to vagrant git
     # need to change so that we can check if there is a current message 
     # and if there is, allow user to edit message
     # if not check_contact_phone_number:
