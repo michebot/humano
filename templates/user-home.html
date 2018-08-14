@@ -4,21 +4,23 @@
 
 {% block content %}
 
-    {% if "user_id" in session %}
-        <h2>Welcome {{ user_name }}!</h2>
-    {% endif %}
+  {% if "user_id" in session %}
+    <h2>Welcome {{ user_name }}!</h2>
+  {% endif %}
 
-    <form>
-        <input id="add-contact" class="btn" type="button" value="Add Contact" onclick="window.location.href='/add-contact'"/>
-    </form>
+  <form>
+    <input id="add-contact" class="btn" type="button" value="Add Contact" onclick="window.location.href='/add-contact'"/>
+  </form>
 
-    <form>
-        <input id="add-message" class="btn" type="button" value="Add Message" onclick="window.location.href='/add-message'"/>
-    </form>
+  <form>
+    <input id="add-message" class="btn" type="button" value="Add Message" onclick="window.location.href='/add-message'"/>
+  </form>
 
-    <!-- <input type="hidden" id="" name="" value="{# user_id #}"> -->
+  <!-- <input type="hidden" id="" name="" value="{# user_id #}"> -->
 
-    <button id="send-message" class="btn" >SEND</button>
+  <button id="send-message" class="btn" onclick="getLocation()">SEND</button>
+
+  <p id="message-response"></p>
 <!--      DELETE ABOVE WHEN FINISHED BELOW -->
 
     <!-- <form> USING BUTTON ABOVE INSTEAD --> 
@@ -27,12 +29,63 @@
         <input id="send-message" class="btn" type="button" value="SEND" onclick="window.location.href='/send-message'"/>
     </form> -->
 
-    <script type="text/javascript">
+  <script type="text/javascript">
+    // on click, this button will send the user's message to their contacts
+    $("#send-message").on("click", function(evt){
+    $.post("/send-message", {}, alert("Your message has been sent."));
+    })
 
-        $("#send-message").on("click", function(evt){
-        $.post("/send-message", {}, alert("Your message has been sent."));
-        })
-        
-    </script>
+    // get's user's location
+    let x = document.getElementById("message-response");
+
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(savePosition, errorHandler);
+        } else { 
+            alert("Sorry, your browser does not support geolocation services.";
+        }
+    }
+
+    function savePosition(position) {
+        // let latitude = "Latitude: " + position.coords.latitude
+        // let longitude = "Longitude: " + position.coords.longitude
+
+        // x.innerHTML = "Latitude: " + position.coords.latitude + 
+        // "<br>Longitude: " + position.coords.longitude;
+
+          $.ajax({
+            url: "/send-message",
+            data: {
+                "lat": position.coords.latitude,
+                "lng": position.coords.longitude
+            },
+            type: "POST",
+            success: function (result) {
+                // If your backend page sends something back
+                alert(result);
+            }
+          });
+    }
+
+   // report errors to user
+    function errorHandler(error) {
+     switch (error.code) {
+      case error.PERMISSION_DENIED:
+        alert("Could not get position as permission was denied.");
+        break;
+      case error.POSITION_UNAVAILABLE:
+        alert("Could not get position as this information is not available at this time.");
+        break;
+       case error.TIMEOUT:
+         alert("Attempt to get position timed out.");
+        break;
+       default:
+        alert("Sorry, an error occurred. Code: " + error.code + " Message: " + error.message);
+        break;
+       }
+    }
+
+  </script>
+
 
 {% endblock %}

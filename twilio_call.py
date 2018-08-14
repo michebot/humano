@@ -27,7 +27,10 @@ def send_message_to_recipients(contact_phone_number, message):
     from_=TWILIO_NUM,
     body=message)
 
-    print(message.sid)
+    print(message.sid, "\n",
+          message.date_created, "\n",
+          message.date_sent, "\n",
+          message.error_code)
 
 
     # """I'm testing out my app. Please save this number as "Michelle's app" 

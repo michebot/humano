@@ -151,7 +151,7 @@ def add_users_contact():
 
         return render_template("add-contact.html")
     else:
-        flash("Please Log In or Sign Up")
+        flash("Please Log In or Sign Up.")
         return redirect('/')
 
 @app.route("/add-contact", methods=["POST"])
@@ -167,7 +167,9 @@ def process_users_contact_info():
 
     # if the contact is already in our database, will return True
     # import pdb; pdb.set_trace()
-    check_contact_phone_number = Contact.query.filter(Contact.contact_phone_number==contact_phone_number).first()
+    check_contact_phone_number = Contact.query.filter(Contact.contact_phone_number == 
+                                                      contact_phone_number, Contact.user_id == 
+                                                      current_user).first()
     # if above query returns None (i.e. username not in database)
     if not check_contact_phone_number:
         new_contact = Contact(user_id=current_user, contact_name=contact_name, 
@@ -176,7 +178,7 @@ def process_users_contact_info():
 
         db.session.add(new_contact)
         db.session.commit()
-        flash("Your contact has been added")
+        flash("Your contact has been added.")
 
         print("\n\n\nCONTACT ADDED\n\n\n")
 
@@ -185,6 +187,12 @@ def process_users_contact_info():
     else:
         flash("It looks like you've already added a contact with this phone number.")
         return redirect("/user-home")
+
+# add route for viewing contacts
+# @app.route("view-contacts")
+
+# add route for viewing message
+# add route for editing message
 
 
 
@@ -199,7 +207,7 @@ def add_users_message():
         user = User.query.filter(User.user_id == current_user).first()
         return render_template("add-message.html")
     else:
-        flash("Please Log In or Sign Up")
+        flash("Please Log In or Sign Up.")
         return redirect('/')
 
 @app.route("/add-message", methods=["POST"])
@@ -221,7 +229,6 @@ def process_users_message():
 
     return redirect("/user-home")
 
-    # DELETE adding this comment to see if username is added to vagrant git
     # need to change so that we can check if there is a current message 
     # and if there is, allow user to edit message
     # if not check_contact_phone_number:
@@ -247,6 +254,10 @@ def process_users_message():
 @app.route("/send-message", methods=["POST"])
 def send_message():
     """Processes button request to send messages to user's contacts"""
+
+    # first off, get lat and long from html form (request.form)
+    # add to database
+    # 
 
     # getting current user in session
     current_user = session.get("user_id")
