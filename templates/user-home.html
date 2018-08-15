@@ -5,7 +5,7 @@
 {% block content %}
 
   {% if "user_id" in session %}
-    <h2>Welcome {{ user_name }}!</h2>
+    <h2>Welcome, {{ user_name }}!</h2>
   {% endif %}
 
   <form>
@@ -16,33 +16,22 @@
     <input id="add-message" class="btn" type="button" value="Add Message" onclick="window.location.href='/add-message'"/>
   </form>
 
-  <!-- <input type="hidden" id="" name="" value="{# user_id #}"> -->
-
-  <button id="send-message" class="btn" onclick="getLocation()">SEND</button>
-
-  <p id="message-response"></p>
-<!--      DELETE ABOVE WHEN FINISHED BELOW -->
-
-    <!-- <form> USING BUTTON ABOVE INSTEAD --> 
-        <!-- hidden inputs to pass on information, message numbers -->
-<!--             <input type="hidden" id="" name="" value="">
-        <input id="send-message" class="btn" type="button" value="SEND" onclick="window.location.href='/send-message'"/>
-    </form> -->
+  <button id="send-message-location" class="btn">SEND
+  </button>
 
   <script type="text/javascript">
     // on click, this button will send the user's message to their contacts
-    $("#send-message").on("click", function(evt){
-    $.post("/send-message", {}, alert("Your message has been sent."));
-    })
-
-    // get's user's location
-    let x = document.getElementById("message-response");
-
+    $("#send-message-location").on("click", function(evt){
+      navigator.geolocation.getCurrentPosition(savePosition, errorHandler);
+    });
+    
+    // get user's location
     function getLocation() {
         if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(savePosition, errorHandler);
+            let location = navigator.geolocation.getCurrentPosition(savePosition, errorHandler)
+            return location;
         } else { 
-            alert("Sorry, your browser does not support geolocation services.";
+            alert("Sorry, your browser does not support geolocation services.");
         }
     }
 
@@ -53,18 +42,15 @@
         // x.innerHTML = "Latitude: " + position.coords.latitude + 
         // "<br>Longitude: " + position.coords.longitude;
 
-          $.ajax({
-            url: "/send-message",
-            data: {
-                "lat": position.coords.latitude,
-                "lng": position.coords.longitude
-            },
-            type: "POST",
-            success: function (result) {
-                // If your backend page sends something back
-                alert(result);
-            }
-          });
+      let userLocation = {
+          "lat": position.coords.latitude,
+          "lng": position.coords.longitude,
+      };
+
+      $.post("/send-message.json", 
+             userLocation, 
+             () => alert("Your message and location has been sent"),
+      );
     }
 
    // report errors to user

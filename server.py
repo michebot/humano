@@ -124,10 +124,6 @@ def display_user_homepage():
     # getting user in session
     current_user = session.get('user_id')
 
-    # # including fx here to pass on to DOM
-    # vvv DELETE ME!!! BUILT ROUTE FOR THIS BELOW vvvv
-    # message_fx = send_message_to_recipients
-
     if current_user:
         user = User.query.filter(User.user_id == current_user).first()
         user_name = user.first_name.capitalize()
@@ -251,7 +247,7 @@ def process_users_message():
 
 
 
-@app.route("/send-message", methods=["POST"])
+@app.route("/send-message.json", methods=["POST"])
 def send_message():
     """Processes button request to send messages to user's contacts"""
 
@@ -265,12 +261,19 @@ def send_message():
     # will need to change this query to get the most up to date message (order by date)
     message = Message.query.filter(Message.user_id == current_user).first()
 
+    # getting user's location
+    user_lat = request.form.get("lat")
+    user_lng = request.form.get("lng")
+    user_location = str([float(user_lat), float(user_lng)])
+
     for contact in contacts:
         send_message_to_recipients(contact.contact_phone_number, message.message)
         print("\n\n\nMESSAGE SENT\n\n\n")
+        send_message_to_recipients(contact.contact_phone_number, user_location)
+        print("\n\n\nLOCATION SENT\n\n\n")
 
     flash("Your message has been sent.")
-    return redirect("/user-home")
+    return jsonify({"success": "true"})
 
 
 if __name__ == "__main__":
