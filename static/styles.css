@@ -25,6 +25,11 @@ h1 a{
     color: #fbb760;
 }
 
+a{
+    text-decoration: none;
+    color: #a2bda7;
+}
+
 .btn {
     white-space: nowrap;
     display: inline-block;

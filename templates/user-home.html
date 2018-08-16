@@ -11,7 +11,9 @@
   <form>
     <input id="add-contact" class="btn" type="button" value="Add Contact" onclick="window.location.href='/add-contact'"/>
   </form>
-
+  <form>
+    <input id="view-contacts" class="btn" type="button" value="View Contacts" onclick="window.location.href='/my-contacts'"/>
+  </form>
   <form>
     <input id="add-message" class="btn" type="button" value="Add Message" onclick="window.location.href='/add-message'"/>
   </form>
@@ -20,28 +22,22 @@
   </button>
 
   <script type="text/javascript">
-    // on click, this button will send the user's message to their contacts
+    // on click, this button will obtain the user's location and send the user's location and message to their contacts
     $("#send-message-location").on("click", function(evt){
       navigator.geolocation.getCurrentPosition(savePosition, errorHandler);
     });
     
-    // get user's location
-    function getLocation() {
-        if (navigator.geolocation) {
-            let location = navigator.geolocation.getCurrentPosition(savePosition, errorHandler)
-            return location;
-        } else { 
-            alert("Sorry, your browser does not support geolocation services.");
-        }
-    }
+    // // get user's location
+    // function getLocation() {
+    //     if (navigator.geolocation) {
+    //         let location = navigator.geolocation.getCurrentPosition(savePosition, errorHandler)
+    //         return location;
+    //     } else { 
+    //         alert("Sorry, your browser does not support geolocation services.");
+    //     }
+    // }
 
     function savePosition(position) {
-        // let latitude = "Latitude: " + position.coords.latitude
-        // let longitude = "Longitude: " + position.coords.longitude
-
-        // x.innerHTML = "Latitude: " + position.coords.latitude + 
-        // "<br>Longitude: " + position.coords.longitude;
-
       let userLocation = {
           "lat": position.coords.latitude,
           "lng": position.coords.longitude,

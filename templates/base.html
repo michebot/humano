@@ -1,30 +1,36 @@
 <!DOCTYPE html> 
 <html>
 <head>
-    <title>{% block title %}TITLE GOES HERE{% endblock %}</title>
-    <link rel="stylesheet" type="text/css" href="/static/styles.css">
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <title>{% block title %}TITLE GOES HERE{% endblock %}</title>
+  <link rel="stylesheet" type="text/css" href="/static/styles.css">
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 </head>
 <body>
 
-    {% if "user_id" in session %}
-        <form>
-            <input id="logOut" class="btn" type="button" value="Log Out" onclick="window.location.href='/logout'" />
-        </form>
-    {% endif %} 
+  {% if "user_id" in session %}
+<!--     <form>
+      <input id="logOut" class="btn" type="button" value="Log Out" onclick="window.location.href='/logout'" />
+    </form>
+    <form>
+      <input id="home" class="btn" type="button" value="Home" onclick="window.location.href='/user-home'" />
+    </form> -->
+    <a href="/logout">Log Out |</a>
+    <a href="/user-home">Home</a>
+        
+  {% endif %} 
 
 
-    {% with messages = get_flashed_messages() %}
-      {% if messages %}
-      
-        {% for message in messages %}
-            {{ message }}
-        {% endfor %}
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    
+      {% for message in messages %}
+          {{ message }}
+      {% endfor %}
 
-      {% endif %}
-    {% endwith %}
+    {% endif %}
+  {% endwith %}
 
-    <h1><a href="/">Humano</a></h1>
+  <h1><a href="/">Humano</a></h1>
 
 <!-- started the route for the message button -->
 <!--     <form action="/send-message", method="POST">

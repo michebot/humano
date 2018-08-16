@@ -7,7 +7,7 @@ from flask import (Flask, redirect, request, jsonify, render_template, flash, se
 
 from flask_debugtoolbar import DebugToolbarExtension
 
-from model import User, Contact, Message, connect_to_db, db
+from model import User, Contact, Message, SentMessage, connect_to_db, db
 
 from twilio_call import send_message_to_recipients
 
@@ -185,7 +185,13 @@ def process_users_contact_info():
         return redirect("/user-home")
 
 # add route for viewing contacts
-# @app.route("view-contacts")
+@app.route("/my-contacts")
+def display_users_contacts():
+    """Renders user's contacts"""
+    current_user = session.get("user_id")
+    users_contacts = Contact.query.filter(Contact.user_id == current_user).all()
+
+    return render_template("my-contacts.html", current_user=current_user, contacts=users_contacts)
 
 # add route for viewing message
 # add route for editing message
@@ -251,10 +257,6 @@ def process_users_message():
 def send_message():
     """Processes button request to send messages to user's contacts"""
 
-    # first off, get lat and long from html form (request.form)
-    # add to database
-    # 
-
     # getting current user in session
     current_user = session.get("user_id")
     contacts = Contact.query.filter(Contact.user_id == current_user).all()
@@ -265,6 +267,8 @@ def send_message():
     user_lat = request.form.get("lat")
     user_lng = request.form.get("lng")
     user_location = str([float(user_lat), float(user_lng)])
+
+    # need to add to DB
 
     for contact in contacts:
         send_message_to_recipients(contact.contact_phone_number, message.message)

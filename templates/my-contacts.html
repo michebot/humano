@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %} Humano | My Contacts {% endblock %}
+
+{% block content %}
+
+  {% if "user_id" in session %}
+    <h2>My Contacts:</h2>
+
+    <ul>
+        {% for contact in contacts %}
+        <li>
+            Contact Name: {{ contact.contact_name }}<br>
+            Number: {{ contact.contact_phone_number}}<br>
+            Relationship: {{ contact.relationship }}<br>
+        </li><br>
+        {% endfor %}
+    </ul>
+  {% endif %}
+
+  <!-- Add a link to edit contacts, maybe one for each contact? -->
+
+
+{% endblock %}
