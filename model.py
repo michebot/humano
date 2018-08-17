@@ -88,21 +88,21 @@ class SentMessage(db.Model):
                         db.ForeignKey("contacts.contact_id"),
                         nullable=False)
     date_created = db.Column(db.DateTime, nullable=True)
-    date_sent = db.Column(db.DateTime, nullable=True)
-    # should be a datatype for locations
-    latitude = db.Column(db.String(20), nullable=True)
-    longitude = db.Column(db.String(20), nullable=True)
+    message_sid = db.Column(db.String(36), nullable=True)
+    error_code = db.Column(db.String(20), nullable=True)
+    latitude = db.Column(db.Float, nullable=True)
+    longitude = db.Column(db.Float, nullable=True)
 
     # defining relationships
     message = db.relationship("Message", backref="sent_messages")
-    contact = db.relationship("Contact", backref="sent_messages")
+    contact = db.relationship("Contact", backref="message_sent")
 
     def __repr__(self):
         """Show info about Sent Messages"""
 
-        return """<Message info id={}, Time Requested={}, Time Delivered={}, 
-            Location={}>""".format(self.message_info_id, self.date_created, 
-            self.date_sent, self.location)
+        return """<Sent Message id={}, Date Created={}, Message sid={}, 
+            Error Code={}, Latitude={}, Longitude={}>""".format(self.sent_message_id, self.date_created, 
+            self.message_sid, self.error_code, self.latitude, self.longitude)
 
 
 ##############################################################################

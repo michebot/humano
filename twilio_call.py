@@ -23,14 +23,17 @@ def send_message_to_recipients(contact_phone_number, message):
     #     body="Hi my name's Marcelle and I'm a shell.")
 
     message = client.messages.create(
-    to=contact_phone_number,
+    to="+1"+contact_phone_number,
     from_=TWILIO_NUM,
     body=message)
 
-    print(message.sid, "\n",
-          message.date_created, "\n",
-          message.date_sent, "\n",
-          message.error_code)
+    error_code = ""
+
+    if message.error_code:
+        error_code = message.error_code
+
+    # print([message.sid, message.date_created, message.error_code])
+    return [message.sid, message.date_created, error_code]
 
 
     # """I'm testing out my app. Please save this number as "Michelle's app" 

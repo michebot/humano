@@ -252,7 +252,6 @@ def process_users_message():
 
 
 
-
 @app.route("/send-message.json", methods=["POST"])
 def send_message():
     """Processes button request to send messages to user's contacts"""
@@ -263,18 +262,25 @@ def send_message():
     # will need to change this query to get the most up to date message (order by date)
     message = Message.query.filter(Message.user_id == current_user).first()
 
-    # getting user's location
-    user_lat = request.form.get("lat")
-    user_lng = request.form.get("lng")
-    user_location = str([float(user_lat), float(user_lng)])
-
-    # need to add to DB
+    # getting user's location from front-end
+    user_lat = float(request.form.get("lat"))
+    user_lng = float(request.form.get("lng"))
+    user_location = str([user_lat, user_lng])
 
     for contact in contacts:
-        send_message_to_recipients(contact.contact_phone_number, message.message)
+        message_results = send_message_to_recipients(contact.contact_phone_number, message.message)
+        # import pdb; pdb.set_trace()
+        new_sent_message = SentMessage(message_id=message.message_id, contact_id=contact.contact_id, 
+                                       date_created=message_results[1], message_sid=message_results[0],
+                                       error_code=message_results[2], latitude=user_lat, longitude=user_lng)
+        db.session.add(new_sent_message)
+
         print("\n\n\nMESSAGE SENT\n\n\n")
-        send_message_to_recipients(contact.contact_phone_number, user_location)
+
+        location_results = send_message_to_recipients(contact.contact_phone_number, user_location)
         print("\n\n\nLOCATION SENT\n\n\n")
+
+    db.session.commit()
 
     flash("Your message has been sent.")
     return jsonify({"success": "true"})
