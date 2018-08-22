@@ -136,7 +136,8 @@ def display_user_homepage():
         user_name = user.first_name.capitalize()
         users_contacts = Contact.query.filter(Contact.user_id == current_user).all()
         users_message = Message.query.filter(Message.user_id == current_user).first()
-        return render_template("user-home.html", user_name=user_name, contacts=users_contacts, message=users_message)
+        return render_template("user-home.html", user_name=user_name, 
+                                contacts=users_contacts, message=users_message)
     else:
         flash("Please Log In or Sign Up")
         return redirect('/')
@@ -144,6 +145,8 @@ def display_user_homepage():
 
 
 ### USER CREATING PROFILE: ADDING/VIEWING/EDITING CONTACTS AND MESSAGE ###
+
+### USER'S CONTACTS ###
 @app.route("/add-contact", methods=["GET"])
 def add_users_contact():
     """Renders form for user to add contacts"""
@@ -195,7 +198,6 @@ def process_users_contact_info():
     else:
         flash("It looks like you've already added a contact with this phone number.")
         return redirect("/user-home")
-
 
 
 @app.route("/my-contacts")
@@ -250,9 +252,8 @@ def update_user_contact_info(contact_id):
     return redirect("/user-home")
 
 
-# add route for viewing message
-# add route for editing message
 
+### USER'S MESSAGE ###
 @app.route("/add-message", methods=["GET"])
 def add_users_message():
     """Renders form for user to add their customized message"""
@@ -287,6 +288,7 @@ def process_users_message():
 
     return redirect("/user-home")
 
+
 @app.route("/view-message")
 def display_users_message():
     """Render the user's message"""
@@ -295,6 +297,7 @@ def display_users_message():
     current_message = Message.query.filter(Message.user_id == current_user).first()
 
     return render_template("view-message.html", message_obj=current_message)
+
 
 @app.route("/edit-message", methods=["GET"])
 def edit_users_message():
@@ -306,6 +309,7 @@ def edit_users_message():
     old_message = Message.query.filter(Message.user_id == current_user).first()
 
     return render_template("edit-message.html", old_message=old_message)
+
 
 @app.route("/edit-message", methods=["POST"])
 def update_users_message():
@@ -329,31 +333,12 @@ def update_users_message():
     return redirect("/user-home")
 
 
-    # need to change so that we can check if there is a current message 
-    # and if there is, allow user to edit message
-    # if not check_contact_phone_number:
-    #     new_contact = Contact(user_id=current_user, contact_name=contact_name, 
-    #                           relationship=relationship,
-    #                           contact_phone_number=contact_phone_number)
 
-        # db.session.add(new_contact)
-        # db.session.commit()
-        # flash("Welcome!")
-
-        # print("\n\n\nMESSAGE ADDED\n\n\n")
-
-        # return redirect("/user-home")
-
-    # else:
-    #     flash("It looks like you've already added a contact with this phone number.")
-    #     return redirect("/user-home")
-
-
-
-### SENDING MESSAGE AND MAP ROUTES ###
+### SENDING MESSAGE ROUTES ###
 @app.route("/send-message.json", methods=["POST"])
 def send_message():
-    """Processes button request to send messages to user's contacts"""
+    """Processes button request from user's homepage to send their message and 
+       location to user's contacts"""
 
     # getting current user in session
     current_user = session.get("user_id")
@@ -393,11 +378,13 @@ def send_message():
 
 
 
+### ROUTES TO RENDER MAP WITH USER'S LOCATION ###
 @app.route("/map")
 def render_map():
     """Render map with user's location."""
 
     return render_template("map.html", key=GOOGLE_API_KEY)
+
 
 @app.route("/map-coordinates.json", methods=["GET"])
 def obtain_users_coordinates():

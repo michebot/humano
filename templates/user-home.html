@@ -5,43 +5,68 @@
 {% block content %}
 
   {% if "user_id" in session %}
-    <h2>Welcome, {{ user_name }}!</h2>
+    <h2>
+      Welcome, {{ user_name }}!
+    </h2>
   {% endif %}
 
   <form>
-    <input id="add-contact" class="btn" type="button" value="Add Contact" onclick="window.location.href='/add-contact'"/>
+    <input 
+      id="add-contact" 
+      class="btn" 
+      type="button" 
+      value="Add Contact" 
+      onclick="window.location.href='/add-contact'"/>
   </form>
   
-  <!-- add logic: if user has a contact, show view-contacts -->
+  <!-- If the user has a contact, display view-contacts link -->
   {% if contacts %}
     <form>
-      <input id="view-contacts" class="btn" type="button" value="View Contacts" onclick="window.location.href='/my-contacts'"/>
+      <input 
+        id="view-contacts" 
+        class="btn" 
+        type="button" 
+        value="View Contacts" 
+        onclick="window.location.href='/my-contacts'"/>
     </form>
   {% endif %}
 
-  <!-- add if logic: if user has a message, show 'edit message' -->
+  <!-- If the user has a message, show 'edit message' link -->
   {% if message %}
     <form>
-      <input id="view-message" class="btn" type="button" value="My Message" onclick="window.location.href='/view-message'"/>
+      <input 
+        id="view-message" 
+        class="btn" 
+        type="button" 
+        value="My Message" 
+        onclick="window.location.href='/view-message'"/>
     </form><br>
   {% else %}
     <form>
-      <input id="add-message" class="btn" type="button" value="Add Message" onclick="window.location.href='/add-message'"/>
+      <input 
+        id="add-message" 
+        class="btn" 
+        type="button" 
+        value="Add Message" 
+        onclick="window.location.href='/add-message'"/>
     </form>
   {% endif %}
 
+  <!-- If the user has added their contacts and message, they can send their location to their contacts -->
   {% if message and contacts %}
-    <button id="send-message-location" class="btn">SEND
+    <button 
+      id="send-message-location" 
+      class="btn">SEND
     </button>
   {% endif %}
 
   <script type="text/javascript">
-    // on click, this button will obtain the user's location and send the user's location and message to their contacts
+    // On click, this button will obtain the user's location and send the user's location and message to their contacts
     $("#send-message-location").on("click", function(evt){
       navigator.geolocation.getCurrentPosition(savePosition, errorHandler);
     });
     
-    // // get user's location
+    // // Get user's location
     // function getLocation() {
     //     if (navigator.geolocation) {
     //         let location = navigator.geolocation.getCurrentPosition(savePosition, errorHandler)
@@ -63,7 +88,7 @@
       );
     }
 
-   // report errors to user
+   // Report errors to user
     function errorHandler(error) {
      switch (error.code) {
       case error.PERMISSION_DENIED:
