@@ -134,7 +134,9 @@ def display_user_homepage():
     if current_user:
         user = User.query.filter(User.user_id == current_user).first()
         user_name = user.first_name.capitalize()
-        return render_template("user-home.html", user_name=user_name)
+        users_contacts = Contact.query.filter(Contact.user_id == current_user).all()
+        users_message = Message.query.filter(Message.user_id == current_user).first()
+        return render_template("user-home.html", user_name=user_name, contacts=users_contacts, message=users_message)
     else:
         flash("Please Log In or Sign Up")
         return redirect('/')
@@ -207,19 +209,19 @@ def display_users_contacts():
                             contacts=users_contacts)
 
 
-@app.route("/my-contacts/<contact_id>", methods=["GET"])
+@app.route("/my-contacts/edit-<contact_id>", methods=["GET"])
 def edit_users_contact(contact_id):
     """Allow user to edit their contact's information"""
 
     current_user = session.get("user_id")
 
-    contact = Contact.query.get(int(contact_id))
-    # contact = Contact.query.filter(Contact.contact_id == contact_id).first()
+    # contact = Contact.query.get(int(contact_id))
+    contact = Contact.query.filter(Contact.contact_id == contact_id).first()
 
     return render_template("edit-contact.html", contact=contact)
 
 
-@app.route("/my-contacts/<contact_id>", methods=["POST"])
+@app.route("/my-contacts/edit-<contact_id>", methods=["POST"])
 def update_user_contact_info(contact_id):
     """Update the user's contact information in the DB"""
 
@@ -285,6 +287,48 @@ def process_users_message():
 
     return redirect("/user-home")
 
+@app.route("/view-message")
+def display_users_message():
+    """Render the user's message"""
+
+    current_user = session.get("user_id")
+    current_message = Message.query.filter(Message.user_id == current_user).first()
+
+    return render_template("view-message.html", message_obj=current_message)
+
+@app.route("/edit-message", methods=["GET"])
+def edit_users_message():
+    """Renders form for user to edit their message"""
+
+    # getting current user in session
+    current_user = session.get("user_id")
+
+    old_message = Message.query.filter(Message.user_id == current_user).first()
+
+    return render_template("edit-message.html", old_message=old_message)
+
+@app.route("/edit-message", methods=["POST"])
+def update_users_message():
+    """Update the user's message"""
+
+    # getting current user in session
+    current_user = session.get("user_id")
+
+    # message object to edit
+    old_message = Message.query.filter(Message.user_id == current_user).first()
+
+    updated_message = request.form.get("message")
+
+    if old_message:
+        old_message.message = updated_message
+        db.session.commit()
+        flash("Your message has been updated.")
+
+        print("\n\n\nMESSAGE EDITED\n\n\n")
+
+    return redirect("/user-home")
+
+
     # need to change so that we can check if there is a current message 
     # and if there is, allow user to edit message
     # if not check_contact_phone_number:
@@ -321,6 +365,7 @@ def send_message():
     user_lat = float(request.form.get("lat"))
     user_lng = float(request.form.get("lng"))
     user_location = str([user_lat, user_lng])
+    link = "https://www.google.com/maps/?q={lat},{lng}".format(lat=user_lat, lng=user_lng)
 
     for contact in contacts:
         message_results = send_message_to_recipients(contact.contact_phone_number, 
@@ -338,7 +383,7 @@ def send_message():
         print("\n\n\nMESSAGE SENT\n\n\n")
 
         location_results = send_message_to_recipients(contact.contact_phone_number, 
-                                                      user_location)
+                                                      link)
         print("\n\n\nLOCATION SENT\n\n\n")
 
     db.session.commit()
@@ -350,15 +395,21 @@ def send_message():
 
 @app.route("/map")
 def render_map():
-    """Render map with user's location"""
+    """Render map with user's location."""
+
+    return render_template("map.html", key=GOOGLE_API_KEY)
+
+@app.route("/map-coordinates.json", methods=["GET"])
+def obtain_users_coordinates():
+    """Obtain user's location from DB and send to front-end as a JSON"""
 
     current_user = session.get("user_id")
 
     current_location = SentMessage.query.filter(SentMessage.user_id==current_user)\
                                         .order_by(SentMessage.date_created.desc()).first()
 
-    return render_template("map.html", key=GOOGLE_API_KEY, lat=current_location.latitude, 
-                           lng=current_location.longitude)
+    return jsonify({"lat": current_location.latitude, "lng": current_location.longitude})
+
 
 
 if __name__ == "__main__":

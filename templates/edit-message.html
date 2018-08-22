@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %} Humano | Edit Msg {% endblock %}
+
+{% block content %}
+
+  <h2>Edit my message:</h2>
+
+    <form action="/edit-message", method="POST">
+      <textarea name="message" rows="6" cols="100" placeholder="{{ old_message.message }}" maxlength="1600" autofocus required></textarea><br>
+      <button 
+        type="submit" 
+        class="btn">Update
+      </button>
+      <input 
+        id="cancel" 
+        class="btn" 
+        type="button" 
+        value="Cancel" 
+        onclick="window.location.href='/user-home'"/>
+    </form>
+
+
+
+{% endblock %}

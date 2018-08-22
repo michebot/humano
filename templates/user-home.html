@@ -11,15 +11,29 @@
   <form>
     <input id="add-contact" class="btn" type="button" value="Add Contact" onclick="window.location.href='/add-contact'"/>
   </form>
-  <form>
-    <input id="view-contacts" class="btn" type="button" value="View Contacts" onclick="window.location.href='/my-contacts'"/>
-  </form>
-  <form>
-    <input id="add-message" class="btn" type="button" value="Add Message" onclick="window.location.href='/add-message'"/>
-  </form>
+  
+  <!-- add logic: if user has a contact, show view-contacts -->
+  {% if contacts %}
+    <form>
+      <input id="view-contacts" class="btn" type="button" value="View Contacts" onclick="window.location.href='/my-contacts'"/>
+    </form>
+  {% endif %}
 
-  <button id="send-message-location" class="btn">SEND
-  </button>
+  <!-- add if logic: if user has a message, show 'edit message' -->
+  {% if message %}
+    <form>
+      <input id="view-message" class="btn" type="button" value="My Message" onclick="window.location.href='/view-message'"/>
+    </form><br>
+  {% else %}
+    <form>
+      <input id="add-message" class="btn" type="button" value="Add Message" onclick="window.location.href='/add-message'"/>
+    </form>
+  {% endif %}
+
+  {% if message and contacts %}
+    <button id="send-message-location" class="btn">SEND
+    </button>
+  {% endif %}
 
   <script type="text/javascript">
     // on click, this button will obtain the user's location and send the user's location and message to their contacts
