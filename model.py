@@ -58,7 +58,7 @@ class Contact(db.Model):
 
     contact_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer,
-                        db.ForeignKey('users.user_id'),
+                        db.ForeignKey("users.user_id"),
                         nullable=False)
     contact_phone_number = db.Column(db.String(20), nullable=False)
     relationship = db.Column(db.String(20), nullable=True)
@@ -81,6 +81,9 @@ class SentMessage(db.Model):
     __tablename__ = "sent_messages"
 
     sent_message_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    user_id = db.Column(db.Integer,
+                        db.ForeignKey("users.user_id"),
+                        nullable=False)
     message_id = db.Column(db.Integer,
                         db.ForeignKey("messages.message_id"),
                         nullable=False)
@@ -94,6 +97,7 @@ class SentMessage(db.Model):
     longitude = db.Column(db.Float, nullable=True)
 
     # defining relationships
+    user = db.relationship("User", backref="messages_sent")
     message = db.relationship("Message", backref="sent_messages")
     contact = db.relationship("Contact", backref="message_sent")
 

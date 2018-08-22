@@ -2,7 +2,7 @@
 
 html {
     background-color: #fff;
-    font-family: "Quicksand", sans-serif;
+    font-family: sans-serif;
 }
 
 body {
@@ -48,4 +48,8 @@ a{
     text-decoration: none;
     -webkit-transition: all .15s ease;
     transition: all .15s ease;
+}
+
+#map {
+    height: 75%
 }

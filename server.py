@@ -3,7 +3,8 @@
 
 from jinja2 import StrictUndefined
 
-from flask import (Flask, redirect, request, jsonify, render_template, flash, session)
+from flask import (Flask, redirect, request, jsonify, render_template, flash, 
+                   session)
 
 from flask_debugtoolbar import DebugToolbarExtension
 
@@ -20,6 +21,9 @@ app.jinja_env.auto_reload = True
 
 # Required to use Flask sessions and the debug toolbar
 app.secret_key = os.environ['FLASK_SECRET_KEY']
+
+# GOOGLE MAPS KEY
+GOOGLE_API_KEY = os.environ["GOOGLE_API_KEY"]
 
 
 @app.route("/")
@@ -41,8 +45,8 @@ def process_user_info():
     """Save user's information to our database."""
 
     username = request.form.get("username")
-    first_name = request.form.get("first_name")
-    last_name = request.form.get("last_name")
+    first_name = request.form.get("first_name").capitalize()
+    last_name = request.form.get("last_name").capitalize()
     email = request.form.get("email")
     password = request.form.get("password")
     phone_number = request.form.get("phone_number")
@@ -103,6 +107,7 @@ def process_user_login():
             return redirect("/user-home")
 
 
+
 @app.route('/logout', methods=['GET'])
 def log_out():
     """Log user out."""
@@ -159,12 +164,13 @@ def process_users_contact_info():
 
     contact_phone_number = request.form.get("contact_phone_number")
     relationship = request.form.get("relationship")
-    contact_name = request.form.get("contact_name")
+    contact_name = request.form.get("contact_name").capitalize()
 
     # if the contact is already in our database, will return True
     # import pdb; pdb.set_trace()
     check_contact_phone_number = Contact.query.filter(Contact.contact_phone_number == 
-                                                      contact_phone_number, Contact.user_id == 
+                                                      contact_phone_number, 
+                                                      Contact.user_id == 
                                                       current_user).first()
     # if above query returns None (i.e. username not in database)
     if not check_contact_phone_number:
@@ -184,6 +190,8 @@ def process_users_contact_info():
         flash("It looks like you've already added a contact with this phone number.")
         return redirect("/user-home")
 
+
+
 # add route for viewing contacts
 @app.route("/my-contacts")
 def display_users_contacts():
@@ -191,7 +199,8 @@ def display_users_contacts():
     current_user = session.get("user_id")
     users_contacts = Contact.query.filter(Contact.user_id == current_user).all()
 
-    return render_template("my-contacts.html", current_user=current_user, contacts=users_contacts)
+    return render_template("my-contacts.html", current_user=current_user, 
+                            contacts=users_contacts)
 
 # add route for viewing message
 # add route for editing message
@@ -268,22 +277,42 @@ def send_message():
     user_location = str([user_lat, user_lng])
 
     for contact in contacts:
-        message_results = send_message_to_recipients(contact.contact_phone_number, message.message)
+        message_results = send_message_to_recipients(contact.contact_phone_number, 
+                                                     message.message)
         # import pdb; pdb.set_trace()
-        new_sent_message = SentMessage(message_id=message.message_id, contact_id=contact.contact_id, 
-                                       date_created=message_results[1], message_sid=message_results[0],
-                                       error_code=message_results[2], latitude=user_lat, longitude=user_lng)
+        new_sent_message = SentMessage(user_id=current_user, 
+                                       message_id=message.message_id, 
+                                       contact_id=contact.contact_id, 
+                                       date_created=message_results[1], 
+                                       message_sid=message_results[0],
+                                       error_code=message_results[2], 
+                                       latitude=user_lat, 
+                                       longitude=user_lng)
         db.session.add(new_sent_message)
-
         print("\n\n\nMESSAGE SENT\n\n\n")
 
-        location_results = send_message_to_recipients(contact.contact_phone_number, user_location)
+        location_results = send_message_to_recipients(contact.contact_phone_number, 
+                                                      user_location)
         print("\n\n\nLOCATION SENT\n\n\n")
 
     db.session.commit()
 
     flash("Your message has been sent.")
     return jsonify({"success": "true"})
+
+
+
+@app.route("/map")
+def render_map():
+    """Render map with user's location"""
+
+    current_user = session.get("user_id")
+
+    current_location = SentMessage.query.filter(SentMessage.user_id==current_user)
+                                        /.order_by(SentMessage.date_created.desc()).first()
+
+    return render_template("map.html", key=GOOGLE_API_KEY, lat=current_location.latitude, 
+                           lng=current_location.longitude)
 
 
 if __name__ == "__main__":
