@@ -14,19 +14,16 @@
 
   <div id="map"></div>
   <script>
+    let myLatLng = {lat: 37.789, lng: -122.412};
     let map;
     function initMap() {
-
-      $.get("/map",
-            () => let myLatLng = {lat: 37.789, lng: -122.412};
-
       map = new google.maps.Map(document.getElementById("map"), {
         center: myLatLng,
         zoom: 14
       });
 
-      
-        
+      // $.get("/map",)
+
       let marker = new google.maps.Marker({
         position: myLatLng,
         map: map,

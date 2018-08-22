@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %} Humano | Edit Contact {% endblock %}
+
+{% block content %}
+
+<h2>
+    Edit {{ contact.contact_name }}'s info:
+</h2>
+
+<form action="/my-contacts/<contact_id>", method="POST">
+  Name:<br> 
+  <input 
+    type="text" 
+    name="contact_name" 
+    placeholder="{{ contact.contact_name}}" 
+    autofocus><br><br>
+  Phone Number:<br> 
+  <input 
+    type="number" 
+    maxlength="10" 
+    name="contact_phone_number" 
+    placeholder="{{ contact.contact_phone_number}}" 
+    required><br><br>
+  Relationship:<br> 
+  <input 
+    type="text" 
+    name="relationship"
+    placeholder="{{ contact.relationship}}"><br><br>
+  <button 
+    type="submit" 
+    class="btn">Update
+  </button>
+</form>
+
+
+{% endblock %}

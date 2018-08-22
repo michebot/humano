@@ -26,6 +26,7 @@ app.secret_key = os.environ['FLASK_SECRET_KEY']
 GOOGLE_API_KEY = os.environ["GOOGLE_API_KEY"]
 
 
+### HOMEPAGE ROUTE ###
 @app.route("/")
 def get_index():
     """Return homepage with login or sign up links"""
@@ -34,6 +35,7 @@ def get_index():
 
 
 
+### SIGN UP ROUTES ###
 @app.route("/sign-up", methods=["GET"])
 def register_user():
     """Render form for user sign up."""
@@ -73,6 +75,7 @@ def process_user_info():
 
 
 
+### LOGIN(OUT) ROUTES ###
 @app.route("/login", methods=["GET"])
 def login_user():
     """Renders form for user to login"""
@@ -107,7 +110,6 @@ def process_user_login():
             return redirect("/user-home")
 
 
-
 @app.route('/logout', methods=['GET'])
 def log_out():
     """Log user out."""
@@ -121,7 +123,7 @@ def log_out():
     return redirect("/")
 
 
-
+### USER HOMEPAGE ###
 @app.route("/user-home")
 def display_user_homepage():
     """Displays once user logins"""
@@ -139,6 +141,7 @@ def display_user_homepage():
 
 
 
+### USER CREATING PROFILE: ADDING/VIEWING/EDITING CONTACTS AND MESSAGE ###
 @app.route("/add-contact", methods=["GET"])
 def add_users_contact():
     """Renders form for user to add contacts"""
@@ -154,6 +157,7 @@ def add_users_contact():
     else:
         flash("Please Log In or Sign Up.")
         return redirect('/')
+
 
 @app.route("/add-contact", methods=["POST"])
 def process_users_contact_info():
@@ -192,20 +196,60 @@ def process_users_contact_info():
 
 
 
-# add route for viewing contacts
 @app.route("/my-contacts")
 def display_users_contacts():
     """Renders user's contacts"""
+
     current_user = session.get("user_id")
     users_contacts = Contact.query.filter(Contact.user_id == current_user).all()
 
     return render_template("my-contacts.html", current_user=current_user, 
                             contacts=users_contacts)
 
+
+@app.route("/my-contacts/<contact_id>", methods=["GET"])
+def edit_users_contact(contact_id):
+    """Allow user to edit their contact's information"""
+
+    current_user = session.get("user_id")
+
+    contact = Contact.query.get(int(contact_id))
+    # contact = Contact.query.filter(Contact.contact_id == contact_id).first()
+
+    return render_template("edit-contact.html", contact=contact)
+
+
+@app.route("/my-contacts/<contact_id>", methods=["POST"])
+def update_user_contact_info(contact_id):
+    """Update the user's contact information in the DB"""
+
+    # getting current user in session
+    current_user = session.get("user_id")
+
+    # contact object to edit
+    contact = Contact.query.get(int(contact_id))
+    # contact = Contact.query.filter(Contact.contact_id == contact_id).first()
+
+    # updated info
+    updated_contact_phone_number = request.form.get("contact_phone_number")
+    updated_relationship = request.form.get("relationship")
+    updated_contact_name = request.form.get("contact_name").capitalize()
+
+    if contact:
+        contact.contact_phone_number = updated_contact_phone_number
+        contact.relationship = updated_relationship
+        contact.contact_name = updated_contact_name
+
+        db.session.commit()
+        flash("Your contact has been updated.")
+
+        print("\n\n\nCONTACT EDITED\n\n\n")
+
+    return redirect("/user-home")
+
+
 # add route for viewing message
 # add route for editing message
-
-
 
 @app.route("/add-message", methods=["GET"])
 def add_users_message():
@@ -220,6 +264,7 @@ def add_users_message():
     else:
         flash("Please Log In or Sign Up.")
         return redirect('/')
+
 
 @app.route("/add-message", methods=["POST"])
 def process_users_message():
@@ -261,6 +306,7 @@ def process_users_message():
 
 
 
+### SENDING MESSAGE AND MAP ROUTES ###
 @app.route("/send-message.json", methods=["POST"])
 def send_message():
     """Processes button request to send messages to user's contacts"""
@@ -308,8 +354,8 @@ def render_map():
 
     current_user = session.get("user_id")
 
-    current_location = SentMessage.query.filter(SentMessage.user_id==current_user)
-                                        /.order_by(SentMessage.date_created.desc()).first()
+    current_location = SentMessage.query.filter(SentMessage.user_id==current_user)\
+                                        .order_by(SentMessage.date_created.desc()).first()
 
     return render_template("map.html", key=GOOGLE_API_KEY, lat=current_location.latitude, 
                            lng=current_location.longitude)
