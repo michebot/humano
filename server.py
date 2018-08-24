@@ -64,13 +64,18 @@ def process_user_info():
 
         db.session.add(new_user)
         db.session.commit()
-        flash("Welcome!")
+        flash("Welcome! Thanks for signing up!")
 
         print("\n\n\nUSER ADDED\n\n\n")
 
-        return redirect("/")
+        session["user_id"] = new_user.user_id
+
+        return redirect("/user-home")
 
     else:
+        flash("""Looks like this username is taken, please select a different 
+                 username. \n Or you might already have an 
+                 account with us! If so, please log in.""")
         return redirect("/")
 
 
@@ -117,7 +122,7 @@ def log_out():
     del session["user_id"] 
     # session["user_id"] = None
 
-    flash("You have been logged out.")
+    flash("You have been logged out. See you soon!")
     print("\n\n\nUSER LOGGED OUT\n\n\n")
 
     return redirect("/")
