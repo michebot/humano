@@ -1,6 +1,7 @@
-from server import app
+from server import app, example_data
 from unittest import TestCase
-from model import connect_to_db, example_data
+from model import connect_to_db, db
+from flask import session
 # import doctest
 
 
@@ -11,7 +12,7 @@ from model import connect_to_db, example_data
 #     return tests
 
 
-class RouteTestsLoggedOut(TestCase):
+class RouteTests(TestCase):
     """Route testing when a user is logged out."""
 
     def setUp(self):
@@ -20,7 +21,7 @@ class RouteTestsLoggedOut(TestCase):
         # Get the Flask test client
         self.client = app.test_client()
         app.config["TESTING"] = True
-        app.config["SECRET_KEY"] = ≈
+        app.config["SECRET_KEY"] = "key"
 
         # Connect to test DB
         connect_to_db(app, "postgresql:///testdb")
@@ -38,51 +39,71 @@ class RouteTestsLoggedOut(TestCase):
         """The sign up form renders"""
         result = self.client.get("/sign-up")
         self.assertIn(b"First Name", result.data)
-        pass
 
 
     def test_create_account_success(self):
         result = self.client.post("/sign-up",
-                                 data={username=username, 
-                                       first_name=first_name, 
-                                       last_name=last_name, 
-                                       email=email, 
-                                       password=password,
-                                       phone_number=phone_number},
+                                 data={"username": "marylamb", 
+                                       "first_name": "mary", 
+                                       "last_name": "lamb", 
+                                       "email": "mary@lamb.com", 
+                                       "password": "password",
+                                       "phone_number": "12345678901"},
                                  follow_redirects = True)
-        self.assertIn(b"Welcome! Thanks", result.data)
-        pass
+        self.assertIn(b"Log Out", result.data)
 
 
     def test_create_account_fail(self):
-        pass
+        result = self.client.post("/sign-up",
+                                 data={"username": "marylamb", 
+                                       "first_name": "mary", 
+                                       "last_name": "lamb", 
+                                       "email": "mary@lamb.com", 
+                                       "password": "password",
+                                       "phone_number": "12345678901"},
+                                 follow_redirects = True)
+        self.assertIn(b"Looks like this username is taken", result.data)
 
 
     def test_login_form(self):
         """The log in form renders"""
         result = self.client.get("/login")
-        self.assertIn()
+        self.assertIn(b"Log In", result.data)
         pass
 
 
     def test_login_nonexisting_username(self):
-        pass
+        result = self.client.post("/login",
+                                 data={"username": "gob",  
+                                       "password": "password"},
+                                 follow_redirects = True)
+        self.assertIn(b"Log In", result.data)
 
 
     def test_login_incorrect_password(self):
-        pass
+        result = self.client.post("/login",
+                                 data={"username": "marylamb",  
+                                       "password": "pass"},
+                                 follow_redirects = True)
+        self.assertIn(b"Username", result.data)
 
 
     def test_login_success(self):
-        pass
+        result = self.client.post("/login",
+                                 data={"username": "marylamb",  
+                                       "password": "password"},
+                                 follow_redirects = True)
+        self.assertIn(b"Welcome, Mary", result.data)
 
 
     def test_render_user_home(self):
-        pass
+        result = self.client.get("/user-home")
+        self.assertIn(b"Add Contact", result.data)
 
 
     def test_logout(self):
-        pass
+        result = self.client.get("/logout", follow_redirects = True)
+        self.assertIn(b"You have been logged out", result.data)
 
 
     def tearDown(self):
@@ -90,13 +111,8 @@ class RouteTestsLoggedOut(TestCase):
 
         db.session.close()
         db.drop_all()
-    
-
-# class TestSignUpProcess(TestCase):
-#     pass
 
 
-class RouteTestsLoggedIn(TestCase):
-    """"Route tests with user logged in to session."""
-
-    pass
+if __name__ == '__main__':
+    import unittest
+    unittest.main()

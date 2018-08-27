@@ -404,6 +404,28 @@ def obtain_users_coordinates():
 
 
 
+### HELPER FXs ###
+def example_data():
+    """Create some sample user data."""
+
+    User.query.delete()
+
+    mary = User(username="marylamb", first_name="Mary", last_name="Lamb", 
+                email="mary@lamb.com", password="password", phone_number="12345678901")
+    toby = User(username="tobesmagoats", first_name="Tobias", last_name="Funke", 
+                email="tobias@ad.com", password="password", phone_number="12345678902")
+
+    mary_contact = Contact(user_id=1, contact_name="Joseph", relationship="husband",
+                           contact_phone_number="17142091862")
+
+    toby_contact = Contact(user_id=2, contact_name="George Michael", 
+                           relationship="nephew", contact_phone_number="17142091862")
+
+    db.session.add_all([mary, toby])
+    db.session.commit()
+
+
+
 if __name__ == "__main__":
     # We have to set debug=True here, since it has to be True at the
     # point that we invoke the DebugToolbarExtension

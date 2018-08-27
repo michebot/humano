@@ -123,6 +123,33 @@ def connect_to_db(app, db_uri='postgresql:///humano'):
     db.init_app(app)
 
 
+    # def example_data():
+    # """Adding example to database."""
+
+    # chatroom = Chatroom(chatroom_id="1")
+
+    # user_1 = User(email="cat@cat.com",
+    #             password="4321",
+    #             fname="cat",
+    #             lname="cat",
+    #             language="en")
+
+    # user_2 = User(email="dog@dog.com",
+    #             password="4321",
+    #             fname="dog",
+    #             lname="dog",
+    #             language="zh-CN")
+
+    # message = Message(author_id="1", timestamp="08-08-2018",
+    #                   chatroom_id="1", text="What are you doing?")
+
+    # db.session.add(chatroom)
+    # db.session.add(user_1)
+    # db.session.add(user_2)
+    # db.session.add(message)
+    # db.session.commit()
+    
+
 if __name__ == "__main__":
     # As a convenience, if we run this module interactively, it will leave
     # you in a state of being able to work with the database directly.
