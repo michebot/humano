@@ -7,13 +7,13 @@
   {% if "user_id" in session %}
     <h2>
       Welcome, {{ user_name }}!
-    </h2>
+    </h2><br>
   {% endif %}
 
   <form>
     <input 
       id="add-contact" 
-      class="btn" 
+      class="btn1" 
       type="button" 
       value="Add Contact" 
       onclick="window.location.href='/add-contact'"/>
@@ -24,7 +24,7 @@
     <form>
       <input 
         id="view-contacts" 
-        class="btn" 
+        class="btn1" 
         type="button" 
         value="View Contacts" 
         onclick="window.location.href='/my-contacts'"/>
@@ -36,7 +36,7 @@
     <form>
       <input 
         id="view-message" 
-        class="btn" 
+        class="btn1" 
         type="button" 
         value="My Message" 
         onclick="window.location.href='/view-message'"/>
@@ -45,7 +45,7 @@
     <form>
       <input 
         id="add-message" 
-        class="btn" 
+        class="btn1" 
         type="button" 
         value="Add Message" 
         onclick="window.location.href='/add-message'"/>
@@ -55,26 +55,47 @@
   <!-- If the user has added their contacts and message, they can send their location to their contacts -->
   {% if message and contacts %}
     <button 
+      type="button"
       id="send-message-location" 
-      class="btn">SEND
+      class="btn1">SEND
     </button>
   {% endif %}
+
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true" data-keyboard="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Your message and location have been sent</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          Please remember:<br>
+          <ul>
+            <li> ICE can't come into your home without a warrant signed by a judge. They can only come in if you let them. Ask them to show you their warrant.
+            </li>
+            <li> If you wish to remain silent, say "I plead the fifth amendment and choose to remain silent."
+            </li>
+            <li> Write down everything you remember, the amount of agents, badge numbers, time, details about the car, and exactly what happened.
+            </li>
+            <li> Don't sign anything without a lawyer. Get a trustworthy attorney (ask for a list of free or low-cost lawyers) & explore all options to fight your case. Don't give up hope!
+            </li>
+          </ul>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <script type="text/javascript">
     // On click, this button will obtain the user's location and send the user's location and message to their contacts
     $("#send-message-location").on("click", function(evt){
       navigator.geolocation.getCurrentPosition(savePosition, errorHandler);
     });
-    
-    // // Get user's location
-    // function getLocation() {
-    //     if (navigator.geolocation) {
-    //         let location = navigator.geolocation.getCurrentPosition(savePosition, errorHandler)
-    //         return location;
-    //     } else { 
-    //         alert("Sorry, your browser does not support geolocation services.");
-    //     }
-    // }
 
     function savePosition(position) {
       let userLocation = {
@@ -84,7 +105,7 @@
 
       $.post("/send-message.json", 
              userLocation, 
-             () => alert("Your message and location has been sent"),
+             () => $('#exampleModalLong').modal('toggle'),
       );
     }
 
@@ -105,7 +126,6 @@
         break;
        }
     }
-
   </script>
 
 

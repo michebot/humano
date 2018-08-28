@@ -355,7 +355,11 @@ def send_message():
     user_lat = float(request.form.get("lat"))
     user_lng = float(request.form.get("lng"))
     user_location = str([user_lat, user_lng])
-    link = "https://www.google.com/maps/?q={lat},{lng}".format(lat=user_lat, lng=user_lng)
+    # link = "https://www.google.com/maps/?q={lat},{lng}".format(lat=user_lat, lng=user_lng)
+    # link = "http://localhost:5000/map/{user_id}?q={lat},{lng}".format(user_id=current_user,
+    #                                                                   lat=user_lat, 
+    #                                                                   lng=user_lng)
+    link = "http://localhost:5000/map/{user_id}".format(user_id=current_user)
 
     for contact in contacts:
         message_results = send_message_to_recipients(contact.contact_phone_number, 
@@ -384,21 +388,36 @@ def send_message():
 
 
 ### ROUTES TO RENDER MAP WITH USER'S LOCATION ###
-@app.route("/map")
-def render_map():
+# @app.route("/map")
+# def render_map():
+#     """Render map with user's location."""
+
+#     return render_template("map.html", key=GOOGLE_API_KEY)
+
+@app.route("/map/<user_id>")
+def render_map(user_id):
     """Render map with user's location."""
 
-    return render_template("map.html", key=GOOGLE_API_KEY)
+    # pass user id to map template
+    user_id = "user_id"
+
+
+    return render_template("map.html", key=GOOGLE_API_KEY, user_id=user_id)
 
 
 @app.route("/map-coordinates.json", methods=["GET"])
 def obtain_users_coordinates():
     """Obtain user's location from DB and send to front-end as a JSON"""
 
-    current_user = session.get("user_id")
+    # DEPRECATED: for when obtaining location from session
+    # current_user = session.get("user_id")
+
+    # obtain user_id from hidden inputs from map
+    current_user = request.args.get("user_id")
 
     current_location = SentMessage.query.filter(SentMessage.user_id==current_user)\
-                                        .order_by(SentMessage.date_created.desc()).first()
+                                        .order_by(SentMessage.date_created.desc())\
+                                        .first()
 
     return jsonify({"lat": current_location.latitude, "lng": current_location.longitude})
 

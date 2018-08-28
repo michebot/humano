@@ -1,8 +1,8 @@
 <head>
   <style type="text/css">
-  #map {
-    height: 75%
-  }
+    #map {
+      height: 75%
+    }
   </style>
 </head>
 
@@ -11,7 +11,9 @@
 {% block title %} Humano | Home {% endblock %}
 
 {% block content %}
-
+  
+  <!-- hidden input data payload -->
+  <!-- < type="hidden" name="userId" value="{{ user_id }}"> -->
   <div id="map"></div>
   <script>
     let myLatLng = {lat: -34, lng: 151};
@@ -26,13 +28,13 @@
       $.get("/map-coordinates.json",function(data){
         myLatLng = new google.maps.LatLng(data);
         map.setCenter(myLatLng); 
-        console.log(data);
-        console.log(myLatLng);
+        // console.log(data);
+        // console.log(myLatLng);
 
         let marker = new google.maps.Marker({
         position: myLatLng,
         map: map,
-        title: "Hey there"
+        title: "I'm here"
         });
       });
     }

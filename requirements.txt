@@ -8,10 +8,11 @@ Faker==0.8.17
 Flask==1.0.2
 Flask-DebugToolbar==0.10.1
 Flask-SQLAlchemy==2.3.2
-idna==2.7
+idna==2.5
 itsdangerous==0.24
 Jinja2==2.10
 MarkupSafe==1.0
+newsapi-python==0.2.3
 packaging==17.1
 pkg-resources==0.0.0
 psycopg2==2.7.5
@@ -20,10 +21,10 @@ pyparsing==2.2.0
 PySocks==1.6.8
 python-dateutil==2.7.3
 pytz==2018.5
-requests==2.19.1
+requests==2.17.1
 six==1.11.0
 SQLAlchemy==1.2.8
 text-unidecode==1.2
 twilio==6.16.0
-urllib3==1.23
+urllib3==1.21.1
 Werkzeug==0.14.1
