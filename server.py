@@ -351,7 +351,7 @@ def send_message():
     # will need to change this query to get the most up to date message (order by date)
     message = Message.query.filter(Message.user_id == current_user).first()
 
-    # getting user's location from front-end
+    # getting user's location from front-end in user-home.html
     user_lat = float(request.form.get("lat"))
     user_lng = float(request.form.get("lng"))
     user_location = str([user_lat, user_lng])
@@ -365,6 +365,7 @@ def send_message():
         message_results = send_message_to_recipients(contact.contact_phone_number, 
                                                      message.message)
         # import pdb; pdb.set_trace()
+        # create a new sent_message record
         new_sent_message = SentMessage(user_id=current_user, 
                                        message_id=message.message_id, 
                                        contact_id=contact.contact_id, 
@@ -382,7 +383,6 @@ def send_message():
 
     db.session.commit()
 
-    flash("Your message has been sent.")
     return jsonify({"success": "true"})
 
 
@@ -399,10 +399,10 @@ def render_map(user_id):
     """Render map with user's location."""
 
     # pass user id to map template
-    user_id = "user_id"
+    user_to_render_location_for = user_id
 
 
-    return render_template("map.html", key=GOOGLE_API_KEY, user_id=user_id)
+    return render_template("map.html", key=GOOGLE_API_KEY, user_id=user_to_render_location_for)
 
 
 @app.route("/map-coordinates.json", methods=["GET"])
