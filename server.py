@@ -12,6 +12,8 @@ from model import User, Contact, Message, SentMessage, connect_to_db, db
 
 from twilio_call import send_message_to_recipients
 
+from news import obtain_news
+
 import os
 
 app = Flask(__name__)
@@ -141,8 +143,10 @@ def display_user_homepage():
         user_name = user.first_name.capitalize()
         users_contacts = Contact.query.filter(Contact.user_id == current_user).all()
         users_message = Message.query.filter(Message.user_id == current_user).first()
-        return render_template("user-home.html", user_name=user_name, 
-                                contacts=users_contacts, message=users_message)
+        users_sent_message = SentMessage.query.filter(SentMessage.user_id == current_user).all()
+        return render_template("user-home.html", current_user=current_user, user_name=user_name, 
+                                contacts=users_contacts, message=users_message, 
+                                users_sent_message=users_sent_message)
     else:
         flash("Please Log In or Sign Up")
         return redirect('/')
@@ -388,12 +392,6 @@ def send_message():
 
 
 ### ROUTES TO RENDER MAP WITH USER'S LOCATION ###
-# @app.route("/map")
-# def render_map():
-#     """Render map with user's location."""
-
-#     return render_template("map.html", key=GOOGLE_API_KEY)
-
 @app.route("/map/<user_id>")
 def render_map(user_id):
     """Render map with user's location."""
@@ -420,6 +418,17 @@ def obtain_users_coordinates():
                                         .first()
 
     return jsonify({"lat": current_location.latitude, "lng": current_location.longitude})
+
+
+
+### ROUTES FOR NEWS ###
+@app.route("/news")
+def display_news():
+    """Render news on immigration"""
+
+
+
+    return render_template("news.html")
 
 
 

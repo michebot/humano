@@ -52,6 +52,18 @@
     </form>
   {% endif %}
 
+  <!-- if the user has sent their message and location -->
+  {% if users_sent_message %}
+    <form>
+      <input 
+        id="render-last-location" 
+        class="btn1" 
+        type="button" 
+        value="Last Location" 
+        onclick="window.location.href='/map/{{ current_user }}'"/>
+    </form>
+  {% endif %}
+
   <!-- If the user has added their contacts and message, they can send their location to their contacts -->
   {% if message and contacts %}
     <button 
