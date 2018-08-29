@@ -14,6 +14,8 @@ from twilio_call import send_message_to_recipients
 
 from news import obtain_news
 
+import bcrypt
+
 import os
 
 app = Flask(__name__)
@@ -58,10 +60,14 @@ def process_user_info():
     # if the username is already in our database, will return True
     # import pdb; pdb.set_trace()
     check_username = User.query.filter(User.username==username).first()
+
+    # hash passwords
+    hashed = bcrypt.hashpw(b"password", bcrypt.gensalt())
+
     # if above query returns None (i.e. username not in database)
     if not check_username:
         new_user = User(username=username, first_name=first_name, 
-                        last_name=last_name, email=email, password=password,
+                        last_name=last_name, email=email, password=hashed,
                         phone_number=phone_number)
 
         db.session.add(new_user)
@@ -428,17 +434,11 @@ def display_news():
 
     articles = obtain_news()
 
-    # for article in articles:
-    #     title = articles["title"]
-    #     publisher = articles["source"]["name"]
-    #     author = articles["author"]
-    #     date = articles["publishedAt"][:-10]
-    #     description = articles["description"]
-    #     url = articles["url"]
-    #     image_url = articles["urlToImage"]
-
-
     return render_template("news.html", articles=articles)
+
+
+
+### ROUTES FOR GOOGLE PLACES API - LAWYERS ###
 
 
 
