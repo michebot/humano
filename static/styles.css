@@ -53,3 +53,8 @@ a{
 #map {
     height: 75%
 }
+
+img.one {
+    height: 20%;
+    width: 20%;
+}

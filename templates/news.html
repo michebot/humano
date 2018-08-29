@@ -4,6 +4,28 @@
 
 {% block content %}
 
-
+  {% for article in articles %}
+    <img class="one" src="{{ article['urlToImage'] }}"><br>
+    <a href="{{ article['url'] }}">
+    <i>
+        {{ article["title"] }}
+    </i>
+    </a><br>
+    <b>
+      {{ article["source"]["name"] }} | {{ article["author"] }}
+    </b><br>
+    {{ article["publishedAt" ][:-10] }}<br>
+    {{ article["description"] }}<br><br>
+  {% endfor %}
 
 {% endblock %}
+
+
+<!--     {'source': 
+    {'id': 'the-verge', 'name': 'The Verge'}, 
+    'author': 'Adi Robertson', 
+    'title': 'Trump keeps threatening tech companies, but he’s terrible at following through', 
+    'description': 'The Trump administration has gone up against tech companies with harsh immigration limits and erratic trade policy. But his recent tirade against Google’s search results is a less-than-credible threat.', 
+    'url': 'https://www.theverge.com/2018/8/29/17791292/trump-tech-companies-threat-google-twitter-facebook', 
+    'urlToImage': 'https://cdn.vox-cdn.com/thumbor/0fr6Os0_zThjNqlLk2PXtLHQHEk=/0x0:3000x1571/fit-in/1200x630/cdn.vox-cdn.com/uploads/chorus_asset/file/12741297/1024850548.jpg.jpg', 
+    'publishedAt': '2018-08-29T16:45:26Z'}, -->

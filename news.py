@@ -24,6 +24,9 @@ def obtain_news():
     all_articles = news_api.get_everything(q="immigration",
                                            language='en',
                                            sort_by='relevancy',
-                                           page=2)
+                                           page=1)
 
-    return all_articles
+    return all_articles["articles"]
+
+
+

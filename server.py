@@ -424,11 +424,21 @@ def obtain_users_coordinates():
 ### ROUTES FOR NEWS ###
 @app.route("/news")
 def display_news():
-    """Render news on immigration"""
+    """Render news on immigration from News API"""
+
+    articles = obtain_news()
+
+    # for article in articles:
+    #     title = articles["title"]
+    #     publisher = articles["source"]["name"]
+    #     author = articles["author"]
+    #     date = articles["publishedAt"][:-10]
+    #     description = articles["description"]
+    #     url = articles["url"]
+    #     image_url = articles["urlToImage"]
 
 
-
-    return render_template("news.html")
+    return render_template("news.html", articles=articles)
 
 
 
