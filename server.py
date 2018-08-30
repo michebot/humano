@@ -23,11 +23,14 @@ app = Flask(__name__)
 app.jinja_env.undefined = StrictUndefined
 app.jinja_env.auto_reload = True
 
+
+### KEYS ###
 # Required to use Flask sessions and the debug toolbar
 app.secret_key = os.environ['FLASK_SECRET_KEY']
-
-# GOOGLE MAPS KEY
+# Google Maps Key
 GOOGLE_API_KEY = os.environ["GOOGLE_API_KEY"]
+# Google Places Key
+GOOGLE_PLACES_API_KEY = os.environ["GOOGLE_PLACES_API_KEY"]
 
 
 ### HOMEPAGE ROUTE ###
@@ -61,13 +64,15 @@ def process_user_info():
     # import pdb; pdb.set_trace()
     check_username = User.query.filter(User.username==username).first()
 
-    # hash passwords
-    hashed = bcrypt.hashpw(b"password", bcrypt.gensalt())
+    # hash password
+    b_password = password.encode('utf-8')
+    h_password = bcrypt.hashpw(b_password, bcrypt.gensalt())
 
     # if above query returns None (i.e. username not in database)
     if not check_username:
         new_user = User(username=username, first_name=first_name, 
-                        last_name=last_name, email=email, password=hashed,
+                        last_name=last_name, email=email, 
+                        password=h_password.decode('utf-8'),
                         phone_number=phone_number)
 
         db.session.add(new_user)
@@ -111,16 +116,22 @@ def process_user_login():
 
     # if user is found in db
     elif user is not None:
-        if user.password != password:
-            flash("Incorrect password, please try again.")
-            return redirect("/login")
 
-        elif username == user.username and password == user.password:
+        # if not bcrypt.checkpw(password.encode('utf-8'), user.password.encode('utf-8')):
+        #     flash("Incorrect password, please try again.")
+        #     return redirect("/login")
+
+        if username == user.username and bcrypt.checkpw(password.encode('utf-8'), user.password.encode('utf-8')):
             session["user_id"] = user.user_id
             flash("Welcome!")
 
             print("\n\n\nUSER LOGGED IN\n\n\n")
             return redirect("/user-home")
+
+        else:
+            flash("Incorrect password, please try again.")
+            return redirect("/login")
+
 
 
 @app.route('/logout', methods=['GET'])
@@ -349,7 +360,7 @@ def update_users_message():
 
 
 
-### SENDING MESSAGE ROUTES ###
+### SENDING MESSAGE ROUTES WITH TWILIO API ###
 @app.route("/send-message.json", methods=["POST"])
 def send_message():
     """Processes button request from user's homepage to send their message and 
@@ -439,6 +450,12 @@ def display_news():
 
 
 ### ROUTES FOR GOOGLE PLACES API - LAWYERS ###
+@app.route("/search_lawyers")
+def search_for_lawyers():
+    """Allow users to search for immigration lawyers using the google places API"""
+
+
+    return render_template("lawyer_search.html")
 
 
 
