@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %} Humano | Lawyers {% endblock %}
+
+{% block content %}
+
+  {{ results }}
+
+{% endblock %}
+
+
+<!-- {'html_attributions': [], 
+'next_page_token': 'CrQCLgEAAGd7kWNtzdGUBOgb9L4Y5lPxxpIR9D-pLWhcJJRvWH4ysiDPkXvAKOrFfC8pCxmIVAdkkeOH78RKj72M5zEjHykVc75DhIsCzdbrsb63VoQw46abEpZIYw9-D8R0CVfxwGsHEi6iyE4-0XTcITCyDL7qVIRJHSEeshLoroCdvy2Sth1jJ5gzExIjXD4ohu43hkhmvfRB8kj9LkU022kTwgyrhBAyrHfCOoYE7GhvTV3YYK4uZc04ZhXKn_QiOijs4E5uG-Vav3kzHfTb-ba0YmV8HciSw6d8u_RLL3m2llaidAhAyZlTWk2D6uX2mJ6muTOJgvH6rKzRg5BABsv37sU25twaNSz0X_qkIvZ-5yVWp_4stRCKBwvlG9WvjhlKjUTjYYRED_NPP07fHHF4O4ESEMLt48ciBztSFMbw69ngFOkaFBSL8tpmA5tfgsUEi7CXm-crLIZp', 
+'results': [{'formatted_address': '37600 Central Ct, Newark, CA 94560', 
+              'geometry': {'location': 
+                            {'lat': 37.521261, 
+                            'lng': -122.039472}, 
+              'viewport': 
+                          {'northeast': 
+                            {'lat': 37.52237587989272, 
+                            'lng': -122.0380019201073}, 
+                          'southwest': 
+                            {'lat': 37.51967622010728, 
+                            'lng': -122.0407015798927}}}, 
+              'icon': 'https://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png', 
+              'id': '3735b94f28fc7d91969eeba4b52bf170da6790b3', 
+              'name': 'Shah Peerally - Immigration Lawyer', 
+              'opening_hours': 
+                          {'open_now': False}, 
+              'photos': [{'height': 445, 'html_attributions': ['<a href="https://maps.google.com/maps/contrib/113595807478755593128/photos">Shah Peerally - Immigration Lawyer</a>'], 
+              'photo_reference': 'CmRaAAAA7QwGq8W87lgvR6UWF3AWH_JimWsH_k0UTRADibS8NW_w8bG8o4unMbWuCjdgk_RyOkiDU29G7drOKEwwdHAn87JADwpwoWYhGLuv9o2G7dHJVJxAztkidXItszD6XBoWEhA_KPyPdXulldykiu9wq8XqGhR1QN4ZbIDyoWTbjcRUOXsIR8v3GQ', 'width': 1366}], 
+              'place_id': 'ChIJf8NMat--j4ARhPzxQ8GuVqs', 
+              'plus_code': {'compound_code': 'GXC6+G6 Newark, California', 'global_code': '849VGXC6+G6'}, 'rating': 4.3, 'reference': 'CmRbAAAAfqPvaA3e6du6WpE9Z4_ePFBSlU6F8byeUQMdGKJM77A-KZkuAOZksY2myf4ouvNn-BveGkun-lvMOig_Ewl9qKAhwgraXlXVo0UnmfNnuRlJC59YsU3STLwiECMFXOBEEhDQdqp1F218sLx2YTmnme3QGhREGrg8rPE8UcBzxXnHWL6vBWVP_g', 
+              'types': ['lawyer', 'point_of_interest', 'establishment']}, 
+
+              {'formatted_address': '369 Pine St #725, San Francisco, CA 94104', 'geometry': {'location': {'lat': 37.7918345, 'lng': -122.4020345}, 'viewport': {'northeast': {'lat': 37.79325582989272, 'lng': -122.4007002201073}, 'southwest': {'lat': 37.79055617010728, 'lng': -122.4033998798927}}}, 'icon': 'https://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png', 'id': 'f161952f6cf685bf9ee65433d0105e4de4aeea57', 'name': 'Law Office of Amie D. Miller', 'opening_hours': {'open_now': False}, 'photos': [{'height': 1086, 'html_attributions': ['<a href="https://maps.google.com/maps/contrib/107152337747639214517/photos">Law Office of Amie D. Miller</a>'], 'photo_reference': 'CmRaAAAAz5brnTnC9VH1prK5a2h3RkMl1Sz5OwxlGbpfRzDWaZjaeIgcW3L0nIhv85H4-avIxs7xk8E0Gy5dpMmMbgeeVu7E-f20SgjkVvvfTZYX9U_nlqgWtG7Lq_qqPuT7TgNkEhD6FqX9Fs8LT8IcRI7m3EQYGhQ2tgFe7eJEKvJvf5XgqbTJ3SFJ1A', 'width': 1600}], 'place_id': 'ChIJlYUVA4qAhYAR3RkoQyiD1Nw', 'plus_code': {'compound_code': 'QHRX+P5 Financial District, San Francisco, CA', 'global_code': '849VQHRX+P5'}, 'rating': 4.8, 'reference': 'CmRbAAAAlXMr_IaHriyn3jCKc6GmLpcv4JT6nKhOMaYhsmNLxNiIHfQ_Jqp_K_A88TxMTCv7XQ_X1QfkFpy_vglcmuEAglbHn_of2609zuVDMhrLOfr_eMRPfsC7_-CTWgViBJ1TEhAsVcjP608NNxoRvyGac6jgGhTrh4gigtlUTaLXnNyHguNM0RREMg', 'types': ['lawyer', 'point_of_interest', 'establishment']}, {'formatted_address': '132 Coleridge St, San Francisco, CA 94110', 'geometry': {'location': {'lat': 37.7437989, 'lng': -122.4200694}, 'viewport': {'northeast': {'lat': 37.74508747989272, 'lng': -122.4185679701073}, 'southwest': {'lat': 37.74238782010728, 'lng': -122.4212676298927}}}, 'icon': 'https://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png', 'id': '50f251eafb775f963ad2728f9b74726c6265ef1d', 'name': 'Shah Peerally Law Firm, Immigration Lawyer, Immigration Law & Visa Attorney', 'opening_hours': {'open_now': False}, 'place_id': 'ChIJ8xlVNkN-j4ARdkhMuowLJHk', 'plus_code': {'compound_code': 'PHVH+GX Bernal Heights, San Francisco, CA', 'global_code': '849VPHVH+GX'}, 'rating': 1, 'reference': 'CmRbAAAA7ESN8p3QvnN8L-ZzH0hu7Hc0sxmiea2VmX_0SGpYFyIZLevEjFIr2jVLvO9s87YtrsDpljkkgh-lj1yyvrmfyuO-XxNMaSxpziQKI_CjJ8lxCg7fD0yofGv_AI_KABQEEhCbL5_xYfXMpyAprXfDTX4dGhStPyFOEQbIdhB02LzTtwPQtEQ3KQ', 'types': ['lawyer', 'point_of_interest', 'establishment']},  -->

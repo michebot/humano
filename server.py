@@ -8,29 +8,31 @@ from flask import (Flask, redirect, request, jsonify, render_template, flash,
 
 from flask_debugtoolbar import DebugToolbarExtension
 
+import os, bcrypt
+
 from model import User, Contact, Message, SentMessage, connect_to_db, db
 
-from twilio_call import send_message_to_recipients
 
-from news import obtain_news
-
-import bcrypt
-
-import os
 
 app = Flask(__name__)
-# look into what these are
 app.jinja_env.undefined = StrictUndefined
 app.jinja_env.auto_reload = True
+
+
+
+### IMPORTING API HELPER FXs ###
+from twilio_api_call import send_message_to_recipients
+from news_api_call import obtain_news
+from google_places_api_call import lawyer_search_google_api_call
+
 
 
 ### KEYS ###
 # Required to use Flask sessions and the debug toolbar
 app.secret_key = os.environ['FLASK_SECRET_KEY']
-# Google Maps Key
+# Google Maps JS API Key
 GOOGLE_API_KEY = os.environ["GOOGLE_API_KEY"]
-# Google Places Key
-GOOGLE_PLACES_API_KEY = os.environ["GOOGLE_PLACES_API_KEY"]
+
 
 
 ### HOMEPAGE ROUTE ###
@@ -64,14 +66,16 @@ def process_user_info():
     # import pdb; pdb.set_trace()
     check_username = User.query.filter(User.username==username).first()
 
-    # hash password
+    # salt and hash password
     b_password = password.encode('utf-8')
     h_password = bcrypt.hashpw(b_password, bcrypt.gensalt())
 
     # if above query returns None (i.e. username not in database)
     if not check_username:
-        new_user = User(username=username, first_name=first_name, 
-                        last_name=last_name, email=email, 
+        new_user = User(username=username, 
+                        first_name=first_name, 
+                        last_name=last_name, 
+                        email=email, 
                         password=h_password.decode('utf-8'),
                         phone_number=phone_number)
 
@@ -100,6 +104,7 @@ def login_user():
 
     return render_template("login.html")
 
+
 @app.route("/login", methods=["POST"])
 def process_user_login():
     """Gets user's login info and renders user homepage"""
@@ -114,24 +119,23 @@ def process_user_login():
         flash("We couldn't find this username. Please try again or Sign Up.")
         return redirect("/")
 
-    # if user is found in db
-    elif user is not None:
+    # user exists
+    elif user:
 
         # if not bcrypt.checkpw(password.encode('utf-8'), user.password.encode('utf-8')):
         #     flash("Incorrect password, please try again.")
         #     return redirect("/login")
 
-        if username == user.username and bcrypt.checkpw(password.encode('utf-8'), user.password.encode('utf-8')):
+        if username == user.username and bcrypt.checkpw(password.encode('utf-8'), 
+                                                        user.password.encode('utf-8')):
             session["user_id"] = user.user_id
             flash("Welcome!")
-
             print("\n\n\nUSER LOGGED IN\n\n\n")
             return redirect("/user-home")
 
         else:
             flash("Incorrect password, please try again.")
             return redirect("/login")
-
 
 
 @app.route('/logout', methods=['GET'])
@@ -416,6 +420,8 @@ def render_map(user_id):
     # pass user id to map template
     user_to_render_location_for = user_id
 
+    # query for user object to render "User's location" on template
+
 
     return render_template("map.html", key=GOOGLE_API_KEY, user_id=user_to_render_location_for)
 
@@ -452,16 +458,18 @@ def display_news():
 ### ROUTES FOR GOOGLE PLACES API - LAWYERS ###
 @app.route("/search_lawyers")
 def search_for_lawyers():
-    """Allow users to search for immigration lawyers using the google places API"""
+    """Allow users to search for immigration lawyers using the Google Places API"""
 
+    search_results = lawyer_search_google_api_call()
 
-    return render_template("lawyer_search.html")
+    return render_template("lawyer-search.html", results=search_results)
 
 
 
 ### HELPER FXs ###
+
 def example_data():
-    """Create some sample user data."""
+    """Mock user and contact data for testing."""
 
     User.query.delete()
 
