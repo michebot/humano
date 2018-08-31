@@ -24,6 +24,7 @@ app.jinja_env.auto_reload = True
 from twilio_api_call import send_message_to_recipients
 from news_api_call import obtain_news
 from google_places_api_call import lawyer_search_google_api_call
+from google_place_details_api_call import lawyer_details_api_call
 
 
 
@@ -455,14 +456,26 @@ def display_news():
 
 
 
-### ROUTES FOR GOOGLE PLACES API - LAWYERS ###
+### ROUTES FOR GOOGLE PLACES and GOOGLE DETAILS API - LAWYERS ###
 @app.route("/search_lawyers")
 def search_for_lawyers():
     """Allow users to search for immigration lawyers using the Google Places API"""
 
     search_results = lawyer_search_google_api_call()
 
-    return render_template("lawyer-search.html", results=search_results)
+    next_page_token = search_results["next_page_token"]
+
+    return render_template("lawyer-search.html", results=search_results["results"],
+                                                 next_page_token=next_page_token)
+
+
+@app.route("/search_lawyers/<place_id>")
+def search_for_lawyer_details(place_id):
+    """Call the Google Details API to obtain a lawyer's details"""
+
+    search_details = lawyer_details_api_call(place_id)
+
+    return render_template("lawyer-details.html", result=search_details["result"])
 
 
 

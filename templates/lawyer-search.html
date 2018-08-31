@@ -4,7 +4,15 @@
 
 {% block content %}
 
-  {{ results }}
+  {{ next_page_token }}<br><br>
+
+  {% for result in results %}
+
+    <a href="/search_lawyers/{{ result['place_id'] }}">{{ result["name"] }}</a><br>
+    Rating: {{ result["rating"] }}<br>
+    {{ result["formatted_address"] }}<br><br>
+
+  {% endfor %}
 
 {% endblock %}
 
@@ -14,14 +22,19 @@
 'results': [{'formatted_address': '37600 Central Ct, Newark, CA 94560', 
               'geometry': {'location': 
                             {'lat': 37.521261, 
-                            'lng': -122.039472}, 
-              'viewport': 
-                          {'northeast': 
-                            {'lat': 37.52237587989272, 
-                            'lng': -122.0380019201073}, 
-                          'southwest': 
-                            {'lat': 37.51967622010728, 
-                            'lng': -122.0407015798927}}}, 
+                            'lng': -122.039472
+                            }, 
+                          'viewport': 
+                            {'northeast': 
+                              {'lat': 37.52237587989272, 
+                              'lng': -122.0380019201073
+                              }, 
+                            'southwest': 
+                              {'lat': 37.51967622010728, 
+                              'lng': -122.0407015798927
+                              }
+                            }
+                          }, 
               'icon': 'https://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png', 
               'id': '3735b94f28fc7d91969eeba4b52bf170da6790b3', 
               'name': 'Shah Peerally - Immigration Lawyer', 
