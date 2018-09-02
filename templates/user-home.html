@@ -48,6 +48,16 @@
 
   <!-- if the user has sent their message and location -->
   {% if users_sent_message %}
+
+    <form>
+      <input 
+        id="render-sent-messages" 
+        class="btn1" 
+        type="button" 
+        value="Sent Messages" 
+        onclick="window.location.href='/sent-messages'"/>
+    </form>
+
     <form>
       <input
         id="render-last-location"

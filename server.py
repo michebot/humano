@@ -224,7 +224,7 @@ def process_users_contact_info():
 
         print("\n\n\nCONTACT ADDED\n\n\n")
 
-        return redirect("/user-home")
+        return redirect("/my-contacts")
 
     else:
         flash("It looks like you've already added a contact with this phone number.")
@@ -256,7 +256,7 @@ def edit_users_contact(contact_id):
 
 @app.route("/my-contacts/edit-<contact_id>", methods=["POST"])
 def update_user_contact_info(contact_id):
-    """Update the user's contact information in the DB"""
+    """Update the user's contact information in DB"""
 
     # getting current user in session
     current_user = session.get("user_id")
@@ -280,7 +280,28 @@ def update_user_contact_info(contact_id):
 
         print("\n\n\nCONTACT EDITED\n\n\n")
 
-    return redirect("/user-home")
+    return redirect("/my-contacts")
+
+
+
+@app.route("/my-contacts/delete-<contact_id>", methods=["POST"])
+def delete_users_contact(contact_id):
+    """Delete a user's contact from DB"""
+
+    #getting current user in session
+    current_user = session.get("user_id")
+
+    # contact object to edit
+    contact = Contact.query.get(int(contact_id))
+
+    db.session.delete(contact)
+    db.session.commit()
+    
+    flash("Your contact has been deleted.")
+
+    print("\n\n\nCONTACT DELETED\n\n\n")
+
+    return redirect("/my-contacts")
 
 
 
@@ -341,7 +362,7 @@ def edit_users_message():
 
     return render_template("edit-message.html", old_message=old_message)
 
-
+# TODO: CHANGE ME TO ADD A RECORD WHEN A USER UPDATES THEIR MESSAGE
 @app.route("/edit-message", methods=["POST"])
 def update_users_message():
     """Update the user's message"""
@@ -365,6 +386,33 @@ def update_users_message():
 
 
 
+@app.route("/sent-messages")
+def view_sent_messages():
+    """Allows a user to see when they have sent a message and to how many
+       contacts"""
+
+    # obtain current user in session
+    current_user = session.get("user_id")
+
+    # query for timestamps of sent messages
+    sent_messages_obj_list = SentMessage.query.filter(SentMessage.user_id==
+                                                      current_user)\
+                                              .order_by(SentMessage.date_created\
+                                              .desc())\
+                                              .all()
+
+    # query for message content
+    message_content = Message.query.filter()
+
+    # db.session query where i only get the dates created and count those
+    dates_created_obj_list = db.session.query(SentMessage.date_created)
+
+
+    return render_template("sent-messages.html", 
+                            sent_messages=sent_messages_obj_list)
+
+
+
 ### SENDING MESSAGE ROUTES WITH TWILIO API ###
 @app.route("/send-message.json", methods=["POST"])
 def send_message():
@@ -375,7 +423,8 @@ def send_message():
     current_user = session.get("user_id")
     contacts = Contact.query.filter(Contact.user_id == current_user).all()
     # will need to change this query to get the most up to date message (order by date)
-    message = Message.query.filter(Message.user_id == current_user).first()
+    message = Message.query.filter(Message.user_id == current_user)\
+                           .order_by(Message.message_id.desc()).first()
 
     # getting user's location from front-end in user-home.html
     user_lat = float(request.form.get("lat"))
@@ -386,6 +435,7 @@ def send_message():
     #                                                                   lat=user_lat, 
     #                                                                   lng=user_lng)
     link = "http://localhost:5000/map/{user_id}".format(user_id=current_user)
+
 
     for contact in contacts:
         message_results = send_message_to_recipients(contact.contact_phone_number, 
@@ -407,6 +457,11 @@ def send_message():
                                                       link)
         print("\n\n\nLOCATION SENT\n\n\n")
 
+    db.session.commit()
+
+    # creating a new instance of the message since prior message has been sent
+    new_message = Message(user_id=current_user, message=message.message)
+    db.session.add(new_message)
     db.session.commit()
 
     return jsonify({"success": "true"})

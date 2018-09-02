@@ -7,7 +7,13 @@
   <h2>Edit my message:</h2>
 
     <form action="/edit-message", method="POST">
-      <textarea name="message" rows="6" cols="100" placeholder="{{ old_message.message }}" maxlength="1600" autofocus required></textarea><br>
+      <textarea 
+        name="message" 
+        rows="6" 
+        cols="100" 
+        value="{{ old_message.message }}" 
+        maxlength="1600" autofocus required>
+      </textarea><br>
       <button 
         type="submit" 
         class="btn1">Update

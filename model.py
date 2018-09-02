@@ -63,6 +63,8 @@ class Contact(db.Model):
     contact_phone_number = db.Column(db.String(20), nullable=False)
     relationship = db.Column(db.String(20), nullable=True)
     contact_name = db.Column(db.String(25), nullable=True)
+    # TODO: add a column for a flag of "in use"/"not in use" instead of deleting
+    # the contacts record
 
     # defining relationships
     user = db.relationship("User", backref="contacts")
@@ -109,6 +111,13 @@ class SentMessage(db.Model):
             self.message_sid, self.error_code, self.latitude, self.longitude)
 
 
+# class SavedInformation(db.Model):
+#     """Lawyers of Articles a user has saved"""
+
+
+#     pass
+
+
 ##############################################################################
 # Helper functions
 
@@ -121,7 +130,7 @@ def connect_to_db(app, db_uri='postgresql:///humano'):
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db.app = app
     db.init_app(app)
-    db.create_all()
+    # db.create_all()
     
 
 if __name__ == "__main__":
