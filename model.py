@@ -63,6 +63,7 @@ class Contact(db.Model):
     contact_phone_number = db.Column(db.String(20), nullable=False)
     relationship = db.Column(db.String(20), nullable=True)
     contact_name = db.Column(db.String(25), nullable=True)
+    status = db.Column(db.String(30), nullable=True)
     # TODO: add a column for a flag of "in use"/"not in use" instead of deleting
     # the contacts record
 

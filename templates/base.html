@@ -36,16 +36,6 @@
     </div>
 </div>
 
-  {% with messages = get_flashed_messages() %}
-    {% if messages %}
-
-      {% for message in messages %}
-          {{ message }}
-      {% endfor %}
-
-    {% endif %}
-  {% endwith %}
-
 <div class="container-fluid">
     <div class="row">
         <!-- Start App Navigation -->
@@ -70,6 +60,17 @@
             <!-- End App Navigation -->
         </div>
         <div class="col-8">
+
+          {% with messages = get_flashed_messages() %}
+            {% if messages %}
+
+              {% for message in messages %}
+                  {{ message }}
+              {% endfor %}
+
+            {% endif %}
+          {% endwith %}
+
             {% block content %}BODY CONTENT GOES HERE{% endblock %}
         </div>
     </div>

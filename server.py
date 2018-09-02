@@ -216,7 +216,8 @@ def process_users_contact_info():
     if not check_contact_phone_number:
         new_contact = Contact(user_id=current_user, contact_name=contact_name, 
                               relationship=relationship,
-                              contact_phone_number=contact_phone_number)
+                              contact_phone_number=contact_phone_number,
+                              status="Active")
 
         db.session.add(new_contact)
         db.session.commit()
@@ -236,7 +237,8 @@ def display_users_contacts():
     """Renders user's contacts"""
 
     current_user = session.get("user_id")
-    users_contacts = Contact.query.filter(Contact.user_id == current_user).all()
+    users_contacts = Contact.query.filter((Contact.user_id == current_user) & 
+                                          (Contact.status =="Active")).all()
 
     return render_template("my-contacts.html", current_user=current_user, 
                             contacts=users_contacts)
@@ -294,12 +296,13 @@ def delete_users_contact(contact_id):
     # contact object to edit
     contact = Contact.query.get(int(contact_id))
 
-    db.session.delete(contact)
+    # db.session.delete(contact)
+    contact.status = "Inactive"
     db.session.commit()
     
     flash("Your contact has been deleted.")
 
-    print("\n\n\nCONTACT DELETED\n\n\n")
+    print("\n\n\nCONTACT STATUS CHANGED\n\n\n")
 
     return redirect("/my-contacts")
 
@@ -421,8 +424,9 @@ def send_message():
 
     # getting current user in session
     current_user = session.get("user_id")
-    contacts = Contact.query.filter(Contact.user_id == current_user).all()
-    # will need to change this query to get the most up to date message (order by date)
+    contacts = Contact.query.filter((Contact.user_id == current_user) & 
+                                    (Contact.status =="Active")).all()
+    # will need to change this query to get the most up to date message (order by )
     message = Message.query.filter(Message.user_id == current_user)\
                            .order_by(Message.message_id.desc()).first()
 
