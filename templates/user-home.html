@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+
+{% block title %} Humano | Home {% endblock %}
+
+{% block content %}
+
+  {% if "user_id" in session %}
+    <h2>
+      Welcome, {{ user_name }}!
+    </h2><br>
+  {% endif %}
+
+  <form>
+    <input 
+      id="add-contact" 
+      class="btn1" 
+      type="button" 
+      value="Add Contact" 
+      onclick="window.location.href='/add-contact'"/>
+  </form>
+  
+  <!-- If the user has a contact, display view-contacts link -->
+  {% if contacts %}
+    <form>
+      <input 
+        id="view-contacts" 
+        class="btn1" 
+        type="button" 
+        value="View Contacts" 
+        onclick="window.location.href='/my-contacts'"/>
+    </form>
+  {% endif %}
+
+  <!-- If the user has a message, show 'edit message' link -->
+  {% if message %}
+    <form>
+      <input 
+        id="view-message" 
+        class="btn1" 
+        type="button" 
+        value="My Message" 
+        onclick="window.location.href='/view-message'"/>
+    </form><br>
+  {% else %}
+    <form>
+      <input 
+        id="add-message" 
+        class="btn1" 
+        type="button" 
+        value="Add Message" 
+        onclick="window.location.href='/add-message'"/>
+    </form>
+  {% endif %}
+
+  <!-- if the user has sent their message and location -->
+  {% if users_sent_message %}
+    <form>
+      <input 
+        id="render-last-location" 
+        class="btn1" 
+        type="button" 
+        value="Last Location" 
+        onclick="window.location.href='/map/{{ current_user }}'"/>
+    </form>
+  {% endif %}
+
+  <!-- If the user has added their contacts and message, they can send their location to their contacts -->
+  {% if message and contacts %}
+    <button 
+      type="button"
+      id="send-message-location" 
+      class="btn1">SEND
+    </button>
+  {% endif %}
+
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true" data-keyboard="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Your message and location have been sent</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          Please remember:<br>
+          <ul>
+            <li> ICE can't come into your home without a warrant signed by a judge. They can only come in if you let them. Ask them to show you their warrant.
+            </li>
+            <li> If you wish to remain silent, say "I plead the fifth amendment and choose to remain silent."
+            </li>
+            <li> Write down everything you remember, the amount of agents, badge numbers, time, details about the car, and exactly what happened.
+            </li>
+            <li> Don't sign anything without a lawyer. Get a trustworthy attorney (ask for a list of free or low-cost lawyers) & explore all options to fight your case. Don't give up hope!
+            </li>
+          </ul>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    // On click, this button will obtain the user's location and send the user's location and message to their contacts
+    $("#send-message-location").on("click", function(evt){
+      navigator.geolocation.getCurrentPosition(savePosition, errorHandler);
+    });
+
+    function savePosition(position) {
+      let userLocation = {
+          "lat": position.coords.latitude,
+          "lng": position.coords.longitude,
+      };
+
+      $.post("/send-message.json", 
+             userLocation, 
+             () => $('#exampleModalLong').modal('toggle'),
+      );
+    }
+
+   // Report errors to user
+    function errorHandler(error) {
+     switch (error.code) {
+      case error.PERMISSION_DENIED:
+        alert("Could not get position as permission was denied.");
+        break;
+      case error.POSITION_UNAVAILABLE:
+        alert("Could not get position as this information is not available at this time.");
+        break;
+       case error.TIMEOUT:
+         alert("Attempt to get position timed out.");
+        break;
+       default:
+        alert("Sorry, an error occurred. Code: " + error.code + " Message: " + error.message);
+        break;
+       }
+    }
+  </script>
+
+
+{% endblock %}
