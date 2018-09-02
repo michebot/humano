@@ -8,7 +8,6 @@ html {
 body {
     height: 100%;
     width: 100%;
-    margin: 5 auto;
     overflow: auto;
 }
 
@@ -57,4 +56,16 @@ a{
 img.one {
     height: 20%;
     width: 20%;
+}
+
+
+/* Navigation */
+
+navbar-nav {
+    display: block;
+}
+
+.nav-item {
+    display:inline-block;
+    float:left;
 }

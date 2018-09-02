@@ -4,29 +4,23 @@
 
 {% block content %}
 
-  {% if "user_id" in session %}
-    <h2>
-      Welcome, {{ user_name }}!
-    </h2><br>
-  {% endif %}
-
   <form>
-    <input 
-      id="add-contact" 
-      class="btn1" 
-      type="button" 
-      value="Add Contact" 
+    <input
+      id="add-contact"
+      class="btn1"
+      type="button"
+      value="Add Contact"
       onclick="window.location.href='/add-contact'"/>
   </form>
-  
+
   <!-- If the user has a contact, display view-contacts link -->
   {% if contacts %}
     <form>
-      <input 
-        id="view-contacts" 
-        class="btn1" 
-        type="button" 
-        value="View Contacts" 
+      <input
+        id="view-contacts"
+        class="btn1"
+        type="button"
+        value="View Contacts"
         onclick="window.location.href='/my-contacts'"/>
     </form>
   {% endif %}
@@ -34,20 +28,20 @@
   <!-- If the user has a message, show 'edit message' link -->
   {% if message %}
     <form>
-      <input 
-        id="view-message" 
-        class="btn1" 
-        type="button" 
-        value="My Message" 
+      <input
+        id="view-message"
+        class="btn1"
+        type="button"
+        value="My Message"
         onclick="window.location.href='/view-message'"/>
     </form><br>
   {% else %}
     <form>
-      <input 
-        id="add-message" 
-        class="btn1" 
-        type="button" 
-        value="Add Message" 
+      <input
+        id="add-message"
+        class="btn1"
+        type="button"
+        value="Add Message"
         onclick="window.location.href='/add-message'"/>
     </form>
   {% endif %}
@@ -56,29 +50,29 @@
   {% if users_sent_message %}
 
     <form>
-      <input 
-        id="render-sent-messages" 
-        class="btn1" 
-        type="button" 
-        value="Sent Messages" 
+      <input
+        id="render-sent-messages"
+        class="btn1"
+        type="button"
+        value="Sent Messages"
         onclick="window.location.href='/sent-messages'"/>
     </form>
 
     <form>
-      <input 
-        id="render-last-location" 
-        class="btn1" 
-        type="button" 
-        value="Last Location" 
+      <input
+        id="render-last-location"
+        class="btn1"
+        type="button"
+        value="Last Location"
         onclick="window.location.href='/map/{{ current_user }}'"/>
     </form>
   {% endif %}
 
   <!-- If the user has added their contacts and message, they can send their location to their contacts -->
   {% if message and contacts %}
-    <button 
+    <button
       type="button"
-      id="send-message-location" 
+      id="send-message-location"
       class="btn1">SEND
     </button>
   {% endif %}
@@ -125,8 +119,8 @@
           "lng": position.coords.longitude,
       };
 
-      $.post("/send-message.json", 
-             userLocation, 
+      $.post("/send-message.json",
+             userLocation,
              () => $('#exampleModalLong').modal('toggle'),
       );
     }
