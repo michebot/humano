@@ -9,12 +9,6 @@
 <body>
 
   {% if "user_id" in session %}
-<!--     <form>
-      <input id="logOut" class="btn" type="button" value="Log Out" onclick="window.location.href='/logout'" />
-    </form>
-    <form>
-      <input id="home" class="btn" type="button" value="Home" onclick="window.location.href='/user-home'" />
-    </form> -->
     <a href="/logout">Log Out |</a>
     <a href="/user-home">Home |</a>
     <a href="/news">News |</a>
@@ -33,7 +27,19 @@
     {% endif %}
   {% endwith %}
 
-  <h1><a href="/">Humano</a></h1>
+  {% if "user_id" in session %}
+    <h1>
+      <a 
+        href="/user-home">Humano
+      </a>
+    </h1>
+  {% else %}
+    <h1>
+      <a 
+        href="/">Humano
+      </a>
+    </h1>
+  {% endif %}
 
 <!-- started the route for the message button -->
 <!--     <form action="/send-message", method="POST">
