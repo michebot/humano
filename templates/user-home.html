@@ -4,14 +4,41 @@
 
 {% block content %}
 
-  <form>
+<!--   <form>
     <input
       id="add-contact"
       class="btn1"
       type="button"
       value="Add Contact"
       onclick="window.location.href='/add-contact'"/>
-  </form>
+  </form> -->
+
+
+  <!-- Button trigger for Add Contact modal -->
+  <button type="button" id="add-contact" class="btn1" data-toggle="modal" data-target="#exampleModal">Add Contact</button>
+
+<!-- Modal for Add Contact Form -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Add a contact:</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          {% include "add-contact.html" %}
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary cancel" data-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-secondary save" data-dismiss="modal">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
 
   <!-- If the user has a contact, display view-contacts link -->
   {% if contacts %}
@@ -48,7 +75,6 @@
 
   <!-- if the user has sent their message and location -->
   {% if users_sent_message %}
-
     <form>
       <input
         id="render-sent-messages"
@@ -57,7 +83,6 @@
         value="Sent Messages"
         onclick="window.location.href='/sent-messages'"/>
     </form>
-
     <form>
       <input
         id="render-last-location"
