@@ -4,9 +4,9 @@
 
 {% block content %}
 
-  <h2>Edit my message:</h2>
+<!-- Begin Old Form -->
 
-    <form action="/edit-message", method="POST">
+    <!-- <form action="/edit-message", method="POST">
       <textarea
         name="message"
         rows="6"
@@ -24,24 +24,39 @@
         type="button"
         value="Cancel"
         onclick="window.location.href='/user-home'"/>
-    </form>
+    </form> -->
 
+<!-- End Old Form -->
 
+<!-- Begin New Form -->
 
-    <form action="/edit-message", method="POST">
-      <div class="form-group">
-        <label for="exampleFormControlTextarea1">Edit message</label>
-        <textarea
-        class="form-control"
-        id="exampleFormControlTextarea1"
-        rows="3
-        name="message"
-        rows="6"
-        cols="100"
-        value="{{ old_message.message }}"
-        maxlength="1600" autofocus required">
-        </textarea>
-      </div>
-    </form>
+<form action="/edit-message", method="POST">
+  <div class="form-group">
+    <label>Edit message</label>
+    <textarea
+    class="form-control"
+    id="exampleFormControlTextarea1"
+    rows="3"
+    name="message"
+    rows="6"
+    cols="100"
+    value="{{ old_message.message }}"
+    maxlength="1600" autofocus required">
+    </textarea>
+    <small class="form-text text-muted">
+      Your password must be 8-20 characters long, contain letters and numbers, and must not contain spaces, special characters, or emoji.
+    </small>
+    <button
+      type="submit"
+      class="btn1">Update
+    </button>
+    <input
+      id="cancel"
+      class="btn1"
+      type="button"
+      value="Cancel"
+      onclick="window.location.href='/user-home'"/>
+  </div>
+</form>
 
 {% endblock %}
