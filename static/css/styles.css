@@ -98,7 +98,7 @@ img.one {
 
 .nav-link:hover {
     color: #A8855D;
-    font-weight: 600;
+    opacity: .3;
 }
 .send-button {
     background-color: #A8855D;
