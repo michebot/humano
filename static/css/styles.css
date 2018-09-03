@@ -12,11 +12,10 @@ body {
 }
 
 h1 {
-    color: #FBF7F5;
+    color: #A8855D;
     text-align: center;
-    font-size: 22px;
-    font-weight: 700;
-    margin-top: 75px;
+    font-size: 25px;
+    font-weight: 400;
 }
 
 h1 a{
@@ -120,6 +119,16 @@ li.nav-item a.nav-link.active:before {
 li:not(.active):before {
  content: "• "; /*don't miss the space*/
  visibility: hidden;
+}
+
+/* User Home */
+.card {
+    background-color: #FBF7F5;
+    -webkit-box-shadow: 0 4px 6px rgba(50,50,93,.11), 0 1px 3px rgba(0,0,0,.08);
+    box-shadow: 0 4px 6px rgba(50,50,93,.11), 0 1px 3px rgba(0,0,0,.08);
+}
+.welcome {
+    margin: 2rem;
 }
 
 /* Making life easier */
