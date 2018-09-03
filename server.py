@@ -3,7 +3,7 @@
 
 from jinja2 import StrictUndefined
 
-from flask import (Flask, redirect, request, jsonify, render_template, flash, 
+from flask import (Flask, redirect, request, jsonify, render_template, flash,
                    session)
 
 from flask_debugtoolbar import DebugToolbarExtension
@@ -73,10 +73,10 @@ def process_user_info():
 
     # if above query returns None (i.e. username not in database)
     if not check_username:
-        new_user = User(username=username, 
-                        first_name=first_name, 
-                        last_name=last_name, 
-                        email=email, 
+        new_user = User(username=username,
+                        first_name=first_name,
+                        last_name=last_name,
+                        email=email,
                         password=h_password.decode('utf-8'),
                         phone_number=phone_number)
 
@@ -91,8 +91,8 @@ def process_user_info():
         return redirect("/user-home")
 
     else:
-        flash("""Looks like this username is taken, please select a different 
-                 username. \n Or you might already have an 
+        flash("""Looks like this username is taken, please select a different
+                 username. \n Or you might already have an
                  account with us! If so, please log in.""")
         return redirect("/")
 
@@ -127,7 +127,7 @@ def process_user_login():
         #     flash("Incorrect password, please try again.")
         #     return redirect("/login")
 
-        if username == user.username and bcrypt.checkpw(password.encode('utf-8'), 
+        if username == user.username and bcrypt.checkpw(password.encode('utf-8'),
                                                         user.password.encode('utf-8')):
             session["user_id"] = user.user_id
             flash("Welcome!")
@@ -143,7 +143,7 @@ def process_user_login():
 def log_out():
     """Log user out."""
 
-    del session["user_id"] 
+    del session["user_id"]
     # session["user_id"] = None
 
     flash("You have been logged out. See you soon!")
@@ -166,8 +166,8 @@ def display_user_homepage():
         users_contacts = Contact.query.filter(Contact.user_id == current_user).all()
         users_message = Message.query.filter(Message.user_id == current_user).first()
         users_sent_message = SentMessage.query.filter(SentMessage.user_id == current_user).all()
-        return render_template("user-home.html", current_user=current_user, user_name=user_name, 
-                                contacts=users_contacts, message=users_message, 
+        return render_template("user-home.html", current_user=current_user, user_name=user_name,
+                                contacts=users_contacts, message=users_message,
                                 users_sent_message=users_sent_message)
     else:
         flash("Please Log In or Sign Up")
@@ -208,13 +208,13 @@ def process_users_contact_info():
 
     # if the contact is already in our database, will return True
     # import pdb; pdb.set_trace()
-    check_contact_phone_number = Contact.query.filter(Contact.contact_phone_number == 
-                                                      contact_phone_number, 
-                                                      Contact.user_id == 
+    check_contact_phone_number = Contact.query.filter(Contact.contact_phone_number ==
+                                                      contact_phone_number,
+                                                      Contact.user_id ==
                                                       current_user).first()
     # if above query returns None (i.e. username not in database)
     if not check_contact_phone_number:
-        new_contact = Contact(user_id=current_user, contact_name=contact_name, 
+        new_contact = Contact(user_id=current_user, contact_name=contact_name,
                               relationship=relationship,
                               contact_phone_number=contact_phone_number,
                               status="Active")
@@ -229,7 +229,7 @@ def process_users_contact_info():
 
     else:
         flash("It looks like you've already added a contact with this phone number.")
-        return redirect("/user-home")
+        return redirect("/my-contacts")
 
 
 @app.route("/my-contacts")
@@ -237,10 +237,10 @@ def display_users_contacts():
     """Renders user's contacts"""
 
     current_user = session.get("user_id")
-    users_contacts = Contact.query.filter((Contact.user_id == current_user) & 
+    users_contacts = Contact.query.filter((Contact.user_id == current_user) &
                                           (Contact.status =="Active")).all()
 
-    return render_template("my-contacts.html", current_user=current_user, 
+    return render_template("my-contacts.html", current_user=current_user,
                             contacts=users_contacts)
 
 
@@ -299,7 +299,7 @@ def delete_users_contact(contact_id):
     # db.session.delete(contact)
     contact.status = "Inactive"
     db.session.commit()
-    
+
     flash("Your contact has been deleted.")
 
     print("\n\n\nCONTACT STATUS CHANGED\n\n\n")
@@ -341,7 +341,7 @@ def process_users_message():
 
     print("\n\n\nMESSAGE ADDED\n\n\n")
 
-    return redirect("/user-home")
+    return redirect("/view-message")
 
 
 @app.route("/view-message")
@@ -385,7 +385,7 @@ def update_users_message():
 
         print("\n\n\nMESSAGE EDITED\n\n\n")
 
-    return redirect("/user-home")
+    return redirect("/view-message")
 
 
 
@@ -411,7 +411,7 @@ def view_sent_messages():
     dates_created_obj_list = db.session.query(SentMessage.date_created)
 
 
-    return render_template("sent-messages.html", 
+    return render_template("sent-messages.html",
                             sent_messages=sent_messages_obj_list)
 
 
@@ -419,12 +419,12 @@ def view_sent_messages():
 ### SENDING MESSAGE ROUTES WITH TWILIO API ###
 @app.route("/send-message.json", methods=["POST"])
 def send_message():
-    """Processes button request from user's homepage to send their message and 
+    """Processes button request from user's homepage to send their message and
        location to user's contacts"""
 
     # getting current user in session
     current_user = session.get("user_id")
-    contacts = Contact.query.filter((Contact.user_id == current_user) & 
+    contacts = Contact.query.filter((Contact.user_id == current_user) &
                                     (Contact.status =="Active")).all()
     # will need to change this query to get the most up to date message (order by )
     message = Message.query.filter(Message.user_id == current_user)\
@@ -436,28 +436,28 @@ def send_message():
     user_location = str([user_lat, user_lng])
     # link = "https://www.google.com/maps/?q={lat},{lng}".format(lat=user_lat, lng=user_lng)
     # link = "http://localhost:5000/map/{user_id}?q={lat},{lng}".format(user_id=current_user,
-    #                                                                   lat=user_lat, 
+    #                                                                   lat=user_lat,
     #                                                                   lng=user_lng)
     link = "http://localhost:5000/map/{user_id}".format(user_id=current_user)
 
 
     for contact in contacts:
-        message_results = send_message_to_recipients(contact.contact_phone_number, 
+        message_results = send_message_to_recipients(contact.contact_phone_number,
                                                      message.message)
         # import pdb; pdb.set_trace()
         # create a new sent_message record
-        new_sent_message = SentMessage(user_id=current_user, 
-                                       message_id=message.message_id, 
-                                       contact_id=contact.contact_id, 
-                                       date_created=message_results[1], 
+        new_sent_message = SentMessage(user_id=current_user,
+                                       message_id=message.message_id,
+                                       contact_id=contact.contact_id,
+                                       date_created=message_results[1],
                                        message_sid=message_results[0],
-                                       error_code=message_results[2], 
-                                       latitude=user_lat, 
+                                       error_code=message_results[2],
+                                       latitude=user_lat,
                                        longitude=user_lng)
         db.session.add(new_sent_message)
         print("\n\n\nMESSAGE SENT\n\n\n")
 
-        location_results = send_message_to_recipients(contact.contact_phone_number, 
+        location_results = send_message_to_recipients(contact.contact_phone_number,
                                                       link)
         print("\n\n\nLOCATION SENT\n\n\n")
 
@@ -545,15 +545,15 @@ def example_data():
 
     User.query.delete()
 
-    mary = User(username="marylamb", first_name="Mary", last_name="Lamb", 
+    mary = User(username="marylamb", first_name="Mary", last_name="Lamb",
                 email="mary@lamb.com", password="password", phone_number="12345678901")
-    toby = User(username="tobesmagoats", first_name="Tobias", last_name="Funke", 
+    toby = User(username="tobesmagoats", first_name="Tobias", last_name="Funke",
                 email="tobias@ad.com", password="password", phone_number="12345678902")
 
     mary_contact = Contact(user_id=1, contact_name="Joseph", relationship="husband",
                            contact_phone_number="17142091862")
 
-    toby_contact = Contact(user_id=2, contact_name="George Michael", 
+    toby_contact = Contact(user_id=2, contact_name="George Michael",
                            relationship="nephew", contact_phone_number="17142091862")
 
     db.session.add_all([mary, toby])
