@@ -113,7 +113,7 @@ img.one {
 }
 
 li.nav-item a.nav-link.active:before {
-  content: "• "; /*don't miss the space*/
+  content: "• \00a0"; /*don't miss the space*/
   color: #F1765C;
 }
 
