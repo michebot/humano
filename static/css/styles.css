@@ -12,11 +12,10 @@ body {
 }
 
 h1 {
-    color: #FBF7F5;
+    color: #A8855D;
     text-align: center;
-    font-size: 22px;
-    font-weight: 700;
-    margin-top: 75px;
+    font-size: 25px;
+    font-weight: 400;
 }
 
 h1 a{
@@ -98,7 +97,7 @@ img.one {
 
 .nav-link:hover {
     color: #A8855D;
-    font-weight: 600;
+    opacity: .3;
 }
 .send-button {
     background-color: #A8855D;
@@ -122,6 +121,16 @@ li:not(.active):before {
  visibility: hidden;
 }
 
+/* User Home */
+.card {
+    background-color: #FBF7F5;
+    -webkit-box-shadow: 0 4px 6px rgba(50,50,93,.11), 0 1px 3px rgba(0,0,0,.08);
+    box-shadow: 0 4px 6px rgba(50,50,93,.11), 0 1px 3px rgba(0,0,0,.08);
+}
+.welcome {
+    margin: 2rem;
+}
+
 /* Making life easier */
 .m0 {
     margin-left:: none !important;
@@ -137,4 +146,31 @@ li:not(.active):before {
 
 .mt3 {
     margin-top: 3rem;
+}
+
+/* Contacts Page */
+.table {
+    border-radius: .1rem;
+    -webkit-box-shadow: 0 1px 2px rgba(50,50,93,.11), 0 1px 2px rgba(0,0,0,.08);
+    box-shadow: 0 1px 2px rgba(50,50,93,.11), 0 1px 2px rgba(0,0,0,.08);
+}
+
+.table thead tr {
+    background-color: #FBF7F5;
+
+}
+.table thead th {
+    border: none;
+    font-weight: 600;
+}
+
+.table td {
+    /* border: none; */
+}
+
+.add-contact {
+    background-color: #A8855D;
+    border-radius: .25rem;
+    color: #fff;
+    padding: 10px 35px;
 }
