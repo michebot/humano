@@ -4,10 +4,24 @@
 
 {% block content %}
 
-  <h2>My message:</h2>
-  <p>
+  {% if message_obj %}
+
+    <h2>My message:</h2>
+    <p>
     {{ message_obj.message }}
-  </p>
-  <a href="/edit-message">Edit Message
+    </p>
+    <a href="/edit-message">Edit Message
+
+  {% else %}
+
+    <h2>Add your message:</h2>
+
+    <form action="/add-message", method="POST">
+      <textarea name="message" rows="6" cols="100" placeholder="Please write your message here."
+       maxlength="1600" autofocus required></textarea><br>
+      <button type="submit" class="btn1">Add message</button>
+    </form>
+
+  {% endif %}
 
 {% endblock %}
