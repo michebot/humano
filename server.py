@@ -229,7 +229,7 @@ def process_users_contact_info():
 
     else:
         flash("It looks like you've already added a contact with this phone number.")
-        return redirect("/user-home")
+        return redirect("/my-contacts")
 
 
 @app.route("/my-contacts")
@@ -385,7 +385,7 @@ def update_users_message():
 
         print("\n\n\nMESSAGE EDITED\n\n\n")
 
-    return redirect("/user-home")
+    return redirect("/view-message")
 
 
 
