@@ -28,7 +28,7 @@ class User(db.Model):
     def __repr__(self):
         """Show info about user"""
 
-        return "<User id={} Username={} Email={} Phone{}>".format(self.user_id, 
+        return "<User id={} Username={} Email={} Phone{}>".format(self.user_id,
             self.username, self.email, self.phone_number)
 
 
@@ -73,8 +73,8 @@ class Contact(db.Model):
     def __repr__(self):
         """Show info about a user's contact"""
 
-        return """<Contact id={}, Phone Number={}, Relationship={},Contact 
-            Name={}>""".format(self.contact_id, self.contact_phone_number, 
+        return """<Contact id={}, Phone Number={}, Relationship={},Contact
+            Name={}>""".format(self.contact_id, self.contact_phone_number,
             self.relationship, self.contact_name)
 
 
@@ -107,8 +107,8 @@ class SentMessage(db.Model):
     def __repr__(self):
         """Show info about Sent Messages"""
 
-        return """<Sent Message id={}, Date Created={}, Message sid={}, 
-            Error Code={}, Latitude={}, Longitude={}>""".format(self.sent_message_id, self.date_created, 
+        return """<Sent Message id={}, Date Created={}, Message sid={},
+            Error Code={}, Latitude={}, Longitude={}>""".format(self.sent_message_id, self.date_created,
             self.message_sid, self.error_code, self.latitude, self.longitude)
 
 
@@ -132,7 +132,7 @@ def connect_to_db(app, db_uri='postgresql:///humano'):
     db.app = app
     db.init_app(app)
     # db.create_all()
-    
+
 
 if __name__ == "__main__":
     # As a convenience, if we run this module interactively, it will leave
@@ -141,4 +141,3 @@ if __name__ == "__main__":
     from server import app
     connect_to_db(app)
     print("Connected to DB.")
-
