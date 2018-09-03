@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>{% block title %}TITLE GOES HERE{% endblock %}</title>
+  <title>{% block title %}humano{% endblock %}</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
   <link rel="stylesheet" type="text/css" href="/static/css/styles.css">
   <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
@@ -10,10 +10,11 @@
 
 <!-- Begin Navigation -->
 
-<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
-  <h5 class="my-0 mr-md-auto font-weight-normal">Company name</h5>
-  <a class="btn btn-outline-primary" href="/login">Login</a>
-  <a class="btn btn-outline-primary" href="/sign-up">Sign up</a>
+<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white">
+    <h5 class="my-0 mr-md-auto font-weight-normal">humano</h5>
+    <a class="btn" href="/about">About</a>
+    <a class="btn" href="/login">Login</a>
+    <a class="btn btn-outline-primary" href="/sign-up">Sign up</a>
 </div>
 
 <!-- End Navigation -->
@@ -31,5 +32,76 @@
 
 <!-- End Hero -->
 
+<!-- Begin Main Body -->
+
+<div class="bg-humano">
+    <div class="container bg-humano body-wrapper">
+
+    <div class="sub-nav border-bottom mb">
+        <div class="container-fluid">
+            <div class="row">
+                    <div class="col-4">
+                        <span class="badge brown badge-pill">
+                          1
+                        </span>
+                        <span class="brown-text">
+                          Sign up
+                      </span>
+                    </div>
+                    <div class="col-4">
+                      <span class="badge brown badge-pill">
+                          2
+                      </span>
+                      <span class="brown-text">
+                          Add your contacts
+                      </span>
+                    </div>
+                    <div class="col-4">
+                      <span class="badge brown badge-pill">
+                          3
+                      </span>
+                      <span class="brown-text">
+                          Notify your network
+                      </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="container-fluid">
+            <div class="row">
+              <div class="col-4">
+                  <div class="circle green shift-left-down"></div>
+              </div>
+              <div class="col-4">
+                <div class="circle green small shift-left"></div>
+                <div class="circle brown small shift-right"></div>
+                <div class="circle red small shift-left"></div>
+                <div class="circle yellow small"></div>
+              </div>
+              <div class="col-4">
+                  <div class="ball-wrap">
+                      <div class="circle green"></div>
+                      <div class="circle green small special"></div>
+                      <div class="circle brown small special"></div>
+                      <div class="circle red small special"></div>
+                      <div class="circle yellow small m0 special"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- End Main Body -->
+
+    <footer class="humano-footer">
+      <p>Made with ❤️  by Michebot © 2017-2018</p>
+    </footer>
+
 </body>
+
+
 </html>
