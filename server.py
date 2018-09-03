@@ -206,6 +206,12 @@ def process_users_contact_info():
     relationship = request.form.get("relationship")
     contact_name = request.form.get("contact_name").capitalize()
 
+    phone_obj = re.search('/^\b\d{3}[-.]?\d{3}[-.]?\d{4}\b$/', contact_phone_number)
+
+    if phone_obj is None:
+        flash("Invalid phone number. Please enter the number in the following for '555 555 5555'")
+        return render_template("add-contact.html")
+
     # if the contact is already in our database, will return True
     # import pdb; pdb.set_trace()
     check_contact_phone_number = Contact.query.filter(Contact.contact_phone_number ==

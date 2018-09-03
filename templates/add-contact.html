@@ -1,22 +1,19 @@
-<!-- {# extends 'base.html' #}
+{% extends 'base.html' %}
 
-{# block title #} Humano | Add contacts {# endblock #}
+{% block title %} Humano | Add contacts {% endblock %}
 
-{# block content #}
+{% block content %}
 
-<h2>Add a contact:</h2> -->
+<h2>Add a contact:</h2>
 
 <form action="/add-contact", method="POST">
     Name:<br> 
     <input type="text" name="contact_name" autofocus><br><br>
     Phone Number:<br> 
-    <input type="number" maxlength="10" name="contact_phone_number" required><br><br>
+    <input type="tel" maxlength="10" name="contact_phone_number" required><br><br>
     Relationship:<br> 
     <input type="text" name="relationship"><br><br>
-
-<!--     <button type="submit" class="btn1">Add</button> -->
-
+    <button type="submit" class="btn1">Save</button>
 </form>
 
-
-<!-- {# endblock #} -->
+{% endblock %}
