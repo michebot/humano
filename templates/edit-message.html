@@ -29,13 +29,12 @@
 <!-- End Old Form -->
 
 <!-- Begin New Form -->
-
+<!--
 <form action="/edit-message", method="POST">
   <div class="form-group">
     <label>Edit message</label>
     <textarea
-    class="form-control"
-    id="exampleFormControlTextarea1"
+    class="form-control"\
     rows="3"
     name="message"
     rows="6"
@@ -57,6 +56,45 @@
       value="Cancel"
       onclick="window.location.href='/user-home'"/>
   </div>
-</form>
+</form> -->
+
+
+<body>
+  <div class="container">
+    <div class="py-4 text-center">
+      <p class="lead">Edit message</p>
+    </div>
+
+        <form action="/edit-message", method="POST" class="form-signin mt0">
+          <div class="row">
+            <div class="col">
+                <textarea
+                    class="form-control"
+                    rows="3"
+                    name="message"
+                    rows="6"
+                    cols="100"
+                    value="{{ old_message.message }}"
+                    maxlength="1600" autofocus required>
+                </textarea>
+            </div>
+          </div>
+
+          <hr class="mb-4">
+
+        <button type="submit" class="btn-signup">
+            Save
+        </button>
+
+          <p class="text-center mt1">
+              <a href="/user-home">
+                  Cancel ›
+              </a>
+          </p>
+
+      </form>
+
+    </div>
+</body>
 
 {% endblock %}
