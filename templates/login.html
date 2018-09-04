@@ -6,43 +6,52 @@
   <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 </head>
 
+<body class="text-center">
 
-            <body class="text-center">
-              <form class="form-signin" action="/login", method="POST">
-                  <h2>
-                      humano
-                  </h2>
-                  <img class="mb-4" src="static/images/bell.png" alt="" width="72" height="72">
-                  <div class="mb3">
-                    <small class="text-muted">
-                        Good to see you again.
-                    </small>
-                </div>
-                <label for="inputEmail" class="sr-only">Email address</label>
-                <input type="text" id="inputEmail" class="form-control" placeholder="Username" name="username" required autofocus>
-                <label for="inputPassword" class="sr-only">Password</label>
-                <input type="password" id="inputPassword" class="form-control" placeholder="Password" name="password" required>
-                <button class="btn-login" type="submit">Sign in</button>
-                <p class="text-center mt1">
-                    <a href="/sign-up">
-                        Don't have an account? ›
-                    </a>
-                </p>
-                <p class="mt-5 mb-3 text-muted">© 2017-2018</p>
-              </form>
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
 
-          <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-          <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+        {% for message in messages %}
+            {{ message }}
+        {% endfor %}
 
-          </body>
+      {% endif %}
+    {% endwith %}
 
-  <!-- <form action="/login", method="POST">
-    Username:<br>
-    <input type="text" name="username" required autofocus><br><br>
-    Password: <br>
-    <input type="password" name="password" required><br><br>
-    <button type="submit" class="btn1">Log In</button>
-  </form> -->
+  <form class="form-signin" action="/login", method="POST">
+      <h2>
+          humano
+      </h2>
+      <img class="mb-4" src="static/images/bell.png" alt="" width="72" height="72">
+      <div class="mb3">
+        <small class="text-muted">
+            Good to see you again.
+        </small>
+    </div>
+    <label for="inputEmail" class="sr-only">
+        Email address
+    </label>
+    <input type="text" id="inputEmail" class="form-control" placeholder="Username" name="username" required autofocus>
+    <label for="inputPassword" class="sr-only">
+        Password
+    </label>
+    <input type="password" id="inputPassword" class="form-control" placeholder="Password" name="password" required>
+    <button class="btn-login" type="submit">
+        Log in
+    </button>
+    <p class="text-center mt1">
+        <a href="/sign-up">
+            Don't have an account? ›
+        </a>
+    </p>
+    <p class="mt-5 mb-3 text-muted">© 2017-2018</p>
+  </form>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous">
+  </script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous">
+  </script>
+
+  </body>
 
 </html>
