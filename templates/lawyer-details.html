@@ -4,10 +4,14 @@
 
 {% block content %}
 
-  <b>{{ result["name"] }}</b><br>
-  {{ result["formatted_address"] }}<br>
-  {{ result["formatted_phone_number"] }}<br>
-  {{ result["opening_hours"]["weekday_text"] }}<br>
+  <b>{{ result["name"] }}</b><br><br>
+  {{ result["formatted_address"] }}<br><br>
+  {{ result["formatted_phone_number"] }}<br><br>
+  Hours of Operation:<br>
+  {% for hour in result["opening_hours"]["weekday_text"] %}
+    {{ hour }}<br>
+  {% endfor %}
+  <!-- {# result["opening_hours"]["weekday_text"] #}<br> -->
 
 
 {% endblock %}

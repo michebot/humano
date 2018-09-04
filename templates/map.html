@@ -11,6 +11,9 @@
 {% block title %} Humano | Home {% endblock %}
 
 {% block content %}
+
+  <p>Here is my approximate location:
+  </p>
   
   <input 
     type="hidden" 
@@ -21,7 +24,8 @@
     id="map">
   </div>
   
-  <script src="/static/js/map.js"></script>
+  <script src="/static/js/map.js">
+  </script>
 
   <script src="https://maps.googleapis.com/maps/api/js?key={{ key }}&callback=initMap">
   </script>

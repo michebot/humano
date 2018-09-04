@@ -8,6 +8,8 @@ from flask import (Flask, redirect, request, jsonify, render_template, flash,
 
 from flask_debugtoolbar import DebugToolbarExtension
 
+from datetime import datetime
+
 import os, bcrypt
 
 from model import User, Contact, Message, SentMessage, connect_to_db, db
@@ -23,7 +25,8 @@ app.jinja_env.auto_reload = True
 ### IMPORTING API HELPER FXs ###
 from twilio_api_call import send_message_to_recipients
 from news_api_call import obtain_news
-from google_places_api_call import lawyer_search_google_api_call
+from google_places_api_call import (lawyer_search_google_api_call, 
+                                    more_lawyers_google_api_call)
 from google_place_details_api_call import lawyer_details_api_call
 
 
@@ -203,14 +206,14 @@ def process_users_contact_info():
     current_user = session.get("user_id")
 
     contact_phone_number = request.form.get("contact_phone_number")
-    relationship = request.form.get("relationship")
+    relationship = request.form.get("relationship").capitalize()
     contact_name = request.form.get("contact_name").capitalize()
 
-    phone_obj = re.search('/^\b\d{3}[-.]?\d{3}[-.]?\d{4}\b$/', contact_phone_number)
+    # phone_obj = re.search('/^\b\d{3}[-.]?\d{3}[-.]?\d{4}\b$/', contact_phone_number)
 
-    if phone_obj is None:
-        flash("Invalid phone number. Please enter the number in the following for '555 555 5555'")
-        return render_template("add-contact.html")
+    # if phone_obj is None:
+    #     flash("Invalid phone number. Please enter the number in the following for '555 555 5555'")
+        # return render_template("add-contact.html")
 
     # if the contact is already in our database, will return True
     # import pdb; pdb.set_trace()
@@ -218,6 +221,9 @@ def process_users_contact_info():
                                                       contact_phone_number,
                                                       Contact.user_id ==
                                                       current_user).first()
+    # TODO: allow a user to add back a contact even if that phone number has 
+    # already been added before (but was 'deleted')
+
     # if above query returns None (i.e. username not in database)
     if not check_contact_phone_number:
         new_contact = Contact(user_id=current_user, contact_name=contact_name,
@@ -404,21 +410,31 @@ def view_sent_messages():
     current_user = session.get("user_id")
 
     # query for timestamps of sent messages
-    sent_messages_obj_list = SentMessage.query.filter(SentMessage.user_id==
-                                                      current_user)\
-                                              .order_by(SentMessage.date_created\
-                                              .desc())\
-                                              .all()
+    # sent_messages_obj_list = SentMessage.query.filter(SentMessage.user_id==
+    #                                                   current_user)\
+    #                                           .order_by(SentMessage.date_created\
+    #                                           .desc())\
+    #                                           .all()
+
+    # query with join for timestamps and message content
+    msg_sql = """SELECT date_created, sent_messages.message_id, message
+                 FROM sent_messages
+                 LEFT JOIN messages
+                 ON sent_messages.message_id = messages.message_id
+                 WHERE sent_messages.user_id = :current_user"""
+
+    cursor = db.session.execute(msg_sql, {"current_user": current_user})
+
+    messages = cursor.fetchall()
 
     # query for message content
-    message_content = Message.query.filter()
+    # message_content = Message.query.filter()
 
     # db.session query where i only get the dates created and count those
-    dates_created_obj_list = db.session.query(SentMessage.date_created)
+    # dates_created_obj_list = db.session.query(SentMessage.date_created)
 
 
-    return render_template("sent-messages.html",
-                            sent_messages=sent_messages_obj_list)
+    return render_template("sent-messages.html", messages=messages)
 
 
 
@@ -436,7 +452,7 @@ def send_message():
     message = Message.query.filter(Message.user_id == current_user)\
                            .order_by(Message.message_id.desc()).first()
 
-    # getting user's location from front-end in user-home.html
+    # getting user's location from front-end in user-home.html/location-finder.js
     user_lat = float(request.form.get("lat"))
     user_lng = float(request.form.get("lng"))
     user_location = str([user_lat, user_lng])
@@ -488,7 +504,6 @@ def render_map(user_id):
 
     # query for user object to render "User's location" on template
 
-
     return render_template("map.html", key=GOOGLE_API_KEY, user_id=user_to_render_location_for)
 
 
@@ -526,12 +541,33 @@ def display_news():
 def search_for_lawyers():
     """Allow users to search for immigration lawyers using the Google Places API"""
 
+    # # getting user's location from front-end in user-home.html
+    # user_lat = float(request.form.get("lat"))
+    # user_lng = float(request.form.get("lng"))
+
     search_results = lawyer_search_google_api_call()
 
-    next_page_token = search_results["next_page_token"]
+    # Save additional results, if any
+    next_pg_token = search_results.get("next_page_token", None)
 
     return render_template("lawyer-search.html", results=search_results["results"],
-                                                 next_page_token=next_page_token)
+                                                 next_pg_token=next_pg_token)
+
+
+# TO DO: Still need to implement this
+# @app.route("/search_lawyers/page/<page>.json")
+# def return_additional_results(page):
+#     """Call Google Places API again with the next_pg_token and return
+#        json obj with additional lawyers and the following next_page_token"""
+
+#     more_results = more_lawyers_google_api_call(page)
+    
+#     # Save additional results, if any
+#     next_pg_token = more_results.get('next_page_token', None)
+
+#     # Need to complete AJAX call on front end
+#     return jsonify([more_results, next_pg_token])
+
 
 
 @app.route("/search_lawyers/<place_id>")
