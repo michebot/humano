@@ -29,6 +29,13 @@ h2 {
     font-weight: 400;
 }
 
+h3 {
+    color: #A8855D;
+    font-weight: 300;
+    font-size: 18px;
+
+}
+
 a{
     text-decoration: none;
     color: #a2bda7;
@@ -98,7 +105,7 @@ img.one {
 .nav-link {
     color: #A8855D;
     font-weight: 400;
-    font-size: 18px;
+    font-size: 16px;
 }
 
 .nav-link:hover {
@@ -130,11 +137,37 @@ li:not(.active):before {
 /* User Home */
 .card {
     background-color: #FBF7F5;
+    -webkit-box-shadow: 0 1px 2px rgba(50,50,93,.11), 0 1px 2px rgba(0,0,0,.08);
+    box-shadow: 0 1px 2px rgba(50,50,93,.11), 0 1px 2px rgba(0,0,0,.08);
+    border: none !important;
+}
+
+.card:hover {
     -webkit-box-shadow: 0 4px 6px rgba(50,50,93,.11), 0 1px 3px rgba(0,0,0,.08);
     box-shadow: 0 4px 6px rgba(50,50,93,.11), 0 1px 3px rgba(0,0,0,.08);
 }
+
 .welcome {
     margin: 2rem;
+}
+
+.action-button {
+    background-color: #A8855D;
+    color: #fff;
+    border-radius: .25rem;
+    text-align: center;
+    padding: 5px 25px;
+}
+
+.check {
+    color: #A8855D;
+    padding: .25rem;
+}
+
+.action-button:hover {
+    color: #fff;
+    opacity: .7;
+    text-decoration: none;
 }
 
 /* Making life easier */
@@ -158,6 +191,10 @@ li:not(.active):before {
     margin-top: 3rem;
 }
 
+.mt3 {
+    margin-top: 3rem;
+}
+
 .ml {
     margin-left: 1rem;
 }
@@ -168,6 +205,14 @@ li:not(.active):before {
 
 .mb3 {
     margin-bottom: 3rem;
+}
+
+.mr1 {
+    margin-right: 1rem;
+}
+
+.box-shadow {
+    box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, .05);
 }
 
 /* Contacts Page */

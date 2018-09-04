@@ -13,40 +13,167 @@
       onclick="window.location.href='/add-contact'"/>
   </form> -->
 
-<!-- New Stuff -->
-<div class="container-fluid">
+<!-- Begin Redesign -->
+
+<main role="main" class="container-fluid">
     <div class="welcome">
         <h1>
             Get started
         </h1>
-    </div>
-    <div class="card text-center">
-      <div class="card-body">
-        <h5 class="card-title">Add a message</h5>
-        <form>
-          <input
-            id="view-message"
-            class="btn1"
-            type="button"
-            value="Go"
-            onclick="window.location.href='/view-message'"/>
-        </form><br>
-      </div>
+        <hr class="mb-4">
     </div>
 
-    <div class="card text-center">
-      <div class="card-body">
-        <h5 class="card-title">Add a contact</h5>
-        <button type="button" id="add-contact" class="btn1" data-toggle="modal" data-target="#exampleModal">Add Contact</button>
-      </div>
+    <div class="my-3 p-3 card">
+        <div class="media text-muted pt-3">
+          <i class="fas fa-check check mr1"></i>
+          <div class="media-body small">
+            <div class="d-flex justify-content-between align-items-center w-100">
+
+            <!-- If the user has a message, show 'edit message' link -->
+            {% if message %}
+                <h3>
+                    Edit message
+                </h3>
+                <a class="action-button" href="/view-message">
+                    Edit
+                </a>
+            {% else %}
+                <h3>
+                    Add message
+                </h3>
+                <a class="action-button" href="/add-message">
+                    Add
+                </a>
+            {% endif %}
+            </div>
+          </div>
+        </div>
     </div>
 
-    <div class="card text-center">
-      <div class="card-body">
-        <h5 class="card-title">Send a test message</h5>
-        <button type="button" id="add-contact" class="btn1" data-toggle="modal" data-target="#exampleModal">Send</button>
-      </div>
+    <div class="my-3 p-3 card">
+        <div class="media text-muted pt-3">
+          <i class="fas fa-check check mr1"></i>
+          <div class="media-body small">
+            <div class="d-flex justify-content-between align-items-center w-100">
+
+                <!-- If the user has a contact, display view-contacts link -->
+                {% if contacts %}
+                    <h3>
+                        View contacts
+                    </h3>
+                    <a class="action-button" href="/my-contacts">
+                        View
+                    </a>
+                  {% else %}
+                  <h3>
+                      Add contacts
+                  </h3>
+                  <a class="action-button" href="/my-contacts">
+                      Add
+                  </a>
+                  {% endif %}
+            </div>
+          </div>
+        </div>
     </div>
+
+<!-- Need to do -->
+<!-- If the user has added their contacts and message, they can send their location to their contacts -->
+{% if message and contacts %}
+    <div class="my-3 p-3 card">
+        <div class="media text-muted pt-3">
+          <i class="fas fa-check check mr1"></i>
+          <div class="media-body small">
+            <div class="d-flex justify-content-between align-items-center w-100">
+                <h3>
+                  Send test message
+              </h3>
+              <a class="action-button" href="#">
+                  Send
+              </a>
+            </div>
+          </div>
+        </div>
+    </div>
+{% endif %}
+
+<!-- if the user has sent their message and location -->
+{% if users_sent_message %}
+    <div class="my-3 p-3 card">
+        <div class="media text-muted pt-3">
+          <i class="fas fa-check check mr1"></i>
+          <div class="media-body small">
+            <div class="d-flex justify-content-between align-items-center w-100">
+                <h3>
+                    View sent messages
+                </h3>
+                  <a class="action-button" href="/sent-messages">
+                      View
+                  </a>
+            </div>
+          </div>
+        </div>
+    </div>
+{% endif %}
+
+{% if users_sent_message %}
+    <div class="my-3 p-3 card">
+        <div class="media text-muted pt-3">
+          <i class="fas fa-check check mr1"></i>
+          <div class="media-body small">
+            <div class="d-flex justify-content-between align-items-center w-100">
+                <h3>
+                    View last location
+                </h3>
+                  <a class="action-button" href="/map/{{ current_user }}">
+                      View
+                  </a>
+            </div>
+          </div>
+        </div>
+    </div>
+{% endif %}
+
+<!-- News -->
+    <div class="row mt3">
+        <div class="col-sm-4">
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                  <h5 class="card-title">News Headline 1</h5>
+                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                  <a href="#" class="card-link">
+                      Card link &rsaquo;
+                  </a>
+                </div>
+            </div>
+      </div>
+      <div class="col-sm-4">
+          <div class="card" style="width: 18rem;">
+            <div class="card-body">
+              <h5 class="card-title">News Headline 2</h5
+              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+              <a href="#" class="card-link">
+                  Card link &rsaquo;
+              </a>
+            </div>
+          </div>
+      </div>
+      <div class="col-sm-4">
+          <div class="card" style="width: 18rem;">
+            <div class="card-body">
+              <h5 class="card-title">News Headline 3</h5
+              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+              <a href="#" class="card-link">
+                  Card link &rsaquo;
+              </a>
+            </div>
+          </div>
+      </div>
+  </div>
+
+</main>
+
+<!-- End Redesign -->
 
   <!-- Button trigger for Add Contact modal -->
   <!-- <button type="button" id="add-contact" class="btn1" data-toggle="modal" data-target="#exampleModal">Add Contact</button> -->
@@ -71,61 +198,6 @@
       </div>
     </div>
   </div> -->
-
-
-
-  <!-- If the user has a contact, display view-contacts link -->
-  {% if contacts %}
-    <form>
-      <input
-        id="view-contacts"
-        class="btn1"
-        type="button"
-        value="View Contacts"
-        onclick="window.location.href='/my-contacts'"/>
-    </form>
-  {% endif %}
-
-  <!-- If the user has a message, show 'edit message' link -->
-  {% if message %}
-    <form>
-      <input
-        id="view-message"
-        class="btn1"
-        type="button"
-        value="My Message"
-        onclick="window.location.href='/view-message'"/>
-    </form><br>
-  {% else %}
-    <form>
-      <input
-        id="add-message"
-        class="btn1"
-        type="button"
-        value="Add Message"
-        onclick="window.location.href='/add-message'"/>
-    </form>
-  {% endif %}
-
-  <!-- if the user has sent their message and location -->
-  {% if users_sent_message %}
-    <form>
-      <input
-        id="render-sent-messages"
-        class="btn1"
-        type="button"
-        value="Sent Messages"
-        onclick="window.location.href='/sent-messages'"/>
-    </form>
-    <form>
-      <input
-        id="render-last-location"
-        class="btn1"
-        type="button"
-        value="Last Location"
-        onclick="window.location.href='/map/{{ current_user }}'"/>
-    </form>
-  {% endif %}
 
   <!-- If the user has added their contacts and message, they can send their location to their contacts -->
   {% if message and contacts %}
@@ -165,45 +237,6 @@
       </div>
     </div>
   </div>
-</div>
-
-  <!-- News -->
-  <div class="container-fluid">
-      <div class="row">
-          <div class="col-sm-4">
-              <div class="card" style="width: 18rem;">
-                  <div class="card-body">
-                    <h5 class="card-title">News Headline 1</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <a href="#" class="card-link">Card link</a>
-                    <a href="#" class="card-link">Another link</a>
-                  </div>
-              </div>
-        </div>
-        <div class="col-sm-4">
-            <div class="card" style="width: 18rem;">
-              <div class="card-body">
-                <h5 class="card-title">News Headline 2</h5>
-                <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                <a href="#" class="card-link">Card link</a>
-                <a href="#" class="card-link">Another link</a>
-              </div>
-            </div>
-        </div>
-        <div class="col-sm-4">
-            <div class="card" style="width: 18rem;">
-              <div class="card-body">
-                <h5 class="card-title">News Headline 3</h5>
-                <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                <a href="#" class="card-link">Card link</a>
-                <a href="#" class="card-link">Another link</a>
-              </div>
-            </div>
-        </div>
-    </div>
 </div>
 
   <script type="text/javascript">
