@@ -4,11 +4,19 @@
 
 {% block content %}
 
-  {% for message in sent_messages %}
+<!--   {# for message in sent_messages #}
 
-    {{ message }}<br>
-    {{ message.date_created }}<br>
-    Message ID:{{ message.message_id }}<br><br>
+    {# message #}<br>
+    {# message.date_created #}<br>
+    Message ID:{# message.message_id #}<br><br>
+
+  {# endfor #} -->
+
+  {% for message in messages %}
+
+      {{ message[0].strftime("%B %d, %Y at %I:%M %p") }}<br>
+      {# message[1] #}
+      {{ message[2] }}<br><br>
 
   {% endfor %}
 

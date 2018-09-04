@@ -175,11 +175,12 @@
 
 <!-- End Redesign -->
 
-  <!-- Button trigger for Add Contact modal -->
-  <!-- <button type="button" id="add-contact" class="btn1" data-toggle="modal" data-target="#exampleModal">Add Contact</button> -->
+<!-- Button trigger for Add Contact modal -->
+<!--   <button type="button" id="add-contact" class="btn1" data-toggle="modal" data-target="#exampleModal">Add Contact</button> -->
 
 <!-- Modal for Add Contact Form -->
-  <!-- <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!--   <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -188,7 +189,8 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div class="modal-body">
+
+        <div id="add-contact-form" class="modal-body">
           {# include "add-contact.html" #}
         </div>
         <div class="modal-footer">
@@ -198,6 +200,7 @@
       </div>
     </div>
   </div> -->
+
 
   <!-- If the user has added their contacts and message, they can send their location to their contacts -->
   {% if message and contacts %}
@@ -239,45 +242,47 @@
   </div>
 </div>
 
-  <script type="text/javascript">
-    // On click, this button will obtain the user's location and send the user's location and message to their contacts
-    $("#send-message-location").on("click", function(evt){
-      navigator.geolocation.getCurrentPosition(savePosition, errorHandler);
-    });
 
-    function savePosition(position) {
-      let userLocation = {
-          "lat": position.coords.latitude,
-          "lng": position.coords.longitude,
-      };
+  <!-- News -->
+  <div class="container-fluid">
+      <div class="row">
+          <div class="col-sm-4">
+              <div class="card" style="width: 18rem;">
+                  <div class="card-body">
+                    <h5 class="card-title">News Headline 1</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="card-link">Card link</a>
+                    <a href="#" class="card-link">Another link</a>
+                  </div>
+              </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="card" style="width: 18rem;">
+              <div class="card-body">
+                <h5 class="card-title">News Headline 2</h5>
+                <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <a href="#" class="card-link">Card link</a>
+                <a href="#" class="card-link">Another link</a>
+              </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="card" style="width: 18rem;">
+              <div class="card-body">
+                <h5 class="card-title">News Headline 3</h5>
+                <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <a href="#" class="card-link">Card link</a>
+                <a href="#" class="card-link">Another link</a>
+              </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-      $.post("/send-message.json",
-             userLocation,
-             () => $('#exampleModalLong').modal('toggle'),
-      );
-    }
-
-   // Report errors to user
-    function errorHandler(error) {
-     switch (error.code) {
-      case error.PERMISSION_DENIED:
-        alert("Could not get position as permission was denied.");
-        break;
-      case error.POSITION_UNAVAILABLE:
-        alert("Could not get position as this information is not available at this time.");
-        break;
-       case error.TIMEOUT:
-         alert("Attempt to get position timed out.");
-        break;
-       default:
-        alert("Sorry, an error occurred. Code: " + error.code + " Message: " + error.message);
-        break;
-       }
-    }
-    $('#exampleModalLong').on('hidden.bs.modal', function () {
-    location.reload();
-    })
-  </script>
+  <script src="/static/js/location-finder.js"></script>
 
 
 {% endblock %}
