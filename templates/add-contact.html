@@ -4,9 +4,9 @@
 
 {% block content %}
 
-<h2>Add a contact:</h2>
+<!-- <h2>Add a contact:</h2> -->
 
-<form action="/add-contact", method="POST">
+<!-- <form action="/add-contact", method="POST">
     Name:<br>
     <input type="text" name="contact_name" autofocus><br><br>
     Phone Number:<br> 
@@ -14,6 +14,57 @@
     Relationship:<br> 
     <input type="text" name="relationship"><br><br>
     <button type="submit" class="btn1">Save</button>
-</form>
+</form> -->
+
+<div class="container">
+  <div class="py-4 text-center">
+    <p class="lead">Add contact</p>
+  </div>
+
+  <body>
+
+  <div class="row">
+
+      <form action="/add-contact", method="POST" class="form-signin mt0">
+
+        <div class="row">
+          <div class="col">
+            <label for="contactName">Name</label>
+            <input type="text" class="form-control" name="contact_name" autofocus placeholder="Grace" required="">
+          </div>
+        </div>
+
+        <div class="row mb">
+          <div class="col">
+            <label for="number">Phone number</label>
+            <input type="tel" maxlength="10" class="form-control" name="contact_phone_number" placeholder="123-123-4567" required="">
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <label for="number">Relationship</label>
+            <input type="text" class="form-control" name="relationship" placeholder="Idol">
+          </div>
+        </div>
+
+        <hr class="mb-4">
+
+        <button
+          type="submit"
+          class="btn-signup">
+          Save
+        </button>
+
+        <p class="text-center mt1">
+            <a href="/my-contacts">
+                Cancel ›
+            </a>
+        </p>
+
+    </form>
+
+  </div>
+</div>
 
 {% endblock %}

@@ -4,14 +4,35 @@
 
 {% block content %}
 
-  <h2>Add your message:</h2>
+<body>
+  <div class="container">
+    <div class="py-4 text-center">
+      <p class="lead">Add message</p>
+    </div>
 
-  <form action="/add-message", method="POST">
-      <textarea name="message" rows="6" cols="100" placeholder="Please write your message here."
-       maxlength="1600" autofocus required></textarea><br>
-      <button type="submit" class="btn1">Add message</button>
+        <form action="/add-message", method="POST" class="form-signin mt0">
+          <div class="row">
+            <div class="col">
+              <textarea class="form-control" name="message" rows="6" cols="100" placeholder="Write your message here."
+               maxlength="1600" autofocus required></textarea>
+            </div>
+          </div>
 
-  </form>
+          <hr class="mb-4">
 
+        <button type="submit" class="btn-signup">
+            Save
+        </button>
+
+          <p class="text-center mt1">
+              <a href="/user-home">
+                  Cancel ›
+              </a>
+          </p>
+
+      </form>
+
+    </div>
+</body>
 
 {% endblock %}
