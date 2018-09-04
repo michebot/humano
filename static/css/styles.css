@@ -23,6 +23,12 @@ h1 a{
     color: #FBF7F5;
 }
 
+h2 {
+    color: #a2bda7;
+    font-size: 25px;
+    font-weight: 400;
+}
+
 a{
     text-decoration: none;
     color: #a2bda7;
@@ -154,6 +160,10 @@ li:not(.active):before {
 
 .mb {
     margin-bottom: 1rem;
+}
+
+.mb3 {
+    margin-bottom: 3rem;
 }
 
 /* Contacts Page */
@@ -330,6 +340,11 @@ circle::before{
     top: 100%;
 }
 
+.body-container {
+    height: 500px;
+    padding-top: 65px;
+}
+
 .body-wrapper {
     border: 3px solid #A8855D;
     border-radius: .25rem;
@@ -347,4 +362,37 @@ circle::before{
 
 .brown-text {
     color: #A8855D;
+}
+
+.btn-small {
+    padding: 5px 30px !important;
+}
+
+.btn-homepage {
+    background-color: #FBF7F5;
+    color: #A8855D;
+    padding: 15px 50px;
+    font-weight: 500;
+    border-radius: .25rem;
+    border: 3px #A8855D solid;
+}
+
+.btn-homepage:hover {
+    color: #A8855D;
+    opacity: .7;
+    -webkit-box-shadow: 0 1px 2px rgba(50,50,93,.11), 0 1px 2px rgba(0,0,0,.08);
+    box-shadow: 0 1px 2px rgba(50,50,93,.11), 0 1px 2px rgba(0,0,0,.08);
+    text-decoration: none;
+}
+
+.nav-link-homepage {
+    color: #A8855D;
+    font-weight: 500;
+    padding: 0px 25px;
+}
+
+.nav-link-homepage:hover {
+    color: #A8855D;
+    opacity: .7;
+    text-decoration: none;
 }
