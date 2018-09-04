@@ -153,10 +153,21 @@ li:not(.active):before {
 
 .action-button {
     background-color: #A8855D;
-    color: #fff;
+    color: #FBF7F5;
     border-radius: .25rem;
     text-align: center;
     padding: 5px 25px;
+}
+
+.action-button-secondary {
+    color: #A8855D;
+    text-align: center;
+    padding: 5px 25px;
+}
+
+.action-button-secondary:hover {
+    text-decoration: none;
+    opacity: .7;
 }
 
 .check {
@@ -191,10 +202,6 @@ li:not(.active):before {
     margin-top: 3rem;
 }
 
-.mt3 {
-    margin-top: 3rem;
-}
-
 .ml {
     margin-left: 1rem;
 }
@@ -215,31 +222,77 @@ li:not(.active):before {
     box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, .05);
 }
 
+.inline-block {
+    display: inline-block;
+}
+
 /* Contacts Page */
 .table {
     border-radius: .1rem;
     -webkit-box-shadow: 0 1px 2px rgba(50,50,93,.11), 0 1px 2px rgba(0,0,0,.08);
     box-shadow: 0 1px 2px rgba(50,50,93,.11), 0 1px 2px rgba(0,0,0,.08);
+    border: 1px solid #FBF7F5;
+
 }
 
 .table thead tr {
     background-color: #FBF7F5;
+    line-height: 35px;
 
 }
 .table thead th {
-    border: none;
-    font-weight: 600;
+    border: 1px solid #FBF7F5;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+table tbody tr {
+    line-height: 50px;
 }
 
 .table td {
-    /* border: none; */
+    font-size: 14px;
+}
+
+.tar {
+    text-align: right;
 }
 
 .add-contact {
     background-color: #A8855D;
     border-radius: .25rem;
     color: #fff;
-    padding: 10px 35px;
+    padding: 10px 20px;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.add-contact:hover {
+    opacity: .7;
+    color: #fff;
+    text-decoration: none;
+}
+
+.trash {
+    color: #A8855D;
+    border: none;
+    background: transparent;
+    padding-left: 1rem;
+}
+
+.trash:hover {
+    opacity: .7;
+}
+
+.user {
+    text-align: center;
+    color: #A8855D;
+    font-size: 25px;
+}
+
+.empty-page {
+    padding-top: 125px;
+    text-align: center;
 }
 
 /* Homepage Logged Out */

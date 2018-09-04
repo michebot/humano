@@ -5,68 +5,82 @@
 {% block content %}
 
   {% if "user_id" in session %}
-    <h2>My Contacts:</h2>
 
-<!-- Begin Add Contact Button -->
 
-<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
-    <h1 class="h2"></h1>
-    <div class="btn-toolbar mb-2 mb-md-0">
-      <div class="btn-group mr-2">
-        <a href="/add-contact" class="add-contact">
-            Add
-        </a>
-      </div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col">
+
+            <!-- Begin Add Contact Button -->
+
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
+                <h1 class="h2"></h1>
+                <div class="btn-toolbar mb-2 mb-md-0">
+                  <div class="btn-group mr-2">
+                    <a href="/add-contact" class="add-contact">
+                        Add contact
+                    </a>
+                  </div>
+                </div>
+            </div>
+
+            <!-- End Add Contact Button -->
+
+            <!-- Begin Contact Table -->
+
+            <div class="table-responsive">
+                <table class="table table-sm table-hover">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Phone number</th>
+                      <th>Relationship</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for contact in contacts %}
+                    <tr>
+                        <td>{{ contact.contact_name }}</td>
+                        <td>{{ contact.contact_phone_number}}</td>
+                        <td>{{ contact.relationship }}</td>
+                        <td class="tar">
+                            <a class="action-button" href="/my-contacts/edit-{{ contact.contact_id }}">
+                                Edit
+                            </a>
+                            <form class="inline-block"method="post" action="/my-contacts/delete-{{ contact.contact_id }}">
+                                <button type="submit" class="fas fa-trash trash">
+                                </button
+                            </form>
+                            <!-- <a class="action-button-secondary" href="/my-contacts/delete-{# contact.contact_id #}">
+                                <i class="fas fa-trash trash"></i>
+                            </a> -->
+                        </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+            </div>
+
+            <!-- End Contact Table -->
+
+            <!-- Begin Empty State -->
+
+            {% if not contacts %}
+                <div class="empty-page">
+                    <i class="fas fa-user user mb"></i>
+                    <h1>
+                        No contacts have been added
+                    </h1>
+                </div>
+            {% endif %}
+
+            <!-- End Empty State -->
+
+        </div>
     </div>
 </div>
 
-<!-- End Add Contact Button -->
-
-
-<!-- Begin Contact Table -->
-
-<div class="table-responsive">
-    <table class="table table-sm">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Phone number</th>
-          <th>Relationship</th>
-          <th></th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for contact in contacts %}
-        <tr>
-            <td>{{ contact.contact_name }}</td>
-            <td>{{ contact.contact_phone_number}}</td>
-            <td>{{ contact.relationship }}</td>
-            <td>
-                <form>
-                  <input
-                    id="edit-contact"
-                    type="button"
-                    value="Edit"
-                    onclick="window.location.href='/my-contacts/edit-{{ contact.contact_id }}'"/>
-                </form>
-            </td>
-            <td>
-                <form
-                  method="post"
-                  action="/my-contacts/delete-{{ contact.contact_id }}">
-                  <button
-                    type="submit">Delete
-                  </button>
-                </form>
-            </td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-</div>
-
-<!-- End Contact Table -->
   {% endif %}
 
   <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
