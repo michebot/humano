@@ -417,11 +417,13 @@ def view_sent_messages():
     #                                           .all()
 
     # query with join for timestamps and message content
-    msg_sql = """SELECT date_created, sent_messages.message_id, message
+    msg_sql = """SELECT DATE_TRUNC('minute', date_created) AS time, COUNT(sent_messages.message_id), message
                  FROM sent_messages
                  LEFT JOIN messages
                  ON sent_messages.message_id = messages.message_id
-                 WHERE sent_messages.user_id = :current_user"""
+                 WHERE sent_messages.user_id = :current_user
+                 GROUP BY time, sent_messages.message_id, message
+                 ORDER BY time"""
 
     cursor = db.session.execute(msg_sql, {"current_user": current_user})
 

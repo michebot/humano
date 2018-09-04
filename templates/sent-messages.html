@@ -1,23 +1,42 @@
 {% extends 'base.html' %}
 
-{% block title %} Humano | Sent Messages {% endblock %}
+{% block title %} humano | Sent Messages {% endblock %}
 
 {% block content %}
 
-<!--   {# for message in sent_messages #}
+<!-- Begin Sent Message Table -->
+            <div class="table-responsive">
+                <table class="table table-sm table-hover">
+                  <thead>
+                    <tr>
+                      <th>Time Sent</th>
+                      <th>Amount of Contacts Reached</th>
+                      <th>Message</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for message in messages %}
+                    <tr>
+                        <td>{{ message[0].strftime("%B %d, %Y at %I:%M %p") }}</td>
+                        <td>{{ message[1] }}</td>
+                        <td>{{ message[2] }}</td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+            </div>
+<!-- End Sent Message Table -->
 
-    {# message #}<br>
-    {# message.date_created #}<br>
-    Message ID:{# message.message_id #}<br><br>
-
-  {# endfor #} -->
-
-  {% for message in messages %}
-
-      {{ message[0].strftime("%B %d, %Y at %I:%M %p") }}<br>
-      {# message[1] #}
-      {{ message[2] }}<br><br>
-
-  {% endfor %}
+<!-- Begin Empty State -->
+      {% if not messages %}
+          <div class="empty-page">
+              <i class="fas fa-user user mb"></i>
+              <h1>
+                  No messages have been sent
+              </h1>
+          </div>
+      {% endif %}
+<!-- End Empty State -->
 
 {% endblock %}

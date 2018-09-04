@@ -30,25 +30,7 @@
 
 <div class="container-fluid">
     <div class="row">
-        <!-- Start Old App Navigation -->
-        <!-- <div class="col-4">
-            <div class="sticky-sidebar">
-                <div class="sidebar-column-content">
-                <nav class="d-block nav side-nav">
-                    <nav class="nav d-block nested-links">
-                        {% if "user_id" in session %}
-                            <a class="nav-link sidebar-link" data-turbolinks="false" href="/user-home">Home</a>
-                            <a class="nav-link sidebar-link" data-turbolinks="false" href="/news">News</a>
-                            <a class="nav-link sidebar-link active" data-turbolinks="false" href="/search_lawyers">Lawyers</a>
-                            <a class="nav-link sidebar-link" data-turbolinks="false" href="/logout">Logout</a>
-                        {% endif %}
-                    </nav>
-                </nav>
-                </div>
-            </div> -->
-            <!-- End Old App Navigation -->
-        <!-- </div> -->
-
+      
         <nav class="col-md-2 d-none d-md-block sidebar side-nav ">
           <div class="sidebar-sticky">
             <ul class="nav flex-column" id="nav">
@@ -96,7 +78,6 @@
         </nav>
 
         <div class="col-10">
-
           {% with messages = get_flashed_messages() %}
             {% if messages %}
 
@@ -112,21 +93,10 @@
     </div>
 </div>
 
-
-<!-- started the route for the message button -->
-<!--     <form action="/send-message", method="POST">
-    </form> -->
 <script>
-// $(function() {
-//         $('#nav ul li a').click(function() {
-//            $('#nav li').removeClass();
-//            $($(this).attr('href')).addClass('active');
-//         });
-//      });
-
-$(function() {
-  $('nav a[href^="/' + location.pathname.split("/")[1] + '"]').addClass('active');
-});
+  $(function() {
+    $('nav a[href^="/' + location.pathname.split("/")[1] + '"]').addClass('active');
+  });
 </script>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>

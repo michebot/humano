@@ -1,105 +1,34 @@
 {% extends 'base.html' %}
 
-{% block title %} Humano | News {% endblock %}
+{% block title %} humano | News {% endblock %}
 
 {% block content %}
 
-<!-- Begin Old News -->
-  <!-- {% for article in articles %}
-    <img class="one" src="{{ article['urlToImage'] }}"><br>
-    <a href="{{ article['url'] }}">
-    <i>
-        {{ article["title"] }}
-    </i>
-    </a><br>
-    <b>
-      {{ article["source"]["name"] }} | {{ article["author"] }}
-    </b><br>
-    {{ article["publishedAt" ][:-10] }}<br>
-    {{ article["description"] }}<br><br>
-  {% endfor %} -->
-
-<!-- End Old News -->
-
-
-<!-- Begin New News -->
-{% for article in articles %}
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-sm-4">
-            <div class="card" style="width: 18rem;">
-                <img class="card-img-top" src="{{ article['urlToImage'] }}" alt="Card image cap">
-                <div class="card-body">
-                <h5 class="card-title">
-                    {{ article["title"] }}
-                </h5>
-                <p class="card-text">
-                    {{ article["source"]["name"] }} | {{ article["author"] }}
-                </p>
-                </div>
-                <ul class="list-group list-group-flush">
-                <li class="list-group-item">{{ article["publishedAt" ][:-10] }}</li>
-                <li class="list-group-item">{{ article["description"] }}</li>
-                </ul>
-                <div class="card-body">
-                <a href="{{ article['url'] }}" class="card-link">Card link</a>
+    <div class="container-fluid">
+        <div class="row">
+            {% for article in articles %}
+            <div class="col-sm-4">
+                <div class="card" style="width: 18rem;">
+                    <img class="card-img-top" src="{{ article['urlToImage'] }}" alt="Image did not load 😞">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            {{ article["title"] }}
+                        </h5>
+                        <p class="card-text">
+                            {{ article["author"] }}
+                        </p>
+                    </div>
+                        <ul class="list-group list-group-flush">
+                        <li class="list-group-item">{{ article["publishedAt" ][:-10] }}</li>
+                        <li class="list-group-item">{{ article["description"] }}</li>
+                        </ul>
+                        <div class="card-body">
+                        <a href="{{ article['url'] }}" class="card-link" target="_blank">{{ article["source"]["name"] }}</a>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card" style="width: 18rem;">
-                <img class="card-img-top" src="{{ article['urlToImage'] }}" alt="Card image cap">
-                <div class="card-body">
-                <h5 class="card-title">
-                    {{ article["title"] }}
-                </h5>
-                <p class="card-text">
-                    {{ article["source"]["name"] }} | {{ article["author"] }}
-                </p>
-                </div>
-                <ul class="list-group list-group-flush">
-                <li class="list-group-item">{{ article["publishedAt" ][:-10] }}</li>
-                <li class="list-group-item">{{ article["description"] }}</li>
-                </ul>
-                <div class="card-body">
-                <a href="{{ article['url'] }}" class="card-link">Card link</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card" style="width: 18rem;">
-                <img class="card-img-top" src="{{ article['urlToImage'] }}" alt="Card image cap">
-                <div class="card-body">
-                <h5 class="card-title">
-                    {{ article["title"] }}
-                </h5>
-                <p class="card-text">
-                    {{ article["source"]["name"] }} | {{ article["author"] }}
-                </p>
-                </div>
-                <ul class="list-group list-group-flush">
-                <li class="list-group-item">{{ article["publishedAt" ][:-10] }}</li>
-                <li class="list-group-item">{{ article["description"] }}</li>
-                </ul>
-                <div class="card-body">
-                <a href="{{ article['url'] }}" class="card-link">Card link</a>
-                </div>
-            </div>
+            {% endfor %}
         </div>
     </div>
-</div>
-{% endfor %}
-
-<!-- End New News -->
 
 {% endblock %}
-
-
-<!--     {'source':
-    {'id': 'the-verge', 'name': 'The Verge'},
-    'author': 'Adi Robertson',
-    'title': 'Trump keeps threatening tech companies, but he’s terrible at following through',
-    'description': 'The Trump administration has gone up against tech companies with harsh immigration limits and erratic trade policy. But his recent tirade against Google’s search results is a less-than-credible threat.',
-    'url': 'https://www.theverge.com/2018/8/29/17791292/trump-tech-companies-threat-google-twitter-facebook',
-    'urlToImage': 'https://cdn.vox-cdn.com/thumbor/0fr6Os0_zThjNqlLk2PXtLHQHEk=/0x0:3000x1571/fit-in/1200x630/cdn.vox-cdn.com/uploads/chorus_asset/file/12741297/1024850548.jpg.jpg',
-    'publishedAt': '2018-08-29T16:45:26Z'}, -->

@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %} Humano | Home {% endblock %}
+{% block title %} humano | Home {% endblock %}
 
 {% block content %}
 
@@ -17,10 +17,18 @@
 
 <main role="main" class="container-fluid">
     <div class="welcome">
+
+      {% if message and contacts %}
+        <h1>
+            ~Welcome {{ user_name }}
+        </h1>
+      {% else %}
         <h1>
             Get started
         </h1>
+      {% endif %}
         <hr class="mb-4">
+      
     </div>
 
     <div class="my-3 p-3 card">

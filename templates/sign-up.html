@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>Humano | Log In</title>
+  <title>humano | Log In</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
   <link rel="stylesheet" type="text/css" href="/static/css/styles.css">
   <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
@@ -9,7 +9,7 @@
 <div class="container">
   <div class="py-5 text-center">
       <h2>
-          humano
+          <a href="/">humano</a>
       </h2>
     <img class="d-block mx-auto mb-4" src="static/images/bell.png" alt="" width="72" height="72">
     <p class="lead">Create your humano account</p>
@@ -56,6 +56,9 @@
           <div class="col-md-6 mb-3">
             <label for="password">Password</label>
             <input type="password" class="form-control" name="password" value="" required="">
+            <div class="invalid-feedback" style="width: 100%;">
+              Your password is required.
+            </div>
           </div>
         </div>
 
@@ -64,12 +67,15 @@
             <label for="email">Email</label>
             <input type="email" class="form-control" name="email" placeholder="me@me.com" required="">
             <div class="invalid-feedback" style="width: 100%;">
-              Your username is required.
+              Your email is required.
             </div>
           </div>
           <div class="col-md-6 mb-3">
             <label for="">Phone Number</label>
             <input type="tel" class="form-control" name="phone_number" placeholder="123-456-7891" value="" required="">
+            <div class="invalid-feedback" style="width: 100%;">
+              Your phone number is required.
+            </div>
           </div>
         </div>
 
