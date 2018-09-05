@@ -133,7 +133,6 @@ def process_user_login():
         if username == user.username and bcrypt.checkpw(password.encode('utf-8'),
                                                         user.password.encode('utf-8')):
             session["user_id"] = user.user_id
-            flash("Welcome!")
             print("\n\n\nUSER LOGGED IN\n\n\n")
             return redirect("/user-home")
 
