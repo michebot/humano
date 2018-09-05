@@ -28,6 +28,7 @@ from news_api_call import obtain_news
 from google_places_api_call import (lawyer_search_google_api_call, 
                                     more_lawyers_google_api_call)
 from google_place_details_api_call import lawyer_details_api_call
+from google_js_map_api_call import reverse_geocode
 
 
 
@@ -503,9 +504,18 @@ def render_map(user_id):
     # pass user id to map template
     user_to_render_location_for = user_id
 
-    # query for user object to render "User's location" on template
+    # query for user object to render "User's address" on template
+    user_location = SentMessage.query.filter(SentMessage.user_id==user_to_render_location_for)\
+                                     .order_by(SentMessage.sent_message_id.desc()).first()
 
-    return render_template("map.html", key=GOOGLE_API_KEY, user_id=user_to_render_location_for)
+    # Google Geocoding API call to get address
+    user_lat_lng = reverse_geocode(float(user_location.latitude), float(user_location.longitude))
+
+    return render_template("map.html", 
+                            key=GOOGLE_API_KEY, 
+                            user_id=user_to_render_location_for,
+                            user_location=user_location,
+                            user_lat_lng=user_lat_lng)
 
 
 @app.route("/map-coordinates.json", methods=["GET"])

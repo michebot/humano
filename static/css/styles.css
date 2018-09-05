@@ -41,6 +41,10 @@ a{
     color: #a2bda7;
 }
 
+.linkhover, .linkhover:hover {
+    text-decoration: none;
+}
+
 .btn1 {
     white-space: nowrap;
     display: inline-block;

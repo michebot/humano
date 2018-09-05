@@ -12,14 +12,16 @@
 
 {% block content %}
 
-  <p>Here is my approximate location:
+  <input type="hidden" id="lat" value="{{ user_location.latitude }}">
+  <input type="hidden" id="lng" value="{{ user_location.longitude }}">
+
+  <p id="address">
+    Here is my approximate location:<br>
+    {{ user_lat_lng['results'][0]['formatted_address'] }}
   </p>
   
-  <input 
-    type="hidden" 
-    name="userId" 
-    id="user" 
-    value="{{ user_id }}">
+  <input type="hidden" name="userId" id="user" value="{{ user_id }}">
+
   <div 
     id="map">
   </div>
