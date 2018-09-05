@@ -4,11 +4,14 @@
 
 {% block content %}
 
+<!-- TO DO: provide more context on what this page does -->
+
     <div class="container-fluid">
         <div class="row">
+                        <!-- <div class="col-sm-4"> -->
             {% for article in articles %}
-            <div class="col-sm-4">
-                <div class="card" style="width: 18rem;">
+
+                <div class="card col-sm-4" style="width: 18rem;">
                     <img class="card-img-top" src="{{ article['urlToImage'] }}" alt="Image did not load 😞">
                     <div class="card-body">
                         <h5 class="card-title">
@@ -19,16 +22,17 @@
                         </p>
                     </div>
                         <ul class="list-group list-group-flush">
-                        <li class="list-group-item">{{ article["publishedAt" ][:-10] }}</li>
+                        <li class="list-group-item">{{ article["publishedAt"][:-10] }}</li>
                         <li class="list-group-item">{{ article["description"] }}</li>
                         </ul>
                         <div class="card-body">
                         <a href="{{ article['url'] }}" class="card-link" target="_blank">{{ article["source"]["name"] }}</a>
                     </div>
                 </div>
-            </div>
+            
             {% endfor %}
-        </div>
+            </div>
+        <!-- </div> -->
     </div>
 
 {% endblock %}

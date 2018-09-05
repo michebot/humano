@@ -6,6 +6,8 @@
 
   {# next_pg_token #}<br>
 
+  <!-- TO DO: provide more context on what this page does -->
+
     {% for result in results %}
 
       <a href="/search_lawyers/{{ result['place_id'] }}">{{ result["name"] }}</a><br>
@@ -17,7 +19,7 @@
   {% if next_pg_token %}
     <button type="button" id="more-lawyers" class="btn btn-link">Next Page</button>
   {% endif %}
-  <!-- TODO: continue with AJAX call to load more lawyers -->
+  <!-- TO DO: continue with AJAX call to load more lawyers -->
 
   <script src="/static/js/location-finder.js"></script>
 

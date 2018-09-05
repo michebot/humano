@@ -4,17 +4,6 @@
 
 {% block content %}
 
-<!--   <form>
-    <input
-      id="add-contact"
-      class="btn1"
-      type="button"
-      value="Add Contact"
-      onclick="window.location.href='/add-contact'"/>
-  </form> -->
-
-<!-- Begin Redesign -->
-
 <main role="main" class="container-fluid">
     <div class="welcome">
 
@@ -30,6 +19,30 @@
         <hr class="mb-4">
       
     </div>
+
+  <!-- If the user has added their contacts and message, they can send their location to their contacts -->
+  {% if message and contacts %}
+      <div class="my-3 p-3 card">
+          <div class="media text-muted pt-3">
+            <i class="fas fa-check check mr1"></i>
+            <div class="media-body small">
+              <div class="d-flex justify-content-between align-items-center w-100">
+                <h3>
+                  Send a message to your contacts
+                </h3>
+                <!-- <a class="action-button" href="#">
+                    Send
+                </a> -->
+                <button
+                type="button"
+                id="send-message-location"
+                class="action-button">Send
+              </button>
+              </div>
+            </div>
+          </div>
+      </div>
+  {% endif %}
 
     <div class="my-3 p-3 card">
         <div class="media text-muted pt-3">
@@ -85,25 +98,6 @@
         </div>
     </div>
 
-<!-- Need to do -->
-<!-- If the user has added their contacts and message, they can send their location to their contacts -->
-{% if message and contacts %}
-    <div class="my-3 p-3 card">
-        <div class="media text-muted pt-3">
-          <i class="fas fa-check check mr1"></i>
-          <div class="media-body small">
-            <div class="d-flex justify-content-between align-items-center w-100">
-                <h3>
-                  Send test message
-              </h3>
-              <a class="action-button" href="#">
-                  Send
-              </a>
-            </div>
-          </div>
-        </div>
-    </div>
-{% endif %}
 
 <!-- if the user has sent their message and location -->
 {% if users_sent_message %}
@@ -142,6 +136,7 @@
     </div>
 {% endif %}
 
+<!-- TO DO: Need to center cards with page -->
 <!-- News -->
     <div class="row mt3">
         <div class="col-sm-4">
@@ -181,8 +176,6 @@
 
 </main>
 
-<!-- End Redesign -->
-
 <!-- Button trigger for Add Contact modal -->
 <!--   <button type="button" id="add-contact" class="btn1" data-toggle="modal" data-target="#exampleModal">Add Contact</button> -->
 
@@ -209,15 +202,6 @@
     </div>
   </div> -->
 
-
-  <!-- If the user has added their contacts and message, they can send their location to their contacts -->
-  {% if message and contacts %}
-    <button
-      type="button"
-      id="send-message-location"
-      class="btn1">SEND
-    </button>
-  {% endif %}
 
   <!-- Modal -->
   <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true" data-keyboard="true">
