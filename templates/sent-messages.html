@@ -9,16 +9,15 @@
                 <table class="table table-sm table-hover">
                   <thead>
                     <tr>
-                      <th>Time Sent</th>
-                      <th>Amount of Contacts Reached</th>
-                      <th>Message</th>
-                      <th></th>
+                      <th style="width:15%">Time Sent</th>
+                      <th style="width:15%"># of Contacts Reached</th>
+                      <th style="width:50%;">Message</th>
                     </tr>
                   </thead>
                   <tbody>
                     {% for message in messages %}
                     <tr>
-                        <td>{{ message[0].strftime("%B %d, %Y at %I:%M %p") }}</td>
+                        <td>{{ message[0].strftime("%m/%d/%Y at %I:%M %p") }}</td>
                         <td>{{ message[1] }}</td>
                         <td>{{ message[2] }}</td>
                     </tr>

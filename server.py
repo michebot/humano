@@ -317,6 +317,7 @@ def delete_users_contact(contact_id):
     print("\n\n\nCONTACT STATUS CHANGED\n\n\n")
 
     return redirect("/my-contacts")
+    # return jsonify({"success": "true"})
 
 
 
@@ -588,6 +589,16 @@ def search_for_lawyer_details(place_id):
     search_details = lawyer_details_api_call(place_id)
 
     return render_template("lawyer-details.html", result=search_details["result"])
+
+
+
+@app.route("/know_your_rights")
+def display_users_rights():
+    """Render a page that provides users a peace of mind and allows them to
+       educate themselves on their rights and how to handle encounters with law
+       enforcement."""
+
+    return render_template("know-your-rights.html")
 
 
 
