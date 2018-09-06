@@ -36,6 +36,10 @@ h3 {
 
 }
 
+h5 {
+    font-size: 16px;
+}
+
 a {
     text-decoration: none;
     color: #a2bda7;
@@ -199,6 +203,11 @@ li:not(.active):before {
 }
 
 /* Making life easier */
+
+.sf{
+    font-size: 12px;
+}
+
 .m0 {
     margin: 0px !important;
 }
