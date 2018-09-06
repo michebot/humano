@@ -36,9 +36,15 @@ h3 {
 
 }
 
-a{
+a {
     text-decoration: none;
     color: #a2bda7;
+}
+
+a:hover {
+    text-decoration: none;
+    color: #a2bda7;
+    opacity: .7;
 }
 
 .linkhover, .linkhover:hover {
@@ -303,12 +309,14 @@ table tbody tr {
 
 .bg-humano {
     background-color: #FBF7F5;
+    text-align: center;
 }
 .humano-footer {
     padding: 2.5rem 0;
-    color: #999;
+    color: #A8855D;
+    font-weight: 500;
     text-align: center;
-    background-color: #f9f9f9;
+    background-color: #fff;
     border-top: .05rem solid #e5e5e5;
 }
 
@@ -447,7 +455,7 @@ circle::before{
 }
 
 .body-container {
-    height: 500px;
+    height: 700px;
     padding-top: 65px;
 }
 
@@ -460,14 +468,35 @@ circle::before{
 
 }
 
+.bell {
+    font-size: 65px;
+    color: #A8855D;
+    transform: rotate(20deg);
+}
+
+.signature {
+    font-size: 28px;
+    color: #A8855D;
+}
+
 .badge-pill {
     padding-right: .6em;
     padding-left: .6em;
     border-radius: .25rem;
 }
 
+.how {
+    padding: .85em 1.375em;
+    font-size: 15px;
+    color: #A8855D;
+    background-color: #FBF7F5;
+    border-radius: .25rem;
+    text-transform: uppercase;
+}
+
 .brown-text {
     color: #A8855D;
+    margin-left: .5rem;
 }
 
 .btn-small {
@@ -479,6 +508,7 @@ circle::before{
     color: #A8855D;
     padding: 15px 50px;
     font-weight: 500;
+    font-size: 14px;
     border-radius: .25rem;
     border: 3px #A8855D solid;
 }
@@ -491,9 +521,15 @@ circle::before{
     text-decoration: none;
 }
 
+.navbar-brand:hover {
+    color: #FBF7F5;
+    opacity: .7;
+}
+
 .nav-link-homepage {
     color: #A8855D;
     font-weight: 500;
+    font-size: 14px;
     padding: 0px 25px;
 }
 
