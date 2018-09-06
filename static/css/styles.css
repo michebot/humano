@@ -36,6 +36,10 @@ h3 {
 
 }
 
+h5 {
+    font-size: 16px;
+}
+
 a {
     text-decoration: none;
     color: #a2bda7;
@@ -199,6 +203,11 @@ li:not(.active):before {
 }
 
 /* Making life easier */
+
+.sf{
+    font-size: 12px;
+}
+
 .m0 {
     margin: 0px !important;
 }
@@ -616,4 +625,16 @@ circle::before{
     -webkit-box-shadow: 0 1px 2px rgba(50,50,93,.11), 0 1px 2px rgba(0,0,0,.08);
     box-shadow: 0 1px 2px rgba(50,50,93,.11), 0 1px 2px rgba(0,0,0,.08);
     text-decoration: none;
+}
+
+/* Search Lawyers */
+.badge-rating {
+    padding: 5px 15px;
+    color: #FBF7F5;
+    background-color: #a2bda7;
+}
+
+.btn-lawyers {
+    color: #FBF7F5;
+    background-color: #a2bda7;
 }
