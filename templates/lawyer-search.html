@@ -8,17 +8,40 @@
 
   <!-- TO DO: provide more context on what this page does -->
 
+<main role="main" class="container-fluid col-8">
+    <div class="input-group mb">
+        <input type="text" class="form-control" placeholder="Search laywers">
+        <span class="mdi mdi-magnify"></span>
+        <div class="input-group-append">
+        <button class="btn btn-lawyers" type="submit">Search</button>
+        </div>
+    </div>
+
     {% for result in results %}
 
-      <a href="/search_lawyers/{{ result['place_id'] }}">{{ result["name"] }}</a><br>
-      Rating: {{ result["rating"] }}<br>
-      {{ result["formatted_address"] }}<br><br>
+      <div class="card mb">
+        <div class="card-body">
+          <h5 class="card-title">
+            <span class="badge badge-rating mr1">
+            {{ result["rating"] }}
+            </span>
+              <a href="/search_lawyers/{{ result['place_id'] }}">
+                  {{ result["name"] }} &rsaquo;
+              </a>
+          </h5>
+          <p class="card-text sf">
+            {{ result["formatted_address"] }}
+          </p>
+        </div>
+      </div>
 
     {% endfor %}
 
   {% if next_pg_token %}
     <button type="button" id="more-lawyers" class="btn btn-link">Next Page</button>
   {% endif %}
+
+</main>
   <!-- TO DO: continue with AJAX call to load more lawyers -->
 
   <script src="/static/js/location-finder.js"></script>
