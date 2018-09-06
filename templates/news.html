@@ -11,9 +11,9 @@
                         <!-- <div class="col-sm-4"> -->
             {% for article in articles %}
 
-                <div class="card col-sm-4" style="width: 18rem;">
+                <div class="col-md-4 p-2 text-center card col-sm-4">
                     <img class="card-img-top" src="{{ article['urlToImage'] }}" alt="Image did not load 😞">
-                    <div class="card-body">
+                    <div class="d-flex flex-column rounded border card-body">
                         <h5 class="card-title">
                             {{ article["title"] }}
                         </h5>
