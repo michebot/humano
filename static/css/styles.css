@@ -470,6 +470,7 @@ circle::before{
 
 .bell {
     font-size: 65px;
+    font-weight: 300;
     color: #A8855D;
     transform: rotate(20deg);
 }
