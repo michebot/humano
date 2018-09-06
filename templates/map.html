@@ -16,16 +16,17 @@
   <input type="hidden" id="lng" value="{{ user_location.longitude }}">
 
   <p id="address">
-    Here is my approximate location:<br>
+    <h2 class="mt3">Here is my approximate location:</h2>
     {{ user_lat_lng['results'][0]['formatted_address'] }}
   </p>
-  
+  <hr class="mb-4">
+
   <input type="hidden" name="userId" id="user" value="{{ user_id }}">
 
-  <div 
+  <div
     id="map">
   </div>
-  
+
   <script src="/static/js/map.js">
   </script>
 

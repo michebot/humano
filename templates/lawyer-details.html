@@ -4,15 +4,89 @@
 
 {% block content %}
 
-  <b>{{ result["name"] }}</b><br><br>
-  {{ result["formatted_address"] }}<br><br>
-  {{ result["formatted_phone_number"] }}<br><br>
-  Hours of Operation:<br>
-  {% for hour in result["opening_hours"]["weekday_text"] %}
-    {{ hour }}<br>
-  {% endfor %}
-  <!-- {# result["opening_hours"]["weekday_text"] #}<br> -->
 
+<main role="main" class="container-fluid col-8">
+    <div class="welcome">
+      <h1>
+          {{ result["name"] }}
+      </h1>
+      <p class="text-center">
+          {{ result["formatted_address"] }} • {{ result["formatted_phone_number"] }}
+      </p>
+      <p class="text-center">
+          <a href="{{ result['website'] }}" target="_blank">
+              Visit website &rsaquo;
+          </a>
+      </p>
+      <hr class="mb-4">
+  </div>
+
+  <div class="table-responsive-sm">
+      <table class="table table-sm table-hover text-center">
+        <thead>
+          <tr>
+            <th>
+                Business hours
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for hour in result["opening_hours"]["weekday_text"] %}
+          <tr>
+              <td>
+                  {{ hour }}
+              </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+  </div>
+</main>
+
+<div class="container-fluid mt3">
+    <div class="row">
+        <div class="col">
+          <div class="table-responsive">
+              <table class="table table-sm table-hover">
+                <thead>
+                  <tr>
+                    <th style="width: 12%">
+                        Posted
+                    </th>
+                    <th style="width: 12%">
+                        Reviewer
+                    </th>
+                    <th style="width: 11%">
+                        Rating
+                    </th>
+                    <th style="width: 65%">
+                        Review
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for review in result["reviews"] %}
+                  <tr>
+                      <td>
+                          {{ review["relative_time_description"] }}
+                      </td>
+                      <td>
+                          {{ review["author_name"] }}
+                      </td>
+                      <td>
+                          {{ review["rating"] }}
+                      </td>
+                      <td>
+                          {{ review["text"] }}
+                      </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+          </div>
+      </div>
+  </div>
+</div>
 
 {% endblock %}
 
