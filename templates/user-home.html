@@ -4,7 +4,7 @@
 
 {% block content %}
 
-<main role="main" class="container-fluid">
+<main role="main" class="container-fluid col-8">
     <div class="welcome">
 
       {% if message and contacts %}
@@ -17,7 +17,7 @@
         </h1>
       {% endif %}
         <hr class="mb-4">
-      
+
     </div>
 
   <!-- If the user has added their contacts and message, they can send their location to their contacts -->
@@ -138,42 +138,36 @@
 
 <!-- TO DO: Need to center cards with page -->
 <!-- News -->
-    <div class="row mt3">
-        <div class="col-sm-4">
-            <div class="card" style="width: 18rem;">
-                <div class="card-body">
-                  <h5 class="card-title">News Headline 1</h5>
-                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                  <a href="#" class="card-link">
-                      Card link &rsaquo;
-                  </a>
-                </div>
-            </div>
-      </div>
-      <div class="col-sm-4">
-          <div class="card" style="width: 18rem;">
+    <div class="mt3 d-flex justify-content-between">
+        <div class="card" style="width: 18rem;">
             <div class="card-body">
-              <h5 class="card-title">News Headline 2</h5
+              <h5 class="card-title">News Headline 1</h5>
               <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
               <a href="#" class="card-link">
                   Card link &rsaquo;
               </a>
             </div>
-          </div>
+        </div>
+      <div class="card" style="width: 18rem;">
+        <div class="card-body">
+          <h5 class="card-title">News Headline 2</h5
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          <a href="#" class="card-link">
+              Card link &rsaquo;
+          </a>
+        </div>
       </div>
-      <div class="col-sm-4">
-          <div class="card" style="width: 18rem;">
-            <div class="card-body">
-              <h5 class="card-title">News Headline 3</h5
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-              <a href="#" class="card-link">
-                  Card link &rsaquo;
-              </a>
-            </div>
-          </div>
+      <div class="card" style="width: 18rem;">
+        <div class="card-body">
+          <h5 class="card-title">News Headline 3</h5
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          <a href="#" class="card-link">
+              Card link &rsaquo;
+          </a>
+        </div>
       </div>
   </div>
-
+</div>
 </main>
 
   <!-- Modal -->
