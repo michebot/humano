@@ -193,6 +193,11 @@ li:not(.active):before {
     text-decoration: none;
 }
 
+.super {
+    color: #fff;
+    background-color: #f1765c;
+}
+
 /* Making life easier */
 .m0 {
     margin: 0px !important;
@@ -228,6 +233,10 @@ li:not(.active):before {
 
 .mr1 {
     margin-right: 1rem;
+}
+
+.bt {
+    border-top: 1px solid #efefef;
 }
 
 .box-shadow {
@@ -366,6 +375,10 @@ circle::before{
 
 .green {
   background-color: #a2bda7;
+}
+
+.white {
+  background-color: #fff;
 }
 
 .brown {
