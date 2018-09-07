@@ -33,7 +33,6 @@ h3 {
     color: #A8855D;
     font-weight: 300;
     font-size: 18px;
-
 }
 
 h4 {
@@ -151,7 +150,7 @@ li.nav-item a.nav-link.active:before {
   color: #F1765C;
 }
 
-li:not(.active):before {
+li.nav-item:not(.active):before {
  content: "• "; /*don't miss the space*/
  visibility: hidden;
 }
@@ -206,6 +205,11 @@ li:not(.active):before {
 .super {
     color: #fff;
     background-color: #f1765c;
+}
+.list-group-flush {
+    border-right: 0;
+    border-left: 0;
+    border-radius: 0;
 }
 
 /* Making life easier */
@@ -654,6 +658,9 @@ circle::before{
 
 .line {
     line-height: 30px;
+    margin: 0 auto;
+    width: 100%;
+    text-align: center;
 }
 
 .lline {
