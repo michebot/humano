@@ -17,31 +17,65 @@
     </div>
 </main>
 
-    <div class="container">
+    <div class="container-fluid">
         <div class="row mt3">
                         <!-- <div class="col-sm-4"> -->
-            {% for article in articles %}
+            <!-- {# for article in articles #}
 
-                <div class="col-3 card mb3 text-center">
-                    <img class="card-img-top" src="{{ article['urlToImage'] }}" alt="Image did not load 😞">
+                <div class="col-4 card mb3 text-center">
+                    <img class="card-img-top" src="{# article['urlToImage'] #}" alt="Image did not load 😞">
                     <div class="d-flex flex-column rounded border card-body">
                         <h5 class="card-title">
-                            {{ article["title"] }}
+                            {# article["title"] #}
                         </h5>
                         <p class="card-text">
-                            {{ article["author"] }}
+                            {# article["author"] #}
                         </p>
                     </div>
                         <ul class="list-group list-group-flush">
-                        <li class="list-group-item">{{ article["publishedAt"][:-10] }}</li>
-                        <li class="list-group-item">{{ article["description"] }}</li>
+                        <li class="list-group-item">{# article["publishedAt"][:-10] #}</li>
+                        <li class="list-group-item">{# article["description"] #}</li>
                         </ul>
                         <div class="card-body">
-                        <a href="{{ article['url'] }}" class="card-link" target="_blank">{{ article["source"]["name"] }}</a>
+                        <a href="{# article['url'] #}" class="card-link" target="_blank">{# article["source"]["name"] #}</a>
                     </div>
                 </div>
 
+            {# endfor #} -->
+
+        <div class="container">
+            <div class="row">
+                {% for article in articles %}
+                <div class="col-md-4">
+                    <article class="card mb-4">
+                        <header class="card-header">
+                          <div class="card-meta">
+                            <p class="card-text text-center mb" style="font-size: 12px; color: #A8855D;">{{ article["publishedAt"][:-10] }}</p>
+                          </div>
+                          <img class="card-img-top" src="{{ article['urlToImage'] }}" alt="Image did not load 😞">
+                            <h3 class="card-title mt1">
+                                <strong>
+                                    {{ article["title"] }}
+                                </strong>
+                            </h3>
+                          </a>
+                        </header>
+                        <a href="post-image.html">
+                          <img class="card-img" src="img/22.jpg" alt="">
+                        </a>
+                        <div class="card-body">
+                          <p class="card-text">
+                              {{ article["description"][:150] }}...
+                          </p>
+                          <a href="{{ article['url'] }}" class="card-link" target="_blank">
+                              {{ article["source"]["name"] }} &rsaquo;
+                          </a>
+                        </div>
+                    </article>
+                </div>
             {% endfor %}
+            </div>
+        </div>
             </div>
         <!-- </div> -->
     </div>
