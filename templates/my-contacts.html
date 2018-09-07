@@ -45,7 +45,7 @@
                             <a class="action-button" href="/my-contacts/edit-{{ contact.contact_id }}">
                                 Edit
                             </a>
-                            <a id="removeContact" class="action-button-secondary" href="/my-contacts/delete-{{ contact.contact_id }}">
+                            <a id="remove-contact-{{ contact.contact_id }}" class="remove-contact action-button-secondary" href="/my-contacts/delete-{{ contact.contact_id }}">
                                 <input type="hidden" name="contact" id="contact" value="/my-contacts/delete-{{ contact.contact_id }}">
                                 <i class="fas fa-trash trash"></i>
                             </a>

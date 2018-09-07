@@ -644,3 +644,18 @@ circle::before{
     color: #FBF7F5;
     background-color: #a2bda7;
 }
+
+.rights {
+    color: #A8855D;
+    font-size: 25px;
+    font-weight: 400;
+    text-align: center;
+}
+
+.line {
+    line-height: 30px;
+}
+
+.lline {
+    line-height: 25px;
+}

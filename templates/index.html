@@ -13,12 +13,18 @@
 <!-- Begin Navigation -->
 
 <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white">
+
+  {% if "user_id" in session %}
+    <h2 class="my-0 mr-md-auto font-weight-normal"><a href="/user-home">humano</a></h2>
+  {% else %}
     <h2 class="my-0 mr-md-auto font-weight-normal"><a href="/">humano</a></h2>
-    <a class="nav-link-homepage" href="/about">About</a>
-    <a class="nav-link-homepage" href="/login">Log in</a>
-    <a class="btn-homepage btn-small" href="/sign-up">
-        Sign up
-    </a>
+  {% endif %}
+
+  <a class="nav-link-homepage" href="/about">About</a>
+  <a class="nav-link-homepage" href="/login">Log in</a>
+  <a class="btn-homepage btn-small" href="/sign-up">
+      Sign up
+  </a>
 </div>
 
 <!-- End Navigation -->

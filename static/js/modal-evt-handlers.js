@@ -1,6 +1,7 @@
 // Deleting a contact modal
 
-$("#removeContact").on("click", function(evt){
+// $("#remove-contact-").on("click", function(evt){
+$(".remove-contact").on("click", function(evt){
   evt.preventDefault();
   $("#deleteModal").modal("toggle");
 });

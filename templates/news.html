@@ -6,12 +6,23 @@
 
 <!-- TO DO: provide more context on what this page does -->
 
-    <div class="container-fluid">
-        <div class="row">
+<main role="main" class="container-fluid col-8">
+    <div class="welcome">
+        <h1 style="color:#a2bda7; font-size: 35px;">
+            News
+        </h1>
+        <p class="text-center" style="color: #A8855D;">Comprehensive immigration news coverage
+        </p>
+        <hr class="mb-4">
+    </div>
+</main>
+
+    <div class="container">
+        <div class="row mt3">
                         <!-- <div class="col-sm-4"> -->
             {% for article in articles %}
 
-                <div class="col-md-4 p-2 text-center card col-sm-4">
+                <div class="col-3 card mb3 text-center">
                     <img class="card-img-top" src="{{ article['urlToImage'] }}" alt="Image did not load 😞">
                     <div class="d-flex flex-column rounded border card-body">
                         <h5 class="card-title">

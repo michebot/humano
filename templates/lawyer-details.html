@@ -21,7 +21,7 @@
       <hr class="mb-4">
   </div>
 
-  <div class="table-responsive-sm">
+  <div class="table-responsive-sm col-md-6 offset-md-3">
       <table class="table table-sm table-hover text-center">
         <thead>
           <tr>
@@ -32,7 +32,7 @@
         </thead>
         <tbody>
           {% for hour in result["opening_hours"]["weekday_text"] %}
-          <tr>
+          <tr class="lline">
               <td>
                   {{ hour }}
               </td>
@@ -66,7 +66,7 @@
                 </thead>
                 <tbody>
                   {% for review in result["reviews"] %}
-                  <tr>
+                  <tr class="line">
                       <td>
                           {{ review["relative_time_description"] }}
                       </td>

@@ -362,7 +362,8 @@ def display_users_message():
     """Render the user's message"""
 
     current_user = session.get("user_id")
-    current_message = Message.query.filter(Message.user_id == current_user).first()
+    current_message = Message.query.filter(Message.user_id == current_user)\
+                                   .order_by(Message.message_id.desc()).first()
 
     return render_template("view-message.html", message_obj=current_message)
 
@@ -374,7 +375,8 @@ def edit_users_message():
     # getting current user in session
     current_user = session.get("user_id")
 
-    old_message = Message.query.filter(Message.user_id == current_user).first()
+    old_message = Message.query.filter(Message.user_id == current_user)\
+                               .order_by(Message.message_id.desc()).first()
 
     return render_template("edit-message.html", old_message=old_message)
 
@@ -387,16 +389,17 @@ def update_users_message():
     current_user = session.get("user_id")
 
     # message object to edit
-    old_message = Message.query.filter(Message.user_id == current_user).first()
+    # old_message = Message.query.filter(Message.user_id == current_user).first()
 
     updated_message = request.form.get("message")
 
-    if old_message:
-        old_message.message = updated_message
-        db.session.commit()
-        flash("Your message has been updated.")
+    # if old_message:
+    new_message = Message(user_id=current_user, message=updated_message)
+    db.session.add(new_message)
+    db.session.commit()
+    flash("Your message has been updated.")
 
-        print("\n\n\nMESSAGE EDITED\n\n\n")
+    print("\n\n\nMESSAGE EDITED\n\n\n")
 
     return redirect("/view-message")
 
@@ -424,7 +427,7 @@ def view_sent_messages():
                  ON sent_messages.message_id = messages.message_id
                  WHERE sent_messages.user_id = :current_user
                  GROUP BY time, sent_messages.message_id, message
-                 ORDER BY time"""
+                 ORDER BY time DESC"""
 
     cursor = db.session.execute(msg_sql, {"current_user": current_user})
 
