@@ -466,7 +466,7 @@ def send_message():
     # link = "http://localhost:5000/map/{user_id}?q={lat},{lng}".format(user_id=current_user,
     #                                                                   lat=user_lat,
     #                                                                   lng=user_lng)
-    link = "http://localhost:5000/map/{user_id}".format(user_id=current_user)
+    link = "http://54.69.249.202/map/{user_id}".format(user_id=current_user)
 
 
     for contact in contacts:
