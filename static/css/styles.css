@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Quicksand');
+@import url('https://fonts.googleapis.com/css?family=Sacramento');
 
 html {
     background-color: #fff;
@@ -43,6 +44,12 @@ h4 {
 
 h5 {
     font-size: 16px;
+}
+
+h6 {
+    color: #a2bda7;
+    font-size: 30px;
+    font-family: 'Sacramento', cursive;
 }
 
 a {

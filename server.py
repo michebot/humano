@@ -17,6 +17,7 @@ from model import User, Contact, Message, SentMessage, connect_to_db, db
 
 
 app = Flask(__name__)
+# uncomment next two lines to run locally
 # app.jinja_env.undefined = StrictUndefined
 # app.jinja_env.auto_reload = True
 
@@ -25,7 +26,7 @@ app = Flask(__name__)
 ### IMPORTING API HELPER FXs ###
 from twilio_api_call import send_message_to_recipients
 from news_api_call import obtain_news
-from google_places_api_call import (lawyer_search_google_api_call, 
+from google_places_api_call import (lawyer_search_google_api_call,
                                     more_lawyers_google_api_call)
 from google_place_details_api_call import lawyer_details_api_call
 from google_js_map_api_call import reverse_geocode
@@ -47,6 +48,13 @@ def get_index():
 
     return render_template("index.html")
 
+
+### About Page ###
+@app.route("/about")
+def get_index1():
+    """Return about page"""
+
+    return render_template("about.html")
 
 
 ### SIGN UP ROUTES ###
@@ -221,7 +229,7 @@ def process_users_contact_info():
                                                       contact_phone_number,
                                                       Contact.user_id ==
                                                       current_user).first()
-    # TODO: allow a user to add back a contact even if that phone number has 
+    # TODO: allow a user to add back a contact even if that phone number has
     # already been added before (but was 'deleted')
 
     # if above query returns None (i.e. username not in database)
@@ -515,8 +523,8 @@ def render_map(user_id):
     # Google Geocoding API call to get address
     user_lat_lng = reverse_geocode(float(user_location.latitude), float(user_location.longitude))
 
-    return render_template("map.html", 
-                            key=GOOGLE_API_KEY, 
+    return render_template("map.html",
+                            key=GOOGLE_API_KEY,
                             user_id=user_to_render_location_for,
                             user_location=user_location,
                             user_lat_lng=user_lat_lng)
@@ -576,7 +584,7 @@ def search_for_lawyers():
 #        json obj with additional lawyers and the following next_page_token"""
 
 #     more_results = more_lawyers_google_api_call(page)
-    
+
 #     # Save additional results, if any
 #     next_pg_token = more_results.get('next_page_token', None)
 
@@ -643,4 +651,5 @@ if __name__ == "__main__":
     # DebugToolbarExtension(app)
 
     app.run()
+    # comment line above and uncomment following line to run locally
     # app.run(debug=True, host="0.0.0.0")
