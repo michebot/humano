@@ -18,8 +18,8 @@ from model import User, Contact, Message, SentMessage, connect_to_db, db
 
 app = Flask(__name__)
 # uncomment next two lines to run locally
-app.jinja_env.undefined = StrictUndefined
-app.jinja_env.auto_reload = True
+# app.jinja_env.undefined = StrictUndefined
+# app.jinja_env.auto_reload = True
 
 
 
@@ -655,7 +655,7 @@ if __name__ == "__main__":
     # app.debug = True
 
     # added this to stop redirect page request
-    app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
+    # app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 
     # connect our app to our database
     connect_to_db(app)
@@ -663,6 +663,6 @@ if __name__ == "__main__":
     # Use the DebugToolbar
     # DebugToolbarExtension(app)
 
-    # app.run()
+    app.run()
     # comment line above and uncomment following line to run locally
-    app.run(debug=True, host="0.0.0.0")
+    # app.run(debug=True, host="0.0.0.0")
