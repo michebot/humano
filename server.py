@@ -10,7 +10,7 @@ from flask_debugtoolbar import DebugToolbarExtension
 
 from datetime import datetime
 
-import os, bcrypt
+import os, bcrypt, re
 
 from model import User, Contact, Message, SentMessage, connect_to_db, db
 
@@ -18,8 +18,8 @@ from model import User, Contact, Message, SentMessage, connect_to_db, db
 
 app = Flask(__name__)
 # uncomment next two lines to run locally
-# app.jinja_env.undefined = StrictUndefined
-# app.jinja_env.auto_reload = True
+app.jinja_env.undefined = StrictUndefined
+app.jinja_env.auto_reload = True
 
 
 
@@ -51,7 +51,7 @@ def get_index():
 
 ### About Page ###
 @app.route("/about")
-def get_index1():
+def render_about_page():
     """Return about page"""
 
     return render_template("about.html")
@@ -63,6 +63,7 @@ def register_user():
     """Render form for user sign up."""
 
     return render_template("sign-up.html")
+
 
 @app.route("/sign-up", methods=["POST"])
 def process_user_info():
@@ -214,14 +215,18 @@ def process_users_contact_info():
     current_user = session.get("user_id")
 
     contact_phone_number = request.form.get("contact_phone_number")
-    relationship = request.form.get("relationship").capitalize()
-    contact_name = request.form.get("contact_name").capitalize()
+    relationship = request.form.get("relationship").title()
+    contact_name = request.form.get("contact_name").title()
 
-    # phone_obj = re.search('/^\b\d{3}[-.]?\d{3}[-.]?\d{4}\b$/', contact_phone_number)
+    phone_check = re.search(r"\d{3}[-\.\s]??\d{3}[-\.\s]??\d{4}|\(\d{3}\)\s*\d{3}[-\.\s]??\d{4}", contact_phone_number)
 
-    # if phone_obj is None:
-    #     flash("Invalid phone number. Please enter the number in the following for '555 555 5555'")
-        # return render_template("add-contact.html")
+    if phone_check is None:
+        flash("Invalid phone number. Please enter the number in the following format '555 555 5555'")
+        return render_template("add-contact.html")
+
+
+    # TODO: allow a user to add back a contact even if that phone number has
+    # already been added before (but was 'deleted')
 
     # if the contact is already in our database, will return True
     # import pdb; pdb.set_trace()
@@ -229,10 +234,8 @@ def process_users_contact_info():
                                                       contact_phone_number,
                                                       Contact.user_id ==
                                                       current_user).first()
-    # TODO: allow a user to add back a contact even if that phone number has
-    # already been added before (but was 'deleted')
 
-    # if above query returns None (i.e. username not in database)
+    # if above query returns None (i.e. phone number not in database)
     if not check_contact_phone_number:
         new_contact = Contact(user_id=current_user, contact_name=contact_name,
                               relationship=relationship,
@@ -290,7 +293,7 @@ def update_user_contact_info(contact_id):
     # updated info
     updated_contact_phone_number = request.form.get("contact_phone_number")
     updated_relationship = request.form.get("relationship")
-    updated_contact_name = request.form.get("contact_name").capitalize()
+    updated_contact_name = request.form.get("contact_name").title()
 
     if contact:
         contact.contact_phone_number = updated_contact_phone_number
@@ -388,7 +391,7 @@ def edit_users_message():
 
     return render_template("edit-message.html", old_message=old_message)
 
-# TODO: CHANGE ME TO ADD A RECORD WHEN A USER UPDATES THEIR MESSAGE
+
 @app.route("/edit-message", methods=["POST"])
 def update_users_message():
     """Update the user's message"""
@@ -396,12 +399,13 @@ def update_users_message():
     # getting current user in session
     current_user = session.get("user_id")
 
+    # DEPRECATED
     # message object to edit
     # old_message = Message.query.filter(Message.user_id == current_user).first()
 
     updated_message = request.form.get("message")
 
-    # if old_message:
+    # Adding updated message to DB
     new_message = Message(user_id=current_user, message=updated_message)
     db.session.add(new_message)
     db.session.commit()
@@ -458,11 +462,11 @@ def send_message():
     """Processes button request from user's homepage to send their message and
        location to user's contacts"""
 
-    # getting current user in session
+    # getting current user in session and their active contacts
     current_user = session.get("user_id")
     contacts = Contact.query.filter((Contact.user_id == current_user) &
                                     (Contact.status =="Active")).all()
-    # will need to change this query to get the most up to date message (order by )
+    # obtaining the most recent message object
     message = Message.query.filter(Message.user_id == current_user)\
                            .order_by(Message.message_id.desc()).first()
 
@@ -470,18 +474,26 @@ def send_message():
     user_lat = float(request.form.get("lat"))
     user_lng = float(request.form.get("lng"))
     user_location = str([user_lat, user_lng])
+
+    # DEPRECATED
     # link = "https://www.google.com/maps/?q={lat},{lng}".format(lat=user_lat, lng=user_lng)
-    # link = "http://localhost:5000/map/{user_id}?q={lat},{lng}".format(user_id=current_user,
-    #                                                                   lat=user_lat,
-    #                                                                   lng=user_lng)
-    link = "http://54.69.249.202/map/{user_id}".format(user_id=current_user)
+
+    # link for testing
+    link = "http://localhost:5000/map/{user_id}".format(user_id=current_user)
+
+    # link for deployed site - change for https
+    # link = "http://humano.us/map/{user_id}".format(user_id=current_user)
 
 
     for contact in contacts:
-        message_results = send_message_to_recipients(contact.contact_phone_number,
+        # Format phone number for Twilio API call
+        phone_digits = ''.join(d for d in contact.contact_phone_number if d.isdigit())
+
+        # Twilio API call to send message
+        message_results = send_message_to_recipients(phone_digits,
                                                      message.message)
         # import pdb; pdb.set_trace()
-        # create a new sent_message record
+        # create a new sent_message record in DB
         new_sent_message = SentMessage(user_id=current_user,
                                        message_id=message.message_id,
                                        contact_id=contact.contact_id,
@@ -493,6 +505,7 @@ def send_message():
         db.session.add(new_sent_message)
         print("\n\n\nMESSAGE SENT\n\n\n")
 
+        # Twilio API call to send location
         location_results = send_message_to_recipients(contact.contact_phone_number,
                                                       link)
         print("\n\n\nLOCATION SENT\n\n\n")
@@ -642,7 +655,7 @@ if __name__ == "__main__":
     # app.debug = True
 
     # added this to stop redirect page request
-    # app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
+    app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 
     # connect our app to our database
     connect_to_db(app)
@@ -650,6 +663,6 @@ if __name__ == "__main__":
     # Use the DebugToolbar
     # DebugToolbarExtension(app)
 
-    app.run()
+    # app.run()
     # comment line above and uncomment following line to run locally
-    # app.run(debug=True, host="0.0.0.0")
+    app.run(debug=True, host="0.0.0.0")
