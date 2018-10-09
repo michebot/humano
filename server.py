@@ -479,10 +479,10 @@ def send_message():
     # link = "https://www.google.com/maps/?q={lat},{lng}".format(lat=user_lat, lng=user_lng)
 
     # link for testing
-    link = "http://localhost:5000/map/{user_id}".format(user_id=current_user)
+    # link = "http://localhost:5000/map/{user_id}".format(user_id=current_user)
 
     # link for deployed site - change for https
-    # link = "http://humano.us/map/{user_id}".format(user_id=current_user)
+    link = "https://humano.us/map/{user_id}".format(user_id=current_user)
 
 
     for contact in contacts:
