@@ -31,4 +31,4 @@ Humano was created by Michelle Espinosa, a software engineer in San Francisco, C
 - Google Details API
 - News API
 
-Humano is an app built on a Flask server with a PostgreSQL database, with SQLAlchemy as the ORM. The front end templating uses Jinja2, the HTML was built using Bootstrap, and the Javascript uses JQuery and AJAX to interact with the backend. Humano was deployed with AWS Lightsail and can be found at [humano.us](humano.us). *Currently working on getting an SSL certificate.*
+Humano is an app built on a Flask server with a PostgreSQL database, with SQLAlchemy as the ORM. The front end templating uses Jinja2, the HTML was built using Bootstrap, and the Javascript uses JQuery and AJAX to interact with the backend. Humano was deployed with AWS Lightsail and can be found at [humano.us](http://humano.us). *Currently working on getting an SSL certificate.*
