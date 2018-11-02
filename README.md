@@ -1,4 +1,4 @@
-# Humano
+# [Humano] (humano.us)
 
 ## Summary
 
@@ -7,3 +7,26 @@
 ## About the Developer
 
 Humano was created by Michelle Espinosa, a software engineer in San Francisco, CA. Learn more about the developer on [LinkedIn](https://www.linkedin.com/in/michelle-espinosa/).
+
+## Technologies
+
+**Tech Stack:**
+
+- Python
+- Flask
+- SQLAlchemy
+- PostgreSQL
+- Jinja2
+- HTML
+- CSS
+- Javascript
+- JQuery
+- AJAX
+- JSON
+- Bootstrap
+- Python unittest module
+- Twilio API
+- Google Maps JavaScript API
+- Google Places API
+- Google Details API
+- News API
